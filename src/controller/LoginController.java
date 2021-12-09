@@ -11,13 +11,30 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class MainController implements Initializable {
+public class LoginController implements Initializable {
+
+    @FXML
+    private Label userIdLabel;
+
+    @FXML
+    private Label passwordLabel;
 
     @FXML
     private TextField userIdTextField;
 
     @FXML
     private TextField passwordTextField;
+
+    @FXML
+    private Label timezoneLabel;
+
+    @FXML
+    private Button loginButton;
+
+    @FXML
+    private Button exitButton;
+
+
 
 
     /**
@@ -35,6 +52,15 @@ public class MainController implements Initializable {
         if (result.get() == ButtonType.OK) {
             System.exit(0);
         }
+    }
+
+    /**
+     * Checks the credentials entered against the DB for a match
+     * and handles accordingly.
+     * @param event
+     */
+    void loginButtonHandler(ActionEvent event) {
+
     }
 
     @Override
