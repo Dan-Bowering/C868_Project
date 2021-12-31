@@ -8,11 +8,11 @@
    <children>
       <TextField layoutX="226.0" layoutY="143.0" />
       <TextField layoutX="226.0" layoutY="188.0" />
-      <Label fx:id="userIdLabel" layoutX="158.0" layoutY="147.0" text="User ID:"/>
-      <Label fx:id="passwordLabel" layoutX="158.0" layoutY="192.0" text="Password:" />
-      <Button fx:id="loginButton" layoutX="275.0" layoutY="241.0" mnemonicParsing="false" onAction="#loginButtonHandler" text="Login" />
-      <Button fx:id="exitButton" layoutX="525.0" layoutY="353.0" mnemonicParsing="false" onAction="#exitButtonHandler" prefHeight="25.0" prefWidth="53.0" text="Exit" />
-      <Label fx:id="timezoneLabel" layoutX="29.0" layoutY="357.0" prefHeight="17.0" prefWidth="88.0" text="Time Zone" />
+      <Label layoutX="158.0" layoutY="147.0" text="User ID:" />
+      <Label layoutX="158.0" layoutY="192.0" text="Password:" />
+      <Button layoutX="275.0" layoutY="241.0" mnemonicParsing="false" onAction="#loginButtonHandler" text="Login" />
+      <Button layoutX="525.0" layoutY="353.0" mnemonicParsing="false" onAction="#exitButtonHandler" prefHeight="25.0" prefWidth="53.0" text="Exit" />
+      <Label layoutX="29.0" layoutY="357.0" prefHeight="17.0" prefWidth="88.0" text="Time Zone" />
       <Label layoutX="29.0" layoutY="28.0" prefHeight="37.0" prefWidth="162.0" text="Calendar Login">
          <font>
             <Font name="System Bold" size="20.0" />
