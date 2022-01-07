@@ -8,7 +8,7 @@
    <children>
       <TextField layoutX="226.0" layoutY="143.0" />
       <TextField layoutX="226.0" layoutY="188.0" />
-      <Label layoutX="158.0" layoutY="147.0" text="User ID:" />
+      <Label layoutX="158.0" layoutY="147.0" text="Username:" />
       <Label layoutX="158.0" layoutY="192.0" text="Password:" />
       <Button layoutX="275.0" layoutY="241.0" mnemonicParsing="false" onAction="#loginButtonHandler" text="Login" />
       <Button layoutX="525.0" layoutY="353.0" mnemonicParsing="false" onAction="#exitButtonHandler" prefHeight="25.0" prefWidth="53.0" text="Exit" />

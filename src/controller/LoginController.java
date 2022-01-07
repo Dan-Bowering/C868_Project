@@ -14,22 +14,29 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Statement;
+import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import utility.JDBC;
 
 public class LoginController implements Initializable {
 
     @FXML
-    private Label userIdLabel;
+    private Label usernameLabel;
 
     @FXML
     private Label passwordLabel;
 
     @FXML
-    private TextField userIdTextField;
+    private TextField usernameTextField;
 
     @FXML
     private TextField passwordTextField;
+
+    @FXML
+    private Label titleLabel;
 
     @FXML
     private Label timezoneLabel;
@@ -40,6 +47,28 @@ public class LoginController implements Initializable {
     @FXML
     private Button exitButton;
 
+//    ResourceBundle rb = ResourceBundle.getBundle("utility/LoginForm", Locale.getDefault());
+
+    @Override
+    public void initialize(URL location, ResourceBundle rb) {
+
+  //      getLanguage();
+    }
+
+  /*  private void getLanguage(){
+        try {
+            titleLabel.setText(rb.getString("titleLabel"));
+            userIdLabel.setText(rb.getString("userIdLabel"));
+            passwordLabel.setText(rb.getString("passwordLabel"));
+            loginButton.setLabel(rb.getString("loginButton"));
+            exitButton.setLabel(rb.getString("exitButton"));
+        }
+        catch(MissingResourceException e) {
+            System.out.println(e);
+        }
+}
+  */
+
     /**
      * Checks the login credentials and launches the main screen
      * if the credential check passes, otherwise, throws an error.
@@ -47,8 +76,12 @@ public class LoginController implements Initializable {
      * @throws IOException
      */
     public void loginButtonHandler(ActionEvent event) throws IOException {
+    //    String loginUsername = usernameTextField.getText();
+    //    String loginPassword = passwordTextField.getText();
+
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/view/MainScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentsScreen.fxml"));
         Scene scene = new Scene(root, 950, 520);
         stage.setTitle("Main Screen");
         stage.setScene(scene);
@@ -73,10 +106,5 @@ public class LoginController implements Initializable {
         }
     }
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
 
 }

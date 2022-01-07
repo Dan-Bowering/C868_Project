@@ -1,4 +1,5 @@
-package helper;
+package utility;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,7 +14,7 @@ public abstract class JDBC {
     private static final String jdbcUrl = protocol + vendor + location + databaseName + "?connectionTimeZone = SERVER"; // LOCAL
     private static final String driver = "com.mysql.cj.jdbc.Driver"; // Driver reference
     private static final String userName = "sqlUser"; // Username
-    private static String password = "Passw0rd!"; // Password
+    private static final String password = "Passw0rd!"; // Password
     private static Connection connection = null;  // Connection Interface
     private static PreparedStatement preparedStatement;
 
@@ -56,9 +57,7 @@ public abstract class JDBC {
         if (preparedStatement != null)
             return preparedStatement;
         else System.out.println("Null reference to Prepared Statement");
-            return null;
+        return null;
     }
-
-
 
 }
