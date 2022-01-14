@@ -21,6 +21,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import utility.JDBC;
 
+import static java.util.ResourceBundle.getBundle;
+
 public class LoginController implements Initializable {
 
     @FXML
@@ -46,28 +48,6 @@ public class LoginController implements Initializable {
 
     @FXML
     private Button exitButton;
-
-//    ResourceBundle rb = ResourceBundle.getBundle("utility/LoginForm", Locale.getDefault());
-
-    @Override
-    public void initialize(URL location, ResourceBundle rb) {
-
-  //      getLanguage();
-    }
-
-  /*  private void getLanguage(){
-        try {
-            titleLabel.setText(rb.getString("titleLabel"));
-            userIdLabel.setText(rb.getString("userIdLabel"));
-            passwordLabel.setText(rb.getString("passwordLabel"));
-            loginButton.setLabel(rb.getString("loginButton"));
-            exitButton.setLabel(rb.getString("exitButton"));
-        }
-        catch(MissingResourceException e) {
-            System.out.println(e);
-        }
-}
-  */
 
     /**
      * Checks the login credentials and launches the main screen
@@ -106,5 +86,14 @@ public class LoginController implements Initializable {
         }
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle rb) {
+/*      rb = ResourceBundle.getBundle("utility/LoginForm", Locale.getDefault());
+        titleLabel.setText(rb.getString("titleLabel"));
+        usernameLabel.setText(rb.getString("usernameLabel"));
+        passwordLabel.setText(rb.getString("passwordLabel"));
+        loginButton.setLabel(rb.getString("loginButton"));
+        exitButton.setLabel(rb.getString("exitButton"));
+*/    }
 
 }
