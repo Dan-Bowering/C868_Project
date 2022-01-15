@@ -7,7 +7,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import model.Customer;
+import utility.AppointmentDB;
+import utility.CustomerDB;
 
 import java.net.URL;
 import java.util.Optional;
@@ -43,6 +46,14 @@ public class CustomerController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        customerTableView.setItems(CustomerDB.getAllCustomers());
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        postalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        stateProvinceColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
+        countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
     }
 }

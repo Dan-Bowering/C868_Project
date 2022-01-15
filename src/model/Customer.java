@@ -5,17 +5,24 @@ public class Customer {
     private int customerId;
     private String customerName;
     private String address;
-    private int postalCode;
-    private int phone;
+    private String postalCode;
+    private String phone;
     private int divisionId;
+    private String division;
+    private int countryId;
+    private String country;
 
-    public Customer(int customerId, String customerName, String address, int postalCode, int phone, int divisionId) {
+    public Customer(int customerId, String customerName, String address, String postalCode, String phone, int divisionId,
+                    String division, int countryId, String country) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
         this.postalCode = postalCode;
         this.phone = phone;
         this.divisionId = divisionId;
+        this.division = division;
+        this.countryId = countryId;
+        this.country = country;
     }
 
 
@@ -43,19 +50,19 @@ public class Customer {
         this.address = address;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -65,5 +72,29 @@ public class Customer {
 
     public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
+    }
+
+    public String getDivision() {
+        return division;
+    }
+
+    public void setDivision(String division) {
+        this.division = division;
+    }
+
+    public int getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(int countryId) {
+        this.countryId = countryId;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
