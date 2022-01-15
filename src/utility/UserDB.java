@@ -1,7 +1,5 @@
 package utility;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.User;
@@ -10,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DBUser {
+public class UserDB {
 
     public static ObservableList<User> getAllUsers(){
         ObservableList<User> allUsers = FXCollections.observableArrayList();
