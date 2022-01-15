@@ -1,6 +1,6 @@
 package model;
 
-public class Appointments {
+public class Appointment {
 
     private int appointmentId;
     private String title;
@@ -13,7 +13,7 @@ public class Appointments {
     private int contactId;
 
 
-    public Appointments(int appointmentId, String title, String description, String location, String type, String start, String end, int customerId, int contactId) {
+    public Appointment(int appointmentId, String title, String description, String location, String type, String start, String end, int customerId, int contactId) {
         this.appointmentId = appointmentId;
         this.title = title;
         this.description = description;
