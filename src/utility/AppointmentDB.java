@@ -13,7 +13,8 @@ public class AppointmentDB {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
         try {
-            String sql = "SELECT Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, Contact_ID FROM appointments";
+            String sql = "SELECT Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, " +
+                    "Contact_ID FROM appointments";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
