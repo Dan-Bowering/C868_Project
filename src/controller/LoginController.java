@@ -14,12 +14,8 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Statement;
-import java.util.Locale;
-import java.util.MissingResourceException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import utility.JDBC;
 
 import static java.util.ResourceBundle.getBundle;
 
@@ -61,7 +57,7 @@ public class LoginController implements Initializable {
 
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentsScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
         Scene scene = new Scene(root, 950, 520);
         stage.setTitle("Main Screen");
         stage.setScene(scene);
@@ -88,12 +84,13 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle rb) {
-/*      rb = ResourceBundle.getBundle("utility/LoginForm", Locale.getDefault());
-        titleLabel.setText(rb.getString("titleLabel"));
-        usernameLabel.setText(rb.getString("usernameLabel"));
-        passwordLabel.setText(rb.getString("passwordLabel"));
-        loginButton.setLabel(rb.getString("loginButton"));
-        exitButton.setLabel(rb.getString("exitButton"));
-*/    }
+//        Locale getLocale = Locale.getDefault();
+//        rb = ResourceBundle.getBundle("utility/LoginForm");
+//        titleLabel.setText(rb.getString("titleLabel"));
+//        usernameLabel.setText(rb.getString("usernameLabel"));
+//        passwordLabel.setText(rb.getString("passwordLabel"));
+//        loginButton.setLabel(rb.getString("loginButton"));
+//        exitButton.setLabel(rb.getString("exitButton"));
+    }
 
 }
