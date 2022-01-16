@@ -40,4 +40,12 @@ public class CustomerDB {
 
         return allCustomers;
     }
+
+    /**
+     * Adds a customer to the customers table in the DB.
+     *
+     */
+    public static void addCustomer(Customer customerToAdd) {
+
+    }
 }
