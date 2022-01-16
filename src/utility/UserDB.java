@@ -33,4 +33,24 @@ public class UserDB {
 
         return allUsers;
     }
+
+    public static boolean validateLogin(String usernameInput, String passwordInput) throws SQLException {
+
+        try {
+            String sql = "SELECT * FROM users WHERE User_name = ? AND Password = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setString(1, usernameInput);
+            ps.setString(2, passwordInput);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 }

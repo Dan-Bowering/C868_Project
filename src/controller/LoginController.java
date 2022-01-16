@@ -7,17 +7,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import utility.UserDB;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import static java.util.ResourceBundle.getBundle;
 
 public class LoginController implements Initializable {
 
@@ -37,7 +37,7 @@ public class LoginController implements Initializable {
     private Label titleLabel;
 
     @FXML
-    private Label timezoneLabel;
+    private Label zoneIdLabel;
 
     @FXML
     private Button loginButton;
@@ -45,23 +45,39 @@ public class LoginController implements Initializable {
     @FXML
     private Button exitButton;
 
+    private String loginErrorTitle;
+    private String loginErrorMessage;
+
     /**
      * Checks the login credentials and launches the main screen
      * if the credential check passes, otherwise, throws an error.
      * @param event
      * @throws IOException
      */
-    public void loginButtonHandler(ActionEvent event) throws IOException {
-    //    String loginUsername = usernameTextField.getText();
-    //    String loginPassword = passwordTextField.getText();
+    public void loginButtonHandler(ActionEvent event) throws IOException, SQLException {
+       
+        String loginUsername = usernameTextField.getText();
+        String loginPassword = passwordTextField.getText();
 
+        if (UserDB.validateLogin(loginUsername, loginPassword)) {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
+            Scene scene = new Scene(root, 950, 520);
+            stage.setTitle("Main Screen");
+            stage.setScene(scene);
+            stage.show();
+        }
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
-        Scene scene = new Scene(root, 950, 520);
-        stage.setTitle("Main Screen");
-        stage.setScene(scene);
-        stage.show();
+        else {
+            ResourceBundle rb = ResourceBundle.getBundle("utility/LoginForm", Locale.getDefault());
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(loginErrorTitle);
+            alert.setContentText(loginErrorMessage);
+            alert.showAndWait();
+            usernameTextField.clear();
+            passwordTextField.clear();
+        }
     }
 
 
@@ -83,14 +99,17 @@ public class LoginController implements Initializable {
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle rb) {
-//        Locale getLocale = Locale.getDefault();
-//        rb = ResourceBundle.getBundle("utility/LoginForm");
-//        titleLabel.setText(rb.getString("titleLabel"));
-//        usernameLabel.setText(rb.getString("usernameLabel"));
-//        passwordLabel.setText(rb.getString("passwordLabel"));
-//        loginButton.setLabel(rb.getString("loginButton"));
-//        exitButton.setLabel(rb.getString("exitButton"));
+    public void initialize(URL location, ResourceBundle resourceBundle) {
+        ResourceBundle rb = ResourceBundle.getBundle("utility/LoginForm", Locale.getDefault());
+        titleLabel.setText(rb.getString("titleLabel"));
+        usernameLabel.setText(rb.getString("usernameLabel"));
+        passwordLabel.setText(rb.getString("passwordLabel"));
+        zoneIdLabel.setText(rb.getString("zoneIdLabel"));
+        loginButton.setText(rb.getString("loginButton"));
+        exitButton.setText(rb.getString("exitButton"));
+        loginErrorTitle = rb.getString("loginErrorTitle");
+        loginErrorMessage = rb.getString("loginErrorMessage");
+        zoneIdLabel.setText(Calendar.getInstance().getTimeZone().getID());
     }
 
 }

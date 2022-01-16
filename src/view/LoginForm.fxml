@@ -6,17 +6,18 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
    <children>
-      <TextField layoutX="226.0" layoutY="143.0" />
-      <TextField layoutX="226.0" layoutY="188.0" />
-      <Label layoutX="158.0" layoutY="147.0" text="Username:" />
-      <Label layoutX="158.0" layoutY="192.0" text="Password:" />
-      <Button layoutX="275.0" layoutY="241.0" mnemonicParsing="false" onAction="#loginButtonHandler" text="Login" />
-      <Button layoutX="525.0" layoutY="353.0" mnemonicParsing="false" onAction="#exitButtonHandler" prefHeight="25.0" prefWidth="53.0" text="Exit" />
-      <Label layoutX="29.0" layoutY="357.0" prefHeight="17.0" prefWidth="88.0" text="Time Zone" />
-      <Label layoutX="29.0" layoutY="28.0" prefHeight="37.0" prefWidth="162.0" text="Calendar Login">
+      <TextField fx:id="usernameTextField" layoutX="226.0" layoutY="143.0" />
+      <TextField fx:id="passwordTextField" layoutX="226.0" layoutY="188.0" />
+      <Label fx:id="usernameLabel" layoutX="119.0" layoutY="137.0" prefHeight="37.0" prefWidth="82.0" text="Username:" wrapText="true" />
+      <Label fx:id="passwordLabel" layoutX="120.0" layoutY="192.0" text="Password:" />
+      <Button fx:id="loginButton" layoutX="256.0" layoutY="241.0" mnemonicParsing="false" onAction="#loginButtonHandler" prefHeight="25.0" prefWidth="88.0" text="Login" />
+      <Button fx:id="exitButton" layoutX="496.0" layoutY="353.0" mnemonicParsing="false" onAction="#exitButtonHandler" prefHeight="25.0" prefWidth="82.0" text="Exit" />
+      <Label fx:id="zoneIdLabel" layoutX="29.0" layoutY="357.0" prefHeight="17.0" prefWidth="137.0" text="Zone ID" />
+      <Label fx:id="titleLabel" layoutX="29.0" layoutY="28.0" prefHeight="37.0" prefWidth="249.0" text="Calendar Login">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
+      <Label layoutX="29.0" layoutY="336.0" prefHeight="17.0" prefWidth="88.0" text="Time Zone:" />
    </children>
 </AnchorPane>
