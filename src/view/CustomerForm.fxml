@@ -13,7 +13,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerController">
    <children>
       <Button layoutX="865.0" layoutY="480.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="Save" />
-      <Button layoutX="412.0" layoutY="468.0" mnemonicParsing="false" text="Update Customer" />
+      <Button layoutX="412.0" layoutY="468.0" mnemonicParsing="false" onAction="#updateCustomerButtonHandler" text="Update Customer" />
       <Button layoutX="934.0" layoutY="480.0" mnemonicParsing="false" onAction="#exitButtonHandler" prefHeight="25.0" prefWidth="52.0" text="Exit" />
       <TableView fx:id="customerTableView" layoutX="11.0" layoutY="58.0" prefHeight="400.0" prefWidth="638.0">
         <columns>
@@ -33,19 +33,19 @@
       </Label>
       <Button layoutX="544.0" layoutY="468.0" mnemonicParsing="false" text="Delete Customer" />
       <Label layoutX="674.0" layoutY="70.0" text="Customer ID" />
-      <TextField editable="false" layoutX="765.0" layoutY="65.0" />
+      <TextField fx:id="customerIdTextField" editable="false" layoutX="765.0" layoutY="65.0" />
       <Label layoutX="674.0" layoutY="110.0" text="Customer Name" />
-      <TextField editable="false" layoutX="765.0" layoutY="105.0" />
+      <TextField fx:id="customerNameTextField" layoutX="765.0" layoutY="105.0" />
       <Label layoutX="674.0" layoutY="150.0" text="Address" />
-      <TextField editable="false" layoutX="765.0" layoutY="145.0" />
+      <TextField fx:id="addressTextField" layoutX="765.0" layoutY="145.0" />
       <Label layoutX="674.0" layoutY="190.0" text="Postal Code" />
-      <TextField editable="false" layoutX="765.0" layoutY="185.0" />
+      <TextField fx:id="postalCodeTextField" layoutX="765.0" layoutY="185.0" />
       <Label layoutX="674.0" layoutY="310.0" text="Phone" />
-      <TextField editable="false" layoutX="765.0" layoutY="305.0" />
+      <TextField fx:id="phoneTextField" layoutX="765.0" layoutY="305.0" />
       <Label layoutX="674.0" layoutY="230.0" text="Country" />
       <Label layoutX="674.0" layoutY="270.0" text="State/Province" />
-      <ComboBox layoutX="765.0" layoutY="225.0" prefWidth="150.0" />
-      <ComboBox layoutX="765.0" layoutY="265.0" prefWidth="150.0" />
-      <TextArea editable="false" layoutX="674.0" layoutY="347.0" prefHeight="71.0" prefWidth="244.0" text="To add a new customer, please fill out the &#10;necessary fields above and click &quot;Save&quot; to &#10;submit." />
+      <ComboBox fx:id="countryComboBox" layoutX="765.0" layoutY="225.0" prefWidth="150.0" />
+      <ComboBox fx:id="stateProvinceComboBox" layoutX="765.0" layoutY="265.0" prefWidth="150.0" />
+      <TextArea editable="false" layoutX="674.0" layoutY="347.0" prefHeight="123.0" prefWidth="294.0" text="To add a new customer, please fill out the &#10;necessary fields above and click &quot;Save&quot; to &#10;submit.  To update a customer, please select &#10;the customer you wish to update and click &#10;&quot;Update Customer&quot; to edit the existing customer&#10;data." />
    </children>
 </AnchorPane>

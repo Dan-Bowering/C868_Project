@@ -1,5 +1,9 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import utility.CustomerDB;
+
 public class Customer {
 
     private int customerId;
@@ -11,6 +15,7 @@ public class Customer {
     private String division;
     private int countryId;
     private String country;
+    private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
     public Customer(int customerId, String customerName, String address, String postalCode, String phone, int divisionId,
                     String division, int countryId, String country) {
@@ -96,5 +101,9 @@ public class Customer {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public static void addCustomer(Customer newCustomer) {
+        allCustomers.add(newCustomer);
     }
 }
