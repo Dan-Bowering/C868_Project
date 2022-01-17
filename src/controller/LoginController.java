@@ -21,39 +21,25 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-    @FXML
-    private Label usernameLabel;
-
-    @FXML
-    private Label passwordLabel;
-
-    @FXML
-    private TextField usernameTextField;
-
-    @FXML
-    private TextField passwordTextField;
-
-    @FXML
-    private Label titleLabel;
-
-    @FXML
-    private Label zoneIdLabel;
-
-    @FXML
-    private Button loginButton;
-
-    @FXML
-    private Button exitButton;
+    @FXML private Label usernameLabel;
+    @FXML private Label passwordLabel;
+    @FXML private TextField usernameTextField;
+    @FXML private TextField passwordTextField;
+    @FXML private Label titleLabel;
+    @FXML private Label zoneIdLabel;
+    @FXML private Button loginButton;
+    @FXML private Button exitButton;
 
     private String loginErrorTitle;
     private String loginErrorMessage;
 
     /**
-     * Checks the login credentials and launches the main screen
+     * Checks the login credentials and launches the appointment screen
      * if the credential check passes, otherwise, throws an error.
      * @param event
      * @throws IOException
      */
+    @FXML
     public void loginButtonHandler(ActionEvent event) throws IOException, SQLException {
        
         String loginUsername = usernameTextField.getText();

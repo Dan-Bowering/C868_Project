@@ -9,7 +9,12 @@ import java.sql.SQLException;
 
 public class CustomerDB {
 
-    public static ObservableList<Customer> getAllCustomers(){
+    /**
+     * Gets a list of all all customers from the DB.
+     * @return allCustomers
+     */
+    public static ObservableList<Customer> getAllCustomers() {
+
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
         try {
@@ -42,10 +47,47 @@ public class CustomerDB {
     }
 
     /**
+     * Gets a list of all countries from the DB.
+     * @return allCountries
+     * @throws SQLException
+     */
+    public static ObservableList<String> getAllCountries() throws SQLException {
+
+        ObservableList<String> allCountries = FXCollections.observableArrayList();
+
+        String sql = "SELECT DISTINCT Country FROM countries";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            allCountries.add(rs.getString("Country"));
+        }
+        return allCountries;
+    }
+
+    /**
+     * Gets a list of all divisions from the DB based on the country ID.
+     * @return usDivisions
+     * @throws SQLException
+     */
+    public static ObservableList<String> getUsDivisions() throws SQLException {
+
+        ObservableList<String> usDivisions = FXCollections.observableArrayList();
+
+        String sql = "SELECT Division FROM first_level_divisions WHERE Country_ID = 1";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            usDivisions.add(rs.getString("Division"));
+        }
+
+        return usDivisions;
+    }
+
+    /**
      * Adds a customer to the customers table in the DB.
      *
      */
-    public static void addCustomer(Customer customerToAdd) {
 
-    }
 }

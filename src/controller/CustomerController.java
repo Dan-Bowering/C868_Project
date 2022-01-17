@@ -2,18 +2,21 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import model.Customer;
 import utility.CustomerDB;
-
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import static java.lang.String.valueOf;
 
 public class CustomerController implements Initializable {
 
@@ -29,10 +32,9 @@ public class CustomerController implements Initializable {
     @FXML TextField customerNameTextField;
     @FXML TextField addressTextField;
     @FXML TextField postalCodeTextField;
-    @FXML ComboBox countryComboBox;
-    @FXML ComboBox stateProvinceComboBox;
+    @FXML ComboBox<String> countryComboBox;
+    @FXML ComboBox<String> divisionComboBox;
     @FXML TextField phoneTextField;
-
 
     private static Customer customerToUpdate = null;
 
@@ -50,6 +52,7 @@ public class CustomerController implements Initializable {
      * @param event
      * @throws IOException
      */
+    @FXML
     public void updateCustomerButtonHandler(ActionEvent event) throws IOException {
 
         customerToUpdate = customerTableView.getSelectionModel().getSelectedItem();
@@ -67,12 +70,74 @@ public class CustomerController implements Initializable {
             addressTextField.setText(String.valueOf(customerToUpdate().getAddress()));
             postalCodeTextField.setText(String.valueOf(customerToUpdate().getPostalCode()));
             countryComboBox.setPromptText(String.valueOf(customerToUpdate().getCountry()));
-            stateProvinceComboBox.setPromptText(String.valueOf(customerToUpdate().getDivision()));
+            divisionComboBox.setPromptText(String.valueOf(customerToUpdate().getDivision()));
             phoneTextField.setText(String.valueOf(customerToUpdate().getPhone()));
         }
     }
 
+    /**
+     * Saves the updated customer information and updates the table view.
+     * @param event
+     */
+    @FXML
+    public void saveButtonHandler(ActionEvent event) {
 
+  /*      int customerId = Integer.parseInt(customerIdTextField.getText());
+        String customerName = customerNameTextField.getText();
+        String address = addressTextField.getText();
+        String postalCode = postalCodeTextField.getText();
+        String phone = phoneTextField.getText();
+        String country = countryComboBox.getPromptText();
+        String division = divisionComboBox.getPromptText();
+
+        Customer newCustomer = new Customer(customerId, customerName, address, postalCode, country, division, phone);
+*/      }
+
+    /**
+     * Clears the customer data fields if the Clear button is clicked.
+     * @param event
+     */
+    @FXML
+    public void clearButtonHandler(ActionEvent event) throws SQLException {
+        customerIdTextField.clear();
+        customerNameTextField.clear();
+        addressTextField.clear();
+        postalCodeTextField.clear();
+        countryComboBox.getSelectionModel().clearSelection();
+        divisionComboBox.getSelectionModel().clearSelection();
+        phoneTextField.clear();
+    }
+
+    /**
+     * Navigates back to the main Appointments table without saving chaanges
+     * @param event
+     */@FXML
+    public void backToAppointmentsHandler(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Alert");
+        alert.setContentText("Are you sure you want to go back?  All changes will be lost.");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK) {
+            toAppointmentScreen(event);
+        }
+    }
+
+    /**
+     * Returns to the main screen.
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    private void toAppointmentScreen(ActionEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Main Screen");
+        stage.setScene(scene);
+        stage.show();
+    }
 
     /**
      * Exits the program when the Exit button is clicked.
@@ -89,6 +154,14 @@ public class CustomerController implements Initializable {
             System.exit(0);
         }
     }
+
+    public void setDivisionComboBox(String country) throws SQLException {
+
+        if (country.contains("U.S")) {
+            divisionComboBox.setItems(CustomerDB.getUsDivisions());
+        }
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerTableView.setItems(CustomerDB.getAllCustomers());
@@ -99,6 +172,13 @@ public class CustomerController implements Initializable {
         stateProvinceColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
         countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+
+        try {
+            countryComboBox.setItems(CustomerDB.getAllCountries());
+            setDivisionComboBox(countryComboBox.getSelectionModel().toString());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 }

@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerController">
    <children>
-      <Button layoutX="865.0" layoutY="480.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="Save" />
+      <Button layoutX="674.0" layoutY="481.0" mnemonicParsing="false" onAction="#saveButtonHandler" prefHeight="25.0" prefWidth="52.0" text="Save" />
       <Button layoutX="412.0" layoutY="468.0" mnemonicParsing="false" onAction="#updateCustomerButtonHandler" text="Update Customer" />
       <Button layoutX="934.0" layoutY="480.0" mnemonicParsing="false" onAction="#exitButtonHandler" prefHeight="25.0" prefWidth="52.0" text="Exit" />
       <TableView fx:id="customerTableView" layoutX="11.0" layoutY="58.0" prefHeight="400.0" prefWidth="638.0">
@@ -21,7 +21,7 @@
             <TableColumn fx:id="customerNameColumn" prefWidth="107.0" text="Customer Name" />
           <TableColumn fx:id="addressColumn" prefWidth="95.0" text="Address" />
           <TableColumn fx:id="postalCodeColumn" prefWidth="87.0" text="Postal Code" />
-            <TableColumn fx:id="stateProvinceColumn" prefWidth="98.0" text="State/Province" />
+            <TableColumn fx:id="stateProvinceColumn" prefWidth="98.0" text="Division" />
             <TableColumn fx:id="countryColumn" prefWidth="78.0" text="Country" />
             <TableColumn fx:id="phoneColumn" prefWidth="90.0" text="Phone" />
         </columns>
@@ -43,9 +43,11 @@
       <Label layoutX="674.0" layoutY="310.0" text="Phone" />
       <TextField fx:id="phoneTextField" layoutX="765.0" layoutY="305.0" />
       <Label layoutX="674.0" layoutY="230.0" text="Country" />
-      <Label layoutX="674.0" layoutY="270.0" text="State/Province" />
-      <ComboBox fx:id="countryComboBox" layoutX="765.0" layoutY="225.0" prefWidth="150.0" />
-      <ComboBox fx:id="stateProvinceComboBox" layoutX="765.0" layoutY="265.0" prefWidth="150.0" />
+      <Label layoutX="674.0" layoutY="270.0" text="Division" />
+      <ComboBox fx:id="countryComboBox" layoutX="765.0" layoutY="225.0" prefWidth="150.0" promptText="Please select..." />
+      <ComboBox fx:id="divisionComboBox" layoutX="765.0" layoutY="265.0" prefWidth="150.0" promptText="Please select..." />
       <TextArea editable="false" layoutX="674.0" layoutY="347.0" prefHeight="123.0" prefWidth="294.0" text="To add a new customer, please fill out the &#10;necessary fields above and click &quot;Save&quot; to &#10;submit.  To update a customer, please select &#10;the customer you wish to update and click &#10;&quot;Update Customer&quot; to edit the existing customer&#10;data." />
+      <Button layoutX="934.0" layoutY="306.0" mnemonicParsing="false" onAction="#clearButtonHandler" text="Clear" />
+      <Button layoutX="11.0" layoutY="468.0" mnemonicParsing="false" onAction="#backToAppointmentsHandler" prefHeight="25.0" prefWidth="136.0" text="Back to Appointments" />
    </children>
 </AnchorPane>
