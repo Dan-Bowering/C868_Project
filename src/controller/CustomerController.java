@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Customer;
+import utility.CountryDB;
 import utility.CustomerDB;
 import utility.DivisionDB;
 
@@ -184,7 +185,7 @@ public class CustomerController implements Initializable {
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
         try {
-            countryComboBox.setItems(CustomerDB.getAllCountries());
+            countryComboBox.setItems(CountryDB.getAllCountries());
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
