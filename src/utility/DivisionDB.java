@@ -1,0 +1,56 @@
+package utility;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class DivisionDB {
+
+    public static ObservableList<String> getAllUSDivisions() throws SQLException {
+
+        ObservableList<String> allUSDivisions = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = 1";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            allUSDivisions.add(rs.getString("Division"));
+        }
+        return allUSDivisions;
+    }
+
+    public static ObservableList<String> getAllUKDivisions() throws SQLException {
+
+        ObservableList<String> allUKDivisions = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = 2";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            allUKDivisions.add(rs.getString("Division"));
+        }
+        return allUKDivisions;
+    }
+
+    public static ObservableList<String> getAllCanadaDivisions() throws SQLException {
+
+        ObservableList<String> allCanadaDivisions = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = 3";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            allCanadaDivisions.add(rs.getString("Division"));
+        }
+        return allCanadaDivisions;
+    }
+}
+
+
+

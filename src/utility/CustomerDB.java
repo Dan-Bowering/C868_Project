@@ -65,29 +65,6 @@ public class CustomerDB {
         return allCountries;
     }
 
-    /**
-     * Gets a list of all divisions from the DB based on the country ID.
-     * @return usDivisions
-     * @throws SQLException
-     */
-    public static ObservableList<String> getUsDivisions() throws SQLException {
 
-        ObservableList<String> usDivisions = FXCollections.observableArrayList();
-
-        String sql = "SELECT Division FROM first_level_divisions WHERE Country_ID = 1";
-        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            usDivisions.add(rs.getString("Division"));
-        }
-
-        return usDivisions;
-    }
-
-    /**
-     * Adds a customer to the customers table in the DB.
-     *
-     */
 
 }

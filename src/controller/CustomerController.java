@@ -12,6 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Customer;
 import utility.CustomerDB;
+import utility.DivisionDB;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -154,14 +156,22 @@ public class CustomerController implements Initializable {
             System.exit(0);
         }
     }
+    @FXML
+    public void countrySelected(ActionEvent event) throws SQLException {
 
-    public void setDivisionComboBox(String country) throws SQLException {
-
-        if (country.contains("U.S")) {
-            divisionComboBox.setItems(CustomerDB.getUsDivisions());
+        if (countryComboBox.getSelectionModel().getSelectedItem().equals("U.S")) {
+            divisionComboBox.setItems(DivisionDB.getAllUSDivisions());
+        }
+        else if (countryComboBox.getSelectionModel().getSelectedItem().equals("UK")) {
+            divisionComboBox.setItems(DivisionDB.getAllUKDivisions());
+        }
+        else if (countryComboBox.getSelectionModel().getSelectedItem().equals("Canada")) {
+            divisionComboBox.setItems(DivisionDB.getAllCanadaDivisions());
         }
 
     }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerTableView.setItems(CustomerDB.getAllCustomers());
@@ -175,7 +185,7 @@ public class CustomerController implements Initializable {
 
         try {
             countryComboBox.setItems(CustomerDB.getAllCountries());
-            setDivisionComboBox(countryComboBox.getSelectionModel().toString());
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

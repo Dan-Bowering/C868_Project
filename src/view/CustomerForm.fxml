@@ -44,7 +44,7 @@
       <TextField fx:id="phoneTextField" layoutX="765.0" layoutY="305.0" />
       <Label layoutX="674.0" layoutY="230.0" text="Country" />
       <Label layoutX="674.0" layoutY="270.0" text="Division" />
-      <ComboBox fx:id="countryComboBox" layoutX="765.0" layoutY="225.0" prefWidth="150.0" promptText="Please select..." />
+      <ComboBox fx:id="countryComboBox" layoutX="765.0" layoutY="225.0" onAction="#countrySelected" prefWidth="150.0" promptText="Please select..." />
       <ComboBox fx:id="divisionComboBox" layoutX="765.0" layoutY="265.0" prefWidth="150.0" promptText="Please select..." />
       <TextArea editable="false" layoutX="674.0" layoutY="347.0" prefHeight="123.0" prefWidth="294.0" text="To add a new customer, please fill out the &#10;necessary fields above and click &quot;Save&quot; to &#10;submit.  To update a customer, please select &#10;the customer you wish to update and click &#10;&quot;Update Customer&quot; to edit the existing customer&#10;data." />
       <Button layoutX="934.0" layoutY="306.0" mnemonicParsing="false" onAction="#clearButtonHandler" text="Clear" />
