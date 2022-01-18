@@ -78,23 +78,27 @@ public class CustomerController implements Initializable {
         }
     }
 
+
+
     /**
      * Saves the updated customer information and updates the table view.
      * @param event
      */
     @FXML
-    public void saveButtonHandler(ActionEvent event) {
+    public void saveButtonHandler(ActionEvent event) throws SQLException {
 
-  /*      int customerId = Integer.parseInt(customerIdTextField.getText());
         String customerName = customerNameTextField.getText();
         String address = addressTextField.getText();
         String postalCode = postalCodeTextField.getText();
         String phone = phoneTextField.getText();
-        String country = countryComboBox.getPromptText();
-        String division = divisionComboBox.getPromptText();
+        String country = countryComboBox.getValue();
+        String division = divisionComboBox.getValue();
 
-        Customer newCustomer = new Customer(customerId, customerName, address, postalCode, country, division, phone);
-*/      }
+        CustomerDB.addCustomer(customerName, address, postalCode, phone, country,
+                DivisionDB.getDivisionId(division));
+
+        customerTableView.setItems(CustomerDB.getAllCustomers());
+    }
 
     /**
      * Clears the customer data fields if the Clear button is clicked.
@@ -107,7 +111,9 @@ public class CustomerController implements Initializable {
         addressTextField.clear();
         postalCodeTextField.clear();
         countryComboBox.getSelectionModel().clearSelection();
+        countryComboBox.getPromptText();
         divisionComboBox.getSelectionModel().clearSelection();
+        divisionComboBox.getPromptText();
         phoneTextField.clear();
     }
 
@@ -143,6 +149,24 @@ public class CustomerController implements Initializable {
     }
 
     /**
+     * Navigates to the Add Customer form when the Add New Customer
+     * button is clicked.
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    private void addNewCustomerButtonHandler(ActionEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomerForm.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Add Customer");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+    /**
      * Exits the program when the Exit button is clicked.
      * @param event
      */
@@ -169,7 +193,6 @@ public class CustomerController implements Initializable {
         else if (countryComboBox.getSelectionModel().getSelectedItem().equals("Canada")) {
             divisionComboBox.setItems(DivisionDB.getAllCanadaDivisions());
         }
-
     }
 
 

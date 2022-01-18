@@ -6,6 +6,9 @@ import model.Customer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class CustomerDB {
 
@@ -30,20 +33,66 @@ public class CustomerDB {
                 String address = rs.getString("Address");
                 String postalCode = rs.getString("Postal_Code");
                 String phone = rs.getString("Phone");
-                int divisionId = rs.getInt("Division_ID");
                 String division = rs.getString("Division");
-                int countryId = rs.getInt("Country_ID");
                 String country = rs.getString("Country");
 
-                Customer c = new Customer(customerId, customerName, address, postalCode, phone, divisionId, division, countryId, country);
+                Customer c = new Customer(customerId, customerName, address, postalCode, phone, division, country);
                 allCustomers.add(c);
             }
         }
         catch(SQLException ex){
             ex.printStackTrace();
         }
-
         return allCustomers;
     }
 
+    public static void addCustomer(String customerName, String address, String postalCode, String phone,
+                                   String country, int divisionId) throws SQLException {
+
+        try {
+            String sql = "INSERT INTO customers VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            ps.setString(1, customerName);
+            ps.setString(2, address);
+            ps.setString(3, postalCode);
+            ps.setString(4, phone);
+            ps.setString(5, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
+            ps.setString(6, UserDB.getCurrentUser().getUsername());
+            ps.setString(7, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
+            ps.setString(8, UserDB.getCurrentUser().getUsername());
+            ps.setInt(9, divisionId);
+
+            ps.execute();
+
+        } catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public static void updateCustomer(String customerName, String address, String postalCode, String phone,
+                                   String country, int customerId) throws SQLException {
+
+        try {
+            String sql = "INSERT INTO customers VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            ps.setString(1, customerName);
+            ps.setString(2, address);
+            ps.setString(3, postalCode);
+            ps.setString(4, phone);
+            ps.setString(5, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
+            ps.setString(6, UserDB.getCurrentUser().getUsername());
+            ps.setString(7, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
+            ps.setString(8, UserDB.getCurrentUser().getUsername());
+            ps.setInt(9, customerId);
+
+            ps.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
