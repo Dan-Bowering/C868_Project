@@ -46,7 +46,7 @@ public class AddCustomerController implements Initializable {
         String country = countryComboBox.getValue();
         String division = divisionComboBox.getValue();
 
-        System.out.println(DivisionDB.getDivisionId(division));
+//        System.out.println(DivisionDB.getDivisionId(division));
 
        // CustomerDB.addCustomer(customerName, address, postalCode, phone, country,
           //      DivisionDB.getDivisionId(division));

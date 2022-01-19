@@ -1,5 +1,8 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Appointment {
 
     private int appointmentId;
@@ -96,4 +99,5 @@ public class Appointment {
     public void setContactId(int contactId) {
         this.contactId = contactId;
     }
+
 }

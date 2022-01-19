@@ -94,10 +94,10 @@ public class CustomerController implements Initializable {
         String country = countryComboBox.getValue();
         String division = divisionComboBox.getValue();
 
-        CustomerDB.addCustomer(customerName, address, postalCode, phone, country,
-                DivisionDB.getDivisionId(division));
+//        CustomerDB.addCustomer(customerName, address, postalCode, phone, country,
+//                DivisionDB.getDivisionId(division));
 
-        customerTableView.setItems(CustomerDB.getAllCustomers());
+//        customerTableView.setItems(CustomerDB.getAllCustomers());
     }
 
     /**

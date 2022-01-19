@@ -50,6 +50,28 @@ public class AppointmentController implements Initializable {
 
     }
 
+    @FXML
+    public void addAppointmentHandler(ActionEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointment.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Add Customer");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void updateAppointmentHandler(ActionEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/UpdateAppointment.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Add Customer");
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
     /**
      * Exits the program when the Exit button is clicked.

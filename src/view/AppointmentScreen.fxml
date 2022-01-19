@@ -5,6 +5,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -30,11 +31,14 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <RadioButton layoutX="810.0" layoutY="85.0" mnemonicParsing="false" text="All Appointments" />
-      <RadioButton layoutX="810.0" layoutY="113.0" mnemonicParsing="false" text="Current Week" />
-      <RadioButton layoutX="810.0" layoutY="142.0" mnemonicParsing="false" text="Current Month" />
-      <Button layoutX="408.0" layoutY="465.0" mnemonicParsing="false" text="Add Appointment" />
-      <Button layoutX="531.0" layoutY="466.0" mnemonicParsing="false" text="Update Appointment" />
+      <RadioButton layoutX="810.0" layoutY="85.0" mnemonicParsing="false" selected="true" text="All Appointments">
+         <toggleGroup>
+            <ToggleGroup fx:id="appointmentToggleGroup" />
+         </toggleGroup></RadioButton>
+      <RadioButton layoutX="810.0" layoutY="113.0" mnemonicParsing="false" text="Current Week" toggleGroup="$appointmentToggleGroup" />
+      <RadioButton layoutX="810.0" layoutY="142.0" mnemonicParsing="false" text="Current Month" toggleGroup="$appointmentToggleGroup" />
+      <Button layoutX="408.0" layoutY="465.0" mnemonicParsing="false" onAction="#addAppointmentHandler" text="Add Appointment" />
+      <Button layoutX="531.0" layoutY="466.0" mnemonicParsing="false" onAction="#updateAppointmentHandler" text="Update Appointment" />
       <Button layoutX="682.0" layoutY="466.0" mnemonicParsing="false" text="Delete Appointment" />
    </children>
 </AnchorPane>
