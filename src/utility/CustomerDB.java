@@ -59,9 +59,9 @@ public class CustomerDB {
             ps.setString(3, postalCode);
             ps.setString(4, phone);
             ps.setString(5, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
-            ps.setString(6, UserDB.getCurrentUser().getUsername());
+            ps.setString(6, "NULL");
             ps.setString(7, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
-            ps.setString(8, UserDB.getCurrentUser().getUsername());
+            ps.setString(8, "NULL");
             ps.setInt(9, divisionId);
 
             ps.execute();
@@ -84,9 +84,9 @@ public class CustomerDB {
             ps.setString(3, postalCode);
             ps.setString(4, phone);
             ps.setString(5, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
-            ps.setString(6, UserDB.getCurrentUser().getUsername());
+            ps.setString(6, "Dan");
             ps.setString(7, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
-            ps.setString(8, UserDB.getCurrentUser().getUsername());
+            ps.setString(8, "Dan");
             ps.setInt(9, customerId);
 
             ps.execute();

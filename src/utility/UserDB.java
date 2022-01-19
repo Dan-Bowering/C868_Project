@@ -11,9 +11,6 @@ import java.time.ZoneId;
 
 public class UserDB {
 
-    private static User currentUser;
-    private static ZoneId userTimeZone;
-    public UserDB() {}
 
     public static ObservableList<User> getAllUsers(){
         ObservableList<User> allUsers = FXCollections.observableArrayList();
@@ -49,9 +46,6 @@ public class UserDB {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                currentUser = new User(rs.getInt("User_ID"), rs.getString("User_Name"),
-                        rs.getString("Password"));
-                userTimeZone = ZoneId.systemDefault();
                 ps.close();
                 return true;
             } else {
@@ -63,19 +57,6 @@ public class UserDB {
         return false;
     }
 
-    public static User getCurrentUser() {
-        return currentUser;
-    }
 
-    public static void setCurrentUser(User currentUser) {
-        UserDB.currentUser = currentUser;
-    }
 
-    public static ZoneId getUserTimeZone() {
-        return userTimeZone;
-    }
-
-    public static void setUserTimeZone(ZoneId userTimeZone) {
-        UserDB.userTimeZone = userTimeZone;
-    }
 }
