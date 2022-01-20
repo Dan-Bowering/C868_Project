@@ -96,4 +96,20 @@ public class CustomerDB {
             throwables.printStackTrace();
         }
     }
+
+    public static Boolean deleteCustomer(int customerId) throws SQLException {
+
+        try {
+            String sql = "DELETE FROM customers WHERE Customer_ID=?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ps.execute();
+            ps.close();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

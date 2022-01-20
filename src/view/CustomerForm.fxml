@@ -31,7 +31,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="544.0" layoutY="468.0" mnemonicParsing="false" text="Delete Customer" />
+      <Button layoutX="544.0" layoutY="468.0" mnemonicParsing="false" onAction="#deleteCustomerButtonHandler" text="Delete Customer" />
       <Label layoutX="674.0" layoutY="70.0" text="Customer ID" />
       <TextField fx:id="customerIdTextField" disable="true" editable="false" layoutX="765.0" layoutY="65.0" promptText="auto-generated..." />
       <Label layoutX="674.0" layoutY="110.0" text="Customer Name" />

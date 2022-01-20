@@ -40,6 +40,7 @@ public class CustomerController implements Initializable {
     @FXML TextField phoneTextField;
 
     private static Customer customerToUpdate = null;
+    private static Customer customerToDelete = null;
 
     /**
      * customerToUpdate getter.
@@ -138,7 +139,7 @@ public class CustomerController implements Initializable {
      * @throws IOException
      */
     @FXML
-    private void toAppointmentScreen(ActionEvent event) throws IOException {
+    public void toAppointmentScreen(ActionEvent event) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
         Scene scene = new Scene(root);
@@ -155,7 +156,7 @@ public class CustomerController implements Initializable {
      * @throws IOException
      */
     @FXML
-    private void addNewCustomerButtonHandler(ActionEvent event) throws IOException {
+    public void addNewCustomerButtonHandler(ActionEvent event) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomerForm.fxml"));
         Scene scene = new Scene(root);
@@ -166,11 +167,41 @@ public class CustomerController implements Initializable {
     }
 
     /**
+     * Deletes a customer from the the DB/Customer List.
+     * @param
+     */
+    @FXML
+    public void deleteCustomerButtonHandler(ActionEvent event) throws SQLException {
+
+        customerToDelete = customerTableView.getSelectionModel().getSelectedItem();
+
+        if (customerToDelete == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("You have not selected a customer to delete.");
+            alert.showAndWait();
+        }
+
+        else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Alert");
+            alert.setContentText("Are you sure you want to delete this customer? All associated appointments" +
+                                " will be deleted as well.");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                Boolean deleteApproved = CustomerDB.deleteCustomer(customerToDelete.getCustomerId());
+            }
+            customerTableView.setItems(CustomerDB.getAllCustomers());
+        }
+    }
+
+    /**
      * Exits the program when the Exit button is clicked.
      * @param event
      */
     @FXML
-    void exitButtonHandler(ActionEvent event) {
+    public void exitButtonHandler(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Alert");
         alert.setContentText("Are you sure you want to exit the program? Any unsaved changes will be lost.");
