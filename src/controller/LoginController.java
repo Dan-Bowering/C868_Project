@@ -46,6 +46,7 @@ public class LoginController implements Initializable {
         String loginPassword = passwordTextField.getText();
 
         if (UserDB.validateLogin(loginUsername, loginPassword)) {
+
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
             Scene scene = new Scene(root, 950, 520);

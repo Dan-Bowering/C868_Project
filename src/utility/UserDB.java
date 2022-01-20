@@ -11,21 +11,30 @@ import java.time.ZoneId;
 
 public class UserDB {
 
+    public static User currentUser;
+    public static ZoneId userTimeZone;
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static ZoneId getUserTimeZone() {
+        return userTimeZone;
+    }
 
     public static ObservableList<User> getAllUsers(){
         ObservableList<User> allUsers = FXCollections.observableArrayList();
 
         try {
-            String sql = "SELECT User_ID, User_name, Password FROM users";
+            String sql = "SELECT User_ID, User_name FROM users";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
                 int userId = rs.getInt("User_ID");
                 String username = rs.getString("User_name");
-                String password = rs.getString("Password");
 
-                User u = new User(userId, username, password);
+                User u = new User(userId, username);
                 allUsers.add(u);
             }
         }
@@ -46,6 +55,8 @@ public class UserDB {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
+                currentUser = new User(rs.getInt("User_ID"), rs.getString("User_Name"));
+                userTimeZone = ZoneId.systemDefault();
                 ps.close();
                 return true;
             } else {
@@ -56,7 +67,6 @@ public class UserDB {
         }
         return false;
     }
-
 
 
 }
