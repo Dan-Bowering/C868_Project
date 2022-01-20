@@ -46,7 +46,7 @@
       <Label layoutX="674.0" layoutY="270.0" text="Division" />
       <ComboBox fx:id="countryComboBox" layoutX="765.0" layoutY="225.0" onAction="#countrySelected" prefWidth="150.0" promptText="Please select..." />
       <ComboBox fx:id="divisionComboBox" layoutX="765.0" layoutY="265.0" prefWidth="150.0" promptText="Please select..." />
-      <TextArea editable="false" layoutX="674.0" layoutY="347.0" prefHeight="123.0" prefWidth="294.0" text="To add a new customer, please fill out the &#10;necessary fields above and click &quot;Save&quot; to &#10;submit.  To update a customer, please select &#10;the customer you wish to update and click &#10;&quot;Update Customer&quot; to edit the existing customer&#10;data." />
+      <TextArea editable="false" layoutX="674.0" layoutY="347.0" prefHeight="100.0" prefWidth="299.0" text="To update a customer, please select the customer you&#10;wish to update and click &quot;Update Customer&quot;.  &#10;Edit the customer information in the fields above &#10;and click &quot;Save&quot; when finished." />
       <Button layoutX="934.0" layoutY="306.0" mnemonicParsing="false" onAction="#clearButtonHandler" text="Clear" />
       <Button layoutX="11.0" layoutY="468.0" mnemonicParsing="false" onAction="#backToAppointmentsHandler" prefHeight="25.0" prefWidth="136.0" text="Back to Appointments" />
       <Button layoutX="281.0" layoutY="468.0" mnemonicParsing="false" onAction="#addNewCustomerButtonHandler" prefHeight="25.0" prefWidth="128.0" text="Add New Customer" />

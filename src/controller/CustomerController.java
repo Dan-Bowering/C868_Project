@@ -72,8 +72,8 @@ public class CustomerController implements Initializable {
             customerNameTextField.setText(String.valueOf(customerToUpdate().getCustomerName()));
             addressTextField.setText(String.valueOf(customerToUpdate().getAddress()));
             postalCodeTextField.setText(String.valueOf(customerToUpdate().getPostalCode()));
-            countryComboBox.setPromptText(String.valueOf(customerToUpdate().getCountry()));
-            divisionComboBox.setPromptText(String.valueOf(customerToUpdate().getDivision()));
+            countryComboBox.setValue(String.valueOf(customerToUpdate().getCountry()));
+            divisionComboBox.setValue(String.valueOf(customerToUpdate().getDivision()));
             phoneTextField.setText(String.valueOf(customerToUpdate().getPhone()));
         }
     }
@@ -83,6 +83,7 @@ public class CustomerController implements Initializable {
     /**
      * Saves the updated customer information and updates the table view.
      * @param event
+     * @throws SQLException
      */
     @FXML
     public void saveButtonHandler(ActionEvent event) throws SQLException {
@@ -91,13 +92,12 @@ public class CustomerController implements Initializable {
         String address = addressTextField.getText();
         String postalCode = postalCodeTextField.getText();
         String phone = phoneTextField.getText();
-        String country = countryComboBox.getValue();
         String division = divisionComboBox.getValue();
+        int customerId = Integer.parseInt(customerIdTextField.getText());
 
-//        CustomerDB.addCustomer(customerName, address, postalCode, phone, country,
-//                DivisionDB.getDivisionId(division));
+        CustomerDB.updateCustomer(customerName, address, postalCode, phone, division, customerId);
 
-//        customerTableView.setItems(CustomerDB.getAllCustomers());
+        customerTableView.setItems(CustomerDB.getAllCustomers());
     }
 
     /**
@@ -124,7 +124,7 @@ public class CustomerController implements Initializable {
     public void backToAppointmentsHandler(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Alert");
-        alert.setContentText("Are you sure you want to go back?  All changes will be lost.");
+        alert.setContentText("Are you sure you want to go back?  Any unsaved changes will be lost.");
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.get() == ButtonType.OK) {
@@ -164,7 +164,6 @@ public class CustomerController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
 
     /**
      * Exits the program when the Exit button is clicked.
