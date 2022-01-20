@@ -73,7 +73,7 @@ public class LoginController implements Initializable {
      * @param event
      */
     @FXML
-    void exitButtonHandler(ActionEvent event) {
+    public void exitButtonHandler(ActionEvent event) {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Alert");

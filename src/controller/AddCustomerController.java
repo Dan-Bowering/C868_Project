@@ -91,7 +91,7 @@ public class AddCustomerController implements Initializable {
      * @throws IOException
      */
     @FXML
-    private void toCustomerScreen(ActionEvent event) throws IOException {
+    public void toCustomerScreen(ActionEvent event) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerForm.fxml"));
         Scene scene = new Scene(root);

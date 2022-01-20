@@ -49,7 +49,7 @@ public class AddAppointmentController implements Initializable {
      * @throws IOException
      */
     @FXML
-    private void toAppointmentScreen(ActionEvent event) throws IOException {
+    public void toAppointmentScreen(ActionEvent event) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
         Scene scene = new Scene(root);
