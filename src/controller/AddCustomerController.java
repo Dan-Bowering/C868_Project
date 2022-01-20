@@ -37,7 +37,7 @@ public class AddCustomerController implements Initializable {
      * @param event
      */
     @FXML
-    public void saveAddCustomerHandler(ActionEvent event) throws SQLException {
+    public void saveAddCustomerHandler(ActionEvent event) throws SQLException, IOException {
 
         String customerName = customerNameTextField.getText();
         String address = addressTextField.getText();
@@ -46,11 +46,14 @@ public class AddCustomerController implements Initializable {
         String country = countryComboBox.getValue();
         String division = divisionComboBox.getValue();
 
-//        System.out.println(DivisionDB.getDivisionId(division));
+        CustomerDB.addCustomer(customerName, address, postalCode, phone, country, DivisionDB.getDivisionId(division));
 
-       // CustomerDB.addCustomer(customerName, address, postalCode, phone, country,
-          //      DivisionDB.getDivisionId(division));
-
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerForm.fxml"));
+        Scene scene = new Scene(root, 1000, 520);
+        stage.setTitle("Main Screen");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
