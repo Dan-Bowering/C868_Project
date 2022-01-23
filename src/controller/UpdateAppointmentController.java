@@ -9,9 +9,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.Appointment;
+import utility.AppointmentDB;
+import utility.ContactDB;
+import utility.UserDB;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -21,12 +27,62 @@ public class UpdateAppointmentController implements Initializable {
     @FXML TextField titleTextField;
     @FXML TextField descriptionTextField;
     @FXML TextField locationTextField;
+    @FXML TextField typeTextField;
     @FXML TextField startTimeTextField;
     @FXML TextField endTimeTextField;
     @FXML TextField customerIdTextField;
     @FXML ComboBox<String> contactComboBox;
     @FXML DatePicker startDatePicker;
     @FXML DatePicker endDatePicker;
+
+    public static Appointment appointmentToUpdate = null;
+
+    public static Appointment getAppointmentToUpdate() {
+        return appointmentToUpdate;
+    }
+
+    /**
+     * Saves the new appointment information entered into the
+     * add appointment form.
+     * @param event
+     * @throws IOException
+     * @throws SQLException
+     */
+    @FXML
+    public void saveUpdateAppointmentButtonHandler(ActionEvent event) throws IOException, SQLException {
+
+        int appointmentId = Integer.parseInt(appointmentIdTextField.getText());
+        String title = titleTextField.getText();
+        String description = descriptionTextField.getText();
+        String location = locationTextField.getText();
+        String type = typeTextField.getText();
+        String startTime = startTimeTextField.getText();
+        String endTime = endTimeTextField.getText();
+        int customerId = Integer.parseInt(customerIdTextField.getText());
+        LocalDate startDate = startDatePicker.getValue();
+        LocalDate endDate = endDatePicker.getValue();
+        String contact = contactComboBox.getValue();
+
+        // Convert date and time into LocalDateTime objects, ZoneDateTime objects, then to UTC
+        LocalDateTime startLocalDateTime = LocalDateTime.of(startDate, LocalTime.parse(startTime));
+        LocalDateTime endLocalDateTime = LocalDateTime.of(endDate, LocalTime.parse(endTime));
+        ZonedDateTime zdtStart= ZonedDateTime.of(startLocalDateTime, UserDB.getUserTimeZone());
+        ZonedDateTime zdtEnd= ZonedDateTime.of(endLocalDateTime, UserDB.getUserTimeZone());
+        ZonedDateTime utcZoneStart = zdtStart.withZoneSameInstant(ZoneOffset.UTC);
+        ZonedDateTime utcZoneEnd = zdtEnd.withZoneSameInstant(ZoneOffset.UTC);
+
+        // Add appointment to DB
+        AppointmentDB.updateAppointment(appointmentId, title, description, location, type, utcZoneStart,
+                utcZoneEnd, customerId, ContactDB.getContactId(contact));
+
+        // Set the stage - Appointment Screen
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
+        Scene scene = new Scene(root, 1000, 520);
+        stage.setTitle("Main Screen");
+        stage.setScene(scene);
+        stage.show();
+    }
 
     /**
      * Navigates back to the main Appointments table without saving chaanges
@@ -59,9 +115,35 @@ public class UpdateAppointmentController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Sets all fields in the Update Appointment form to whichever appointment was selected.
+     * @param appointmentToUpdate
+     */
+    public void sendAppointment(Appointment appointmentToUpdate) {
+
+        appointmentIdTextField.setText(String.valueOf(appointmentToUpdate.getAppointmentId()));
+        titleTextField.setText(appointmentToUpdate.getTitle());
+        descriptionTextField.setText(String.valueOf(appointmentToUpdate.getDescription()));
+        locationTextField.setText(String.valueOf(appointmentToUpdate.getLocation()));
+        typeTextField.setText(String.valueOf(appointmentToUpdate.getType()));
+        startTimeTextField.setText(String.valueOf(appointmentToUpdate.getStart().toLocalDateTime().toLocalTime()));
+        endTimeTextField.setText(String.valueOf(appointmentToUpdate.getEnd().toLocalDateTime().toLocalTime()));
+        customerIdTextField.setText(String.valueOf(appointmentToUpdate.getCustomerId()));
+        contactComboBox.setValue(String.valueOf(appointmentToUpdate.getContactName()));
+        startDatePicker.setValue((appointmentToUpdate.getStart().toLocalDateTime().toLocalDate()));
+        endDatePicker.setValue((appointmentToUpdate.getStart().toLocalDateTime().toLocalDate()));
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // Set all contact names in the ComboBox
+        try {
+            contactComboBox.setItems(ContactDB.getAllContactNames());
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

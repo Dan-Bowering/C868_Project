@@ -7,17 +7,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
 import utility.AppointmentDB;
-
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -29,10 +28,17 @@ public class AppointmentController implements Initializable {
     @FXML TableColumn<Appointment, String> descriptionColumn;
     @FXML TableColumn<Appointment, String> locationColumn;
     @FXML TableColumn<Appointment, String> typeColumn;
-    @FXML TableColumn<Appointment, String> startDateTimeColumn;
-    @FXML TableColumn<Appointment, String> endDateTimeColumn;
+    @FXML TableColumn<Appointment, ZonedDateTime> startDateTimeColumn;
+    @FXML TableColumn<Appointment, ZonedDateTime> endDateTimeColumn;
     @FXML TableColumn<Appointment, Integer> customerIdColumn;
     @FXML TableColumn<Appointment, Integer> contactIdColumn;
+
+    public static Appointment appointmentToUpdate = null;
+    public static Appointment appointmentToDelete = null;
+
+    public static Appointment getAppointmentToUpdate() {
+        return appointmentToUpdate;
+    }
 
     /**
      * Switches to the customer list screen when "view customer list"
@@ -61,15 +67,68 @@ public class AppointmentController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Loads the update appointment form with the selected appointment info.
+     * @param event
+     * @throws IOException
+     */
     @FXML
     public void updateAppointmentHandler(ActionEvent event) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/UpdateAppointment.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Add Customer");
-        stage.setScene(scene);
-        stage.show();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../view/UpdateAppointment.fxml"));
+        loader.load();
+
+        appointmentToUpdate = appointmentTableView.getSelectionModel().getSelectedItem();
+
+        if (appointmentToUpdate == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("You have not selected an appointment to update.");
+            alert.showAndWait();
+        }
+
+        else {
+            UpdateAppointmentController uac = loader.getController();
+            uac.sendAppointment(appointmentToUpdate);
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
+
+    }
+
+    /**
+     * Deletes the selected appointment from the appointment table.
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    public void deleteAppointmentButtonHandler(ActionEvent event) throws IOException, SQLException {
+
+        appointmentToDelete = appointmentTableView.getSelectionModel().getSelectedItem();
+
+        if (appointmentToDelete == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("You have not selected an appointment to delete.");
+            alert.showAndWait();
+        }
+
+        else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Alert");
+            alert.setContentText("Are you sure you want to delete Appointment ID: " +
+                    appointmentToDelete.getAppointmentId() + " - Type: " + appointmentToDelete.getType() + "?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                AppointmentDB.deleteAppointment(appointmentToDelete.getAppointmentId());
+            }
+            appointmentTableView.setItems(AppointmentDB.getAllAppointments());
+        }
     }
 
 

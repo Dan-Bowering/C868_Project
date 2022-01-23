@@ -42,10 +42,6 @@ public class CustomerController implements Initializable {
     private static Customer customerToUpdate = null;
     private static Customer customerToDelete = null;
 
-    /**
-     * customerToUpdate getter.
-     * @return customerToUpdate
-     */
     public static Customer customerToUpdate() {
         return customerToUpdate;
     }
@@ -78,8 +74,6 @@ public class CustomerController implements Initializable {
             phoneTextField.setText(String.valueOf(customerToUpdate().getPhone()));
         }
     }
-
-
 
     /**
      * Saves the updated customer information and updates the table view.
@@ -190,7 +184,8 @@ public class CustomerController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.get() == ButtonType.OK) {
-                Boolean deleteApproved = CustomerDB.deleteCustomer(customerToDelete.getCustomerId());
+                CustomerDB.deleteAssociatedAppointments(customerToDelete.getCustomerId());
+                CustomerDB.deleteCustomer(customerToDelete.getCustomerId());
             }
             customerTableView.setItems(CustomerDB.getAllCustomers());
         }

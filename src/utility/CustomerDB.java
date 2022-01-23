@@ -112,4 +112,20 @@ public class CustomerDB {
             return false;
         }
     }
+
+    public static Boolean deleteAssociatedAppointments(int customerId) throws SQLException {
+
+        try {
+            String sql = "DELETE FROM appointments WHERE Customer_ID=?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ps.execute();
+            ps.close();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

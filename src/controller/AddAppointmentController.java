@@ -11,14 +11,11 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import utility.AppointmentDB;
 import utility.ContactDB;
-
+import utility.UserDB;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.time.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -49,7 +46,7 @@ public class AddAppointmentController implements Initializable {
         String title = titleTextField.getText();
         String description = descriptionTextField.getText();
         String location = locationTextField.getText();
-        String type = locationTextField.getText();
+        String type = typeTextField.getText();
         String startTime = startTimeTextField.getText();
         String endTime = endTimeTextField.getText();
         int customerId = Integer.parseInt(customerIdTextField.getText());
@@ -57,13 +54,19 @@ public class AddAppointmentController implements Initializable {
         LocalDate endDate = endDatePicker.getValue();
         String contact = contactComboBox.getValue();
 
+        // Convert date and time into LocalDateTime objects, ZoneDateTime objects, then to UTC
+        LocalDateTime startLocalDateTime = LocalDateTime.of(startDate, LocalTime.parse(startTime));
+        LocalDateTime endLocalDateTime = LocalDateTime.of(endDate, LocalTime.parse(endTime));
+        ZonedDateTime zdtStart= ZonedDateTime.of(startLocalDateTime, UserDB.getUserTimeZone());
+        ZonedDateTime zdtEnd= ZonedDateTime.of(endLocalDateTime, UserDB.getUserTimeZone());
+        ZonedDateTime utcZoneStart = zdtStart.withZoneSameInstant(ZoneOffset.UTC);
+        ZonedDateTime utcZoneEnd = zdtEnd.withZoneSameInstant(ZoneOffset.UTC);
 
-        LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.parse(startTime));
-        LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.parse(endTime));
+        // Add appointment to DB
+        AppointmentDB.addAppointment(title, description, location, type, utcZoneStart,
+                utcZoneEnd, customerId, ContactDB.getContactId(contact));
 
-        AppointmentDB.addAppointment(title, description, location, type, startDateTime,
-                                    endDateTime, customerId, ContactDB.getContactId(contact));
-
+        // Set the stage - Appointment Screen
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
         Scene scene = new Scene(root, 1000, 520);
@@ -88,7 +91,7 @@ public class AddAppointmentController implements Initializable {
     }
 
     /**
-     * Returns to the main screen.
+     * Returns to the main appointment screen.
      * @param event
      * @throws IOException
      */
@@ -103,11 +106,28 @@ public class AddAppointmentController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Checks that the appointment is within hours of operation (8AM-10PM EST)
+     *
+     */
+    public static boolean withinBusinessHours(ZonedDateTime zdtStart, ZonedDateTime zdtEnd, LocalDate startDate,
+                                              LocalDate endDate) {
+
+        ZonedDateTime startZDT = ZonedDateTime.of(LocalDateTime.from(zdtStart), UserDB.getUserTimeZone());
+        ZonedDateTime endZDT = ZonedDateTime.of(LocalDateTime.from(zdtEnd), UserDB.getUserTimeZone());
+        ZonedDateTime startBusinessHours = ZonedDateTime.of(startDate, LocalTime.of(8, 0),
+                ZoneId.of("America/New_York"));
+        ZonedDateTime endBusinessHours = ZonedDateTime.of(endDate, LocalTime.of(22, 0),
+                ZoneId.of("America/New_York"));
+
+
+    }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // Set all contact names in the ComboBox
         try {
             contactComboBox.setItems(ContactDB.getAllContactNames());
 

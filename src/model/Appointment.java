@@ -1,7 +1,6 @@
 package model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.sql.Timestamp;
 
 public class Appointment {
 
@@ -10,14 +9,22 @@ public class Appointment {
     private String description;
     private String location;
     private String type;
-    private String start;
-    private String end;
+    private Timestamp start;
+    private Timestamp end;
+    private Timestamp createDate;
+    private String createBy;
+    private Timestamp lastUpdateTime;
+    private String lastUpdateBy;
     private int customerId;
+    private int UserId;
     private int contactId;
+    private String contactName;
 
 
-    public Appointment(int appointmentId, String title, String description, String location, String type, String start,
-                       String end, int customerId, int contactId) {
+    public Appointment(int appointmentId, String title, String description, String location, String type,
+                       Timestamp start, Timestamp end, Timestamp createDate, String createBy,
+                       Timestamp lastUpdateTime, String lastUpdateBy, int customerId, int userId, int contactId,
+                       String contactName) {
         this.appointmentId = appointmentId;
         this.title = title;
         this.description = description;
@@ -25,8 +32,14 @@ public class Appointment {
         this.type = type;
         this.start = start;
         this.end = end;
+        this.createDate = createDate;
+        this.createBy = createBy;
+        this.lastUpdateTime = lastUpdateTime;
+        this.lastUpdateBy = lastUpdateBy;
         this.customerId = customerId;
+        this.UserId = userId;
         this.contactId = contactId;
+        this.contactName = contactName;
     }
 
     public int getAppointmentId() {
@@ -69,19 +82,19 @@ public class Appointment {
         this.type = type;
     }
 
-    public String getStart() {
+    public Timestamp getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(Timestamp start) {
         this.start = start;
     }
 
-    public String getEnd() {
+    public Timestamp getEnd() {
         return end;
     }
 
-    public void setEnd(String end) {
+    public void setEnd(Timestamp end) {
         this.end = end;
     }
 
@@ -101,4 +114,51 @@ public class Appointment {
         this.contactId = contactId;
     }
 
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public Timestamp getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Timestamp lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
+
+    public String getLastUpdateBy() {
+        return lastUpdateBy;
+    }
+
+    public void setLastUpdateBy(String lastUpdateBy) {
+        this.lastUpdateBy = lastUpdateBy;
+    }
+
+    public int getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(int userId) {
+        UserId = userId;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
 }
