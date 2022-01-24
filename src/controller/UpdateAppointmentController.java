@@ -80,6 +80,7 @@ public class UpdateAppointmentController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
         }
 
+        // Sends an error message if updated date/time overlaps an existing appointment date/time
         else if (!AppointmentDB.overlappingAppointments(customerId, startLocalDateTime, endLocalDateTime)) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");

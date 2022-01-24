@@ -15,7 +15,6 @@ import utility.AppointmentDB;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -48,7 +47,7 @@ public class AppointmentController implements Initializable {
     @FXML
     void viewCustomerListHandler(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerForm.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerScreen.fxml"));
         Scene scene = new Scene(root, 1000, 520);
         stage.setTitle("Main Screen");
         stage.setScene(scene);
@@ -59,7 +58,7 @@ public class AppointmentController implements Initializable {
     @FXML
     public void addAppointmentHandler(ActionEvent event) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointment.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointmentForm.fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Add Customer");

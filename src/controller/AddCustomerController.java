@@ -49,7 +49,7 @@ public class AddCustomerController implements Initializable {
         CustomerDB.addCustomer(customerName, address, postalCode, phone, country, DivisionDB.getDivisionId(division));
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerForm.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerScreen.fxml"));
         Scene scene = new Scene(root, 1000, 520);
         stage.setTitle("Main Screen");
         stage.setScene(scene);
@@ -93,7 +93,7 @@ public class AddCustomerController implements Initializable {
     @FXML
     public void toCustomerScreen(ActionEvent event) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerForm.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerScreen.fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Customer List");

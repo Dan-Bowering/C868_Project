@@ -63,11 +63,21 @@ public class AddAppointmentController implements Initializable {
         ZonedDateTime utcZoneStart = zdtStart.withZoneSameInstant(ZoneOffset.UTC);
         ZonedDateTime utcZoneEnd = zdtEnd.withZoneSameInstant(ZoneOffset.UTC);
 
+        // Sends an error message for failing appointment time validation
         if (!withinBusinessHours(zdtStart, zdtEnd, startDate, endDate)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("The appointment does not fall within our hours of operation or the start time is " +
                     "after the end time.  Please schedule the appointment between 8AM-10PM EST.");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+
+        // Sends an error message if updated date/time overlaps an existing appointment date/time
+        else if (!AppointmentDB.overlappingAppointments(customerId, startLocalDateTime, endLocalDateTime)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setContentText("The appointment you are attempting to schedule conflicts with another " +
+                    "appointment on this customer's schedule.  Please choose another date/time.");
             Optional<ButtonType> result = alert.showAndWait();
         }
 

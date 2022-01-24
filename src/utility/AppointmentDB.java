@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -157,4 +154,50 @@ public class AppointmentDB {
         }
         return true;
     }
+
+    public static ObservableList<Appointment> getAppointmentsIn15Minutes() throws SQLException {
+
+        ObservableList<Appointment> appointmentsIn15Minutes = FXCollections.observableArrayList();
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        Timestamp checkStart = Timestamp.valueOf(LocalDateTime.now().format(timeFormat));
+        Timestamp checkEnd = Timestamp.valueOf(LocalDateTime.now().plusMinutes(15).format(timeFormat));
+
+        try {
+            String sql = "SELECT * FROM appointments as a LEFT OUTER JOIN contacts as c ON a.Contact_ID = c.Contact_ID " +
+                    "WHERE START BETWEEN ? AND ? AND User_ID=?;";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setTimestamp(1, checkStart);
+            ps.setTimestamp(2, checkEnd);
+            ps.setInt(3, UserDB.getCurrentUser().getUserId());
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int appointmentId = rs.getInt("Appointment_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String type = rs.getString("Type");
+                Timestamp start = rs.getTimestamp("Start");
+                Timestamp end = rs.getTimestamp("End");
+                Timestamp createDate = rs.getTimestamp("Create_Date");
+                String createBy = rs.getString("Created_By");
+                Timestamp lastUpdateTime = rs.getTimestamp("Last_Update");
+                String lastUpdateBy = rs.getString("Last_Updated_By");
+                int customerId = rs.getInt("Customer_ID");
+                int userId = rs.getInt("User_ID");
+                int contactId = rs.getInt("Contact_ID");
+                String contactName = rs.getString("Contact_Name");
+
+                Appointment a = new Appointment(appointmentId, title, description, location, type, start, end,
+                        createDate, createBy, lastUpdateTime, lastUpdateBy, customerId, userId, contactId, contactName);
+
+                appointmentsIn15Minutes.add(a);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return appointmentsIn15Minutes;
+    }
+
 }

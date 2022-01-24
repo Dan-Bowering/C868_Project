@@ -7,12 +7,14 @@ import model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 public class UserDB {
 
     public static User currentUser;
     public static ZoneId userTimeZone;
+    public static LocalDateTime userCurrentTime;
 
     public static User getCurrentUser() {
         return currentUser;
@@ -20,6 +22,10 @@ public class UserDB {
 
     public static ZoneId getUserTimeZone() {
         return userTimeZone;
+    }
+
+    public static LocalDateTime getUserCurrentTime() {
+        return userCurrentTime;
     }
 
     public static ObservableList<User> getAllUsers(){
@@ -57,6 +63,7 @@ public class UserDB {
             if (rs.next()) {
                 currentUser = new User(rs.getInt("User_ID"), rs.getString("User_Name"));
                 userTimeZone = ZoneId.systemDefault();
+                userCurrentTime = LocalDateTime.now();
                 ps.close();
                 return true;
             } else {
