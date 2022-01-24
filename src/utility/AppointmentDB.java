@@ -3,17 +3,19 @@ package utility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AppointmentDB {
 
-    public static ObservableList<Appointment> getAllAppointments(){
+    public static ObservableList<Appointment> getAllAppointments() {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
         try {
@@ -21,7 +23,7 @@ public class AppointmentDB {
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 int appointmentId = rs.getInt("Appointment_ID");
                 String title = rs.getString("Title");
                 String description = rs.getString("Description");
@@ -43,8 +45,7 @@ public class AppointmentDB {
 
                 allAppointments.add(a);
             }
-        }
-        catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
@@ -58,7 +59,7 @@ public class AppointmentDB {
         try {
             String sql = "INSERT INTO appointments VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
             ps.setString(1, title);
             ps.setString(2, description);
@@ -76,21 +77,21 @@ public class AppointmentDB {
 
             ps.execute();
 
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
     public static void updateAppointment(int appointmentId, String title, String description, String location, String type,
-                                      ZonedDateTime utcZoneStart, ZonedDateTime utcZoneEnd, int customerId,
-                                      int contactId) throws SQLException {
+                                         ZonedDateTime utcZoneStart, ZonedDateTime utcZoneEnd, int customerId,
+                                         int contactId) throws SQLException {
 
         try {
             String sql = "UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, " +
                     "End=?, Last_Update=?, Last_Updated_By=?, Customer_ID=?, User_ID=?, Contact_ID=? WHERE " +
                     "Appointment_ID=?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
             ps.setString(1, title);
             ps.setString(2, description);
@@ -107,7 +108,7 @@ public class AppointmentDB {
 
             ps.execute();
 
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
@@ -128,4 +129,31 @@ public class AppointmentDB {
         }
     }
 
+    public static boolean overlappingAppointments(int customerId, LocalDateTime startLocalDateTime,
+                                                  LocalDateTime endLocalDateTime) throws SQLException {
+
+        try {
+            String sql = "SELECT Start, End FROM appointments WHERE Customer_ID=?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Timestamp tsStart = rs.getTimestamp("Start");
+                Timestamp tsEnd = rs.getTimestamp("End");
+                LocalDateTime ldtStart = tsStart.toLocalDateTime();
+                LocalDateTime ldtEnd = tsEnd.toLocalDateTime();
+
+                if (startLocalDateTime.isAfter(ldtStart) && startLocalDateTime.isBefore(ldtEnd) ||
+                        (endLocalDateTime.isAfter(ldtStart) && endLocalDateTime.isBefore(ldtEnd)))
+                {
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

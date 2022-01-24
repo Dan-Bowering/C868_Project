@@ -71,21 +71,63 @@ public class UpdateAppointmentController implements Initializable {
         ZonedDateTime utcZoneStart = zdtStart.withZoneSameInstant(ZoneOffset.UTC);
         ZonedDateTime utcZoneEnd = zdtEnd.withZoneSameInstant(ZoneOffset.UTC);
 
-        // Add appointment to DB
-        AppointmentDB.updateAppointment(appointmentId, title, description, location, type, utcZoneStart,
-                utcZoneEnd, customerId, ContactDB.getContactId(contact));
+        // Sends an error message for failing appointment time validation
+        if (!withinBusinessHours(zdtStart, zdtEnd, startDate, endDate)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("The appointment does not fall within our hours of operation or the start time is " +
+                    "after the end time.  Please schedule the appointment between 8AM-10PM EST.");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
 
-        // Set the stage - Appointment Screen
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
-        Scene scene = new Scene(root, 1000, 520);
-        stage.setTitle("Main Screen");
-        stage.setScene(scene);
-        stage.show();
+        else if (!AppointmentDB.overlappingAppointments(customerId, startLocalDateTime, endLocalDateTime)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setContentText("The appointment you are attempting to schedule conflicts with another " +
+                    "appointment on this customer's schedule.  Please choose another date/time.");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+
+        else {
+            // Add appointment to DB
+            AppointmentDB.updateAppointment(appointmentId, title, description, location, type, utcZoneStart,
+                    utcZoneEnd, customerId, ContactDB.getContactId(contact));
+
+            // Set the stage - Appointment Screen
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
+            Scene scene = new Scene(root, 1000, 520);
+            stage.setTitle("Main Screen");
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     /**
-     * Navigates back to the main Appointments table without saving chaanges
+     * Checks that the appointment is within hours of operation (8AM-10PM EST)
+     *
+     */
+    public static boolean withinBusinessHours(ZonedDateTime zdtStart, ZonedDateTime zdtEnd, LocalDate startDate,
+                                              LocalDate endDate) {
+
+        ZonedDateTime startZDT = ZonedDateTime.of(LocalDateTime.from(zdtStart), UserDB.getUserTimeZone());
+        ZonedDateTime endZDT = ZonedDateTime.of(LocalDateTime.from(zdtEnd), UserDB.getUserTimeZone());
+        ZonedDateTime startBusinessHours = ZonedDateTime.of(startDate, LocalTime.of(8, 0),
+                ZoneId.of("America/Detroit"));
+        ZonedDateTime endBusinessHours = ZonedDateTime.of(endDate, LocalTime.of(22, 0),
+                ZoneId.of("America/Detroit"));
+
+        if (startZDT.isBefore(startBusinessHours) || endZDT.isAfter(endBusinessHours) ||
+                endZDT.isBefore(startZDT)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    /**
+     * Navigates back to the main Appointments table without saving changes
      * @param event
      */@FXML
     public void cancelButtonHandler(ActionEvent event) throws IOException {
