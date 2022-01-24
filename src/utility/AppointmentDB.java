@@ -145,7 +145,8 @@ public class AppointmentDB {
                 LocalDateTime ldtEnd = tsEnd.toLocalDateTime();
 
                 if (startLocalDateTime.isAfter(ldtStart) && startLocalDateTime.isBefore(ldtEnd) ||
-                        (endLocalDateTime.isAfter(ldtStart) && endLocalDateTime.isBefore(ldtEnd)))
+                        (endLocalDateTime.isAfter(ldtStart) && endLocalDateTime.isBefore(ldtEnd)) ||
+                        (startLocalDateTime.isBefore(ldtStart) && endLocalDateTime.isAfter(ldtEnd)))
                 {
                     return false;
                 }
