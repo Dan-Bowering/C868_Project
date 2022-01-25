@@ -52,9 +52,13 @@ public class AppointmentController implements Initializable {
         stage.setTitle("Main Screen");
         stage.setScene(scene);
         stage.show();
-
     }
 
+    /**
+     * Switches to the Add Appointment form when the button "Add Appointments" is clicked.
+     * @param event
+     * @throws IOException
+     */
     @FXML
     public void addAppointmentHandler(ActionEvent event) throws IOException {
 
@@ -62,6 +66,21 @@ public class AppointmentController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Add Customer");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
+     * Switches to the Reports screen when the button "Reports" is clicked.
+     * @param event
+     * @throws IOException
+     */
+    public void reportsButtonHandler(ActionEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsScreen.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Reports");
         stage.setScene(scene);
         stage.show();
     }

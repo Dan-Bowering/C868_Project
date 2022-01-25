@@ -200,4 +200,21 @@ public class AppointmentDB {
         return appointmentsIn15Minutes;
     }
 
+    public static ObservableList<String> appointmentsByTypeAndMonth() throws SQLException {
+
+        ObservableList<String> appointmentList = FXCollections.observableArrayList();
+
+            String sql = "SELECT Type, monthname(Start) as 'Month', count(Type) as 'Type Total' " +
+                    "FROM appointments group by Type order by monthname(Start);";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+               appointmentList.add("Type: " + rs.getString("Type") + "  |  Month: " +
+                       rs.getString("Month") + "  |  Type Total: " + rs.getString("Type Total") +
+                       "\n");
+            }
+            return appointmentList;
+    }
+
 }

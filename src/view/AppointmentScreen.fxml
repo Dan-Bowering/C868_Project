@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="553.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentController">
    <children>
       <Button layoutX="11.0" layoutY="465.0" mnemonicParsing="false" onAction="#viewCustomerListHandler" prefHeight="25.0" prefWidth="159.0" text="View Customer List" />
-      <Button layoutX="884.0" layoutY="465.0" mnemonicParsing="false" onAction="#exitButtonHandler" prefHeight="25.0" prefWidth="52.0" text="Exit" />
+      <Button layoutX="884.0" layoutY="519.0" mnemonicParsing="false" onAction="#exitButtonHandler" prefHeight="25.0" prefWidth="52.0" text="Exit" />
       <TableView fx:id="appointmentTableView" layoutX="11.0" layoutY="62.0" prefHeight="398.0" prefWidth="926.0">
         <columns>
             <TableColumn fx:id="appointmentIdColumn" prefWidth="70.0" text="App. ID" />
@@ -40,5 +40,6 @@
       <Button layoutX="290.0" layoutY="465.0" mnemonicParsing="false" onAction="#addAppointmentHandler" text="Add Appointment" />
       <Button layoutX="411.0" layoutY="465.0" mnemonicParsing="false" onAction="#updateAppointmentHandler" text="Update Appointment" />
       <Button layoutX="549.0" layoutY="465.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="Delete Appointment" />
+      <Button layoutX="854.0" layoutY="465.0" mnemonicParsing="false" onAction="#reportsButtonHandler" prefHeight="25.0" prefWidth="82.0" text="Reports" />
    </children>
 </AnchorPane>
