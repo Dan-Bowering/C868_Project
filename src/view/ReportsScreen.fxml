@@ -16,7 +16,7 @@
       <TextArea fx:id="reportTextArea" layoutX="172.0" layoutY="78.0" prefHeight="278.0" prefWidth="403.0" />
       <TextArea editable="false" layoutX="14.0" layoutY="78.0" prefHeight="63.0" prefWidth="147.0" text="Please select a report &#10;to be generated from &#10;the list below." />
       <Button layoutX="14.0" layoutY="152.0" mnemonicParsing="false" onAction="#totalAppointmentsByType" prefHeight="54.0" prefWidth="147.0" text="Total Appointments By Type and Month" textAlignment="CENTER" wrapText="true" />
-      <Button layoutX="14.0" layoutY="211.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="147.0" text="Total Appointments By Type and Month" textAlignment="CENTER" wrapText="true" />
-      <Button layoutX="15.0" layoutY="271.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="147.0" text="Total Appointments By Type and Month" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="14.0" layoutY="211.0" mnemonicParsing="false" onAction="#totalAppointmentsByContact" prefHeight="54.0" prefWidth="147.0" text="Total Appointments By Contact" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="15.0" layoutY="271.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="147.0" text="??" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

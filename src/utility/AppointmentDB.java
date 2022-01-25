@@ -4,7 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -47,6 +50,88 @@ public class AppointmentDB {
         }
 
         return allAppointments;
+    }
+
+    public static ObservableList<Appointment> getAllMonthlyAppointments(ZonedDateTime currentMonth,
+                                                                        ZonedDateTime oneMonthOut) throws SQLException {
+
+        ObservableList<Appointment> allMonthlyAppointments = FXCollections.observableArrayList();
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        String monthStart = currentMonth.format(timeFormat);
+        String monthEnd = oneMonthOut.format(timeFormat);
+
+            String sql = "SELECT * FROM appointments as a LEFT OUTER JOIN contacts as c ON a.Contact_ID = c.Contact_ID " +
+                    "WHERE Start Between ? AND ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setString(1, monthStart);
+            ps.setString(2, monthEnd);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int appointmentId = rs.getInt("Appointment_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String type = rs.getString("Type");
+                Timestamp start = rs.getTimestamp("Start");
+                Timestamp end = rs.getTimestamp("End");
+                Timestamp createDate = rs.getTimestamp("Create_Date");
+                String createBy = rs.getString("Created_By");
+                Timestamp lastUpdateTime = rs.getTimestamp("Last_Update");
+                String lastUpdateBy = rs.getString("Last_Updated_By");
+                int customerId = rs.getInt("Customer_ID");
+                int userId = rs.getInt("User_ID");
+                int contactId = rs.getInt("Contact_ID");
+                String contactName = rs.getString("Contact_Name");
+
+                Appointment a = new Appointment(appointmentId, title, description, location, type, start, end,
+                        createDate, createBy, lastUpdateTime, lastUpdateBy, customerId, userId, contactId, contactName);
+
+                allMonthlyAppointments.add(a);
+            }
+        return allMonthlyAppointments;
+    }
+
+    public static ObservableList<Appointment> getAllWeeklyAppointments(ZonedDateTime currentDay,
+                                                                        ZonedDateTime sevenDaysOut) throws SQLException {
+
+        ObservableList<Appointment> allWeeklyAppointments = FXCollections.observableArrayList();
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        String dayStart = currentDay.format(timeFormat);
+        String dayEnd = sevenDaysOut.format(timeFormat);
+
+        String sql = "SELECT * FROM appointments as a LEFT OUTER JOIN contacts as c ON a.Contact_ID = c.Contact_ID " +
+                "WHERE Start Between ? AND ?";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ps.setString(1, dayStart);
+        ps.setString(2, dayEnd);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            int appointmentId = rs.getInt("Appointment_ID");
+            String title = rs.getString("Title");
+            String description = rs.getString("Description");
+            String location = rs.getString("Location");
+            String type = rs.getString("Type");
+            Timestamp start = rs.getTimestamp("Start");
+            Timestamp end = rs.getTimestamp("End");
+            Timestamp createDate = rs.getTimestamp("Create_Date");
+            String createBy = rs.getString("Created_By");
+            Timestamp lastUpdateTime = rs.getTimestamp("Last_Update");
+            String lastUpdateBy = rs.getString("Last_Updated_By");
+            int customerId = rs.getInt("Customer_ID");
+            int userId = rs.getInt("User_ID");
+            int contactId = rs.getInt("Contact_ID");
+            String contactName = rs.getString("Contact_Name");
+
+            Appointment a = new Appointment(appointmentId, title, description, location, type, start, end,
+                    createDate, createBy, lastUpdateTime, lastUpdateBy, customerId, userId, contactId, contactName);
+
+            allWeeklyAppointments.add(a);
+        }
+        return allWeeklyAppointments;
     }
 
     public static void addAppointment(String title, String description, String location, String type,
@@ -215,6 +300,28 @@ public class AppointmentDB {
                        "\n");
             }
             return appointmentList;
+    }
+
+    public static ObservableList<String> appointmentsByContactId() throws SQLException {
+
+        ObservableList<String> appointmentByContactList = FXCollections.observableArrayList();
+
+        String sql = "SELECT Appointment_ID, Title, Type, Description, Start, End, Customer_ID, Contact_ID " +
+                "FROM appointments ORDER BY Contact_ID;";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()) {
+            appointmentByContactList.add("Appointment ID: " + rs.getString("Appointment_ID") +
+                                        " | Title: " + rs.getString("Title") +
+                                        " | Type: " + rs.getString("Type") +
+                                        " | Description: " + rs.getString("Description") +
+                                        " | Start: " + rs.getString("Start") +
+                                        " | End: " + rs.getString("End") +
+                                        " | Customer ID: " + rs.getString("Customer_ID") +
+                                        " | Contact ID: " + rs.getString("Contact_ID") + "\n");
+        }
+        return appointmentByContactList;
     }
 
 }

@@ -22,8 +22,14 @@ public class ReportsController implements Initializable {
         ObservableList<String> reportResults = AppointmentDB.appointmentsByTypeAndMonth();
 
         reportTextArea.setText(String.valueOf(reportResults));
+    }
 
+    @FXML
+    public void totalAppointmentsByContact(ActionEvent event) throws SQLException {
 
+        ObservableList<String> reportResults = AppointmentDB.appointmentsByContactId();
+
+        reportTextArea.setText(String.valueOf(reportResults));
     }
 
     @Override

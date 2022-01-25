@@ -33,6 +33,7 @@ public class LoginController implements Initializable {
     @FXML private Label zoneIdLabel;
     @FXML private Button loginButton;
     @FXML private Button exitButton;
+    @FXML ToggleGroup appointmentToggleGroup;
 
     private String loginErrorTitle;
     private String loginErrorMessage;
@@ -56,7 +57,7 @@ public class LoginController implements Initializable {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
-            Scene scene = new Scene(root, 950, 520);
+            Scene scene = new Scene(root, 950, 560);
             stage.setTitle("Main Screen");
             stage.setScene(scene);
             stage.show();

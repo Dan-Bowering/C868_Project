@@ -31,12 +31,12 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <RadioButton layoutX="585.0" layoutY="41.0" mnemonicParsing="false" selected="true" text="All Appointments">
+      <RadioButton fx:id="allRadioButton" layoutX="585.0" layoutY="41.0" mnemonicParsing="false" onAction="#allAppointmentsRadioButtonHandler" selected="true" text="All Appointments">
          <toggleGroup>
             <ToggleGroup fx:id="appointmentToggleGroup" />
          </toggleGroup></RadioButton>
-      <RadioButton layoutX="723.0" layoutY="41.0" mnemonicParsing="false" text="Current Week" toggleGroup="$appointmentToggleGroup" />
-      <RadioButton layoutX="837.0" layoutY="41.0" mnemonicParsing="false" text="Current Month" toggleGroup="$appointmentToggleGroup" />
+      <RadioButton fx:id="weekRadioButton" layoutX="723.0" layoutY="41.0" mnemonicParsing="false" onAction="#weekRadioButtonHandler" text="Current Week" toggleGroup="$appointmentToggleGroup" />
+      <RadioButton fx:id="monthRadioButton" layoutX="837.0" layoutY="41.0" mnemonicParsing="false" onAction="#monthRadioButtonHandler" text="Current Month" toggleGroup="$appointmentToggleGroup" />
       <Button layoutX="290.0" layoutY="465.0" mnemonicParsing="false" onAction="#addAppointmentHandler" text="Add Appointment" />
       <Button layoutX="411.0" layoutY="465.0" mnemonicParsing="false" onAction="#updateAppointmentHandler" text="Update Appointment" />
       <Button layoutX="549.0" layoutY="465.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="Delete Appointment" />

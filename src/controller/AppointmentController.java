@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +32,10 @@ public class AppointmentController implements Initializable {
     @FXML TableColumn<Appointment, ZonedDateTime> endDateTimeColumn;
     @FXML TableColumn<Appointment, Integer> customerIdColumn;
     @FXML TableColumn<Appointment, Integer> contactIdColumn;
+    @FXML RadioButton monthRadioButton;
+    @FXML RadioButton weekRadioButton;
+    @FXML RadioButton allRadioButton;
+
 
     public static Appointment appointmentToUpdate = null;
     public static Appointment appointmentToDelete = null;
@@ -165,6 +170,36 @@ public class AppointmentController implements Initializable {
         if (result.get() == ButtonType.OK) {
             System.exit(0);
         }
+    }
+
+    @FXML
+    public void monthRadioButtonHandler(ActionEvent event) throws SQLException {
+
+        ZonedDateTime currentMonth = ZonedDateTime.now();
+        ZonedDateTime oneMonthOut = ZonedDateTime.now().plusMonths(1);
+
+        if(monthRadioButton.isSelected()) {
+            appointmentTableView.setItems(AppointmentDB.getAllMonthlyAppointments(currentMonth, oneMonthOut));
+        }
+    }
+
+    @FXML
+    public void weekRadioButtonHandler(ActionEvent event) throws SQLException {
+
+        ZonedDateTime currentDay = ZonedDateTime.now();
+        ZonedDateTime sevenDaysOut = ZonedDateTime.now().plusDays(7);
+
+        if(weekRadioButton.isSelected()) {
+            appointmentTableView.setItems(AppointmentDB.getAllMonthlyAppointments(currentDay, sevenDaysOut));
+        }
+    }
+
+    @FXML
+    public void allAppointmentsRadioButtonHandler(ActionEvent event) throws SQLException {
+
+            if(allRadioButton.isSelected()) {
+                appointmentTableView.setItems(AppointmentDB.getAllAppointments());
+            }
     }
 
     @Override
