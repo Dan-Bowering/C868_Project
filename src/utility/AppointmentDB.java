@@ -94,7 +94,7 @@ public class AppointmentDB {
     }
 
     public static ObservableList<Appointment> getAllWeeklyAppointments(ZonedDateTime currentDay,
-                                                                        ZonedDateTime sevenDaysOut) throws SQLException {
+                                                                       ZonedDateTime sevenDaysOut) throws SQLException {
 
         ObservableList<Appointment> allWeeklyAppointments = FXCollections.observableArrayList();
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -202,7 +202,6 @@ public class AppointmentDB {
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ps.setInt(1, appointmentId);
             ps.execute();
-            ps.close();
             return true;
 
         } catch (SQLException e) {

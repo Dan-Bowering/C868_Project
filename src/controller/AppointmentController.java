@@ -165,11 +165,13 @@ public class AppointmentController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Alert");
         alert.setContentText("Are you sure you want to exit the program? Any unsaved changes will be lost.");
-        Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.get() == ButtonType.OK) {
-            System.exit(0);
-        }
+        // Lambda expression used to handle the alert response for exiting the program
+        alert.showAndWait().ifPresent((result) -> {
+            if (result == ButtonType.OK) {
+                System.exit(0);
+            }
+        });
     }
 
     @FXML
@@ -201,6 +203,31 @@ public class AppointmentController implements Initializable {
                 appointmentTableView.setItems(AppointmentDB.getAllAppointments());
             }
     }
+
+    @FXML
+    public void logoutButtonHandler(ActionEvent event) {
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Alert");
+        alert.setContentText("Are you sure you want to logout?");
+
+        // Lambda expression used to handle  the alert response to logging out of the program
+        alert.showAndWait().ifPresent((result) -> {
+            if (result == ButtonType.OK) {
+                Parent main = null;
+                try {
+                    main = FXMLLoader.load(getClass().getResource("/view/LoginForm.fxml"));
+                    Scene scene = new Scene(main);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

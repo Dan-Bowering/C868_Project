@@ -11,9 +11,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.UserLogin;
 import utility.AppointmentDB;
 import utility.UserDB;
 
+import java.beans.beancontext.BeanContext;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -33,7 +35,6 @@ public class LoginController implements Initializable {
     @FXML private Label zoneIdLabel;
     @FXML private Button loginButton;
     @FXML private Button exitButton;
-    @FXML ToggleGroup appointmentToggleGroup;
 
     private String loginErrorTitle;
     private String loginErrorMessage;
@@ -51,7 +52,6 @@ public class LoginController implements Initializable {
         String loginPassword = passwordTextField.getText();
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-
         // Validates credentials and sets the stage for the main appointment screen
         if (UserDB.validateLogin(loginUsername, loginPassword)) {
 
@@ -61,6 +61,8 @@ public class LoginController implements Initializable {
             stage.setTitle("Main Screen");
             stage.setScene(scene);
             stage.show();
+
+            UserLogin.logUserActivity(loginUsername, Boolean.TRUE);
 
             // Checks if any appointments are scheduled within the next 15 minutes and displays accordingly
             ObservableList<Appointment> nextAppointment = AppointmentDB.getAppointmentsIn15Minutes();
@@ -95,6 +97,8 @@ public class LoginController implements Initializable {
             alert.showAndWait();
             usernameTextField.clear();
             passwordTextField.clear();
+
+            UserLogin.logUserActivity(loginUsername, Boolean.FALSE);
         }
     }
 
@@ -108,11 +112,13 @@ public class LoginController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Alert");
         alert.setContentText("Are you sure you want to exit the program?");
-        Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.get() == ButtonType.OK) {
-            System.exit(0);
-        }
+        // Lambda expression used to handle the alert response for exiting the program
+        alert.showAndWait().ifPresent((result) -> {
+            if (result == ButtonType.OK) {
+                System.exit(0);
+            }
+        });
     }
 
     @Override

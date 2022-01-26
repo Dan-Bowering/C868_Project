@@ -41,5 +41,6 @@
       <Button layoutX="411.0" layoutY="465.0" mnemonicParsing="false" onAction="#updateAppointmentHandler" text="Update Appointment" />
       <Button layoutX="549.0" layoutY="465.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="Delete Appointment" />
       <Button layoutX="854.0" layoutY="465.0" mnemonicParsing="false" onAction="#reportsButtonHandler" prefHeight="25.0" prefWidth="82.0" text="Reports" />
+      <Button layoutX="802.0" layoutY="519.0" mnemonicParsing="false" onAction="#logoutButtonHandler" prefHeight="25.0" prefWidth="71.0" text="Logout" />
    </children>
 </AnchorPane>

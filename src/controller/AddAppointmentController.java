@@ -97,7 +97,7 @@ public class AddAppointmentController implements Initializable {
     }
 
     /**
-     * Navigates back to the main Appointments table without saving chaanges
+     * Navigates back to the main Appointments table without saving changes
      * @param event
      */@FXML
     public void cancelButtonHandler(ActionEvent event) throws IOException {
@@ -158,8 +158,8 @@ public class AddAppointmentController implements Initializable {
         try {
             contactComboBox.setItems(ContactDB.getAllContactNames());
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

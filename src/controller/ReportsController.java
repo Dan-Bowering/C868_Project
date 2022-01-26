@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +21,7 @@ public class ReportsController implements Initializable {
         ObservableList<String> reportResults = AppointmentDB.appointmentsByTypeAndMonth();
 
         reportTextArea.setText(String.valueOf(reportResults));
+
     }
 
     @FXML
@@ -34,7 +34,5 @@ public class ReportsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
-
 }
