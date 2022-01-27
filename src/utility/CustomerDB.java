@@ -20,6 +20,7 @@ public class CustomerDB {
 
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
+        // SQL query and execute to a result set
         try {
             String sql = "SELECT c.Customer_ID, c.Customer_Name, c.Address, c.Postal_Code, c.Phone, c.Division_ID, " +
                     "f.Division, f.Country_ID, co.Country FROM customers as c INNER JOIN first_level_divisions " +
@@ -27,6 +28,7 @@ public class CustomerDB {
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
+            // Get data to use in constructor
             while(rs.next()){
                 int customerId = rs.getInt("Customer_ID");
                 String customerName = rs.getString("Customer_Name");
@@ -36,6 +38,7 @@ public class CustomerDB {
                 String division = rs.getString("Division");
                 String country = rs.getString("Country");
 
+                // Add new Customer object with data from query
                 Customer c = new Customer(customerId, customerName, address, postalCode, phone, division, country);
                 allCustomers.add(c);
             }
@@ -46,9 +49,20 @@ public class CustomerDB {
         return allCustomers;
     }
 
+    /**
+     * Inserts a customer to the DB.
+     * @param customerName
+     * @param address
+     * @param postalCode
+     * @param phone
+     * @param country
+     * @param divisionId
+     * @throws SQLException
+     */
     public static void addCustomer(String customerName, String address, String postalCode, String phone,
                                    String country, int divisionId) throws SQLException {
 
+        // SQL query, format time for input to match DB, and execute
         try {
             String sql = "INSERT INTO customers VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -71,9 +85,20 @@ public class CustomerDB {
         }
     }
 
+    /**
+     * Updates a customer in the DB.
+     * @param customerName
+     * @param address
+     * @param postalCode
+     * @param phone
+     * @param division
+     * @param customerId
+     * @throws SQLException
+     */
     public static void updateCustomer(String customerName, String address, String postalCode, String phone,
                                       String division, int customerId) throws SQLException {
 
+        // SQL query, format time for input to match DB, and execute
         try {
             String sql = "UPDATE customers SET Customer_Name=?, Address=?, Postal_Code=?, Phone=?, Last_Update=?," +
                     " Last_Updated_By=?, Division_ID=? WHERE Customer_ID=?";
@@ -97,26 +122,16 @@ public class CustomerDB {
         }
     }
 
+    /**
+     * Deletes a customer from the DB.
+     * @param customerId
+     * @return
+     * @throws SQLException
+     */
     public static Boolean deleteCustomer(int customerId) throws SQLException {
 
         try {
             String sql = "DELETE FROM customers WHERE Customer_ID=?";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ps.setInt(1, customerId);
-            ps.execute();
-            ps.close();
-            return true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public static Boolean deleteAssociatedAppointments(int customerId) throws SQLException {
-
-        try {
-            String sql = "DELETE FROM appointments WHERE Customer_ID=?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ps.setInt(1, customerId);
             ps.execute();

@@ -14,6 +14,7 @@ public class Customer {
     private String country;
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
+    // Customer class constructor
     public Customer(int customerId, String customerName, String address, String postalCode, String phone,
                     String division, String country) {
         this.customerId = customerId;
@@ -25,7 +26,7 @@ public class Customer {
         this.country = country;
     }
 
-
+    // ********** Setters and Getters **********//
     public int getCustomerId() {
         return customerId;
     }

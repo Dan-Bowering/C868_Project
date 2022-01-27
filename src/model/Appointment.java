@@ -20,7 +20,7 @@ public class Appointment {
     private int contactId;
     private String contactName;
 
-
+    // Appointment class constructor
     public Appointment(int appointmentId, String title, String description, String location, String type,
                        Timestamp start, Timestamp end, Timestamp createDate, String createBy,
                        Timestamp lastUpdateTime, String lastUpdateBy, int customerId, int userId, int contactId,
@@ -42,6 +42,7 @@ public class Appointment {
         this.contactName = contactName;
     }
 
+    // ********** Setters and Getters **********//
     public int getAppointmentId() {
         return appointmentId;
     }

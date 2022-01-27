@@ -13,7 +13,6 @@ import model.Appointment;
 import utility.AppointmentDB;
 import utility.ContactDB;
 import utility.UserDB;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -43,7 +42,7 @@ public class UpdateAppointmentController implements Initializable {
 
     /**
      * Saves the new appointment information entered into the
-     * add appointment form.
+     * Add Appointment form.
      * @param event
      * @throws IOException
      * @throws SQLException
@@ -51,6 +50,7 @@ public class UpdateAppointmentController implements Initializable {
     @FXML
     public void saveUpdateAppointmentButtonHandler(ActionEvent event) throws IOException, SQLException {
 
+        // Get the appointment input
         int appointmentId = Integer.parseInt(appointmentIdTextField.getText());
         String title = titleTextField.getText();
         String description = descriptionTextField.getText();
@@ -71,7 +71,7 @@ public class UpdateAppointmentController implements Initializable {
         ZonedDateTime utcZoneStart = zdtStart.withZoneSameInstant(ZoneOffset.UTC);
         ZonedDateTime utcZoneEnd = zdtEnd.withZoneSameInstant(ZoneOffset.UTC);
 
-        // Sends an error message for failing appointment time validation
+        // Displays an error message for failing business hours validation
         if (!withinBusinessHours(zdtStart, zdtEnd, startDate, endDate)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -80,7 +80,7 @@ public class UpdateAppointmentController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
         }
 
-        // Sends an error message if updated date/time overlaps an existing appointment date/time
+        // Displays an error message if updated date/time overlaps an existing appointment date/time
         else if (!AppointmentDB.overlappingAppointments(customerId, startLocalDateTime, endLocalDateTime)) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
@@ -90,7 +90,7 @@ public class UpdateAppointmentController implements Initializable {
         }
 
         else {
-            // Add appointment to DB
+            // Add appointment to the DB
             AppointmentDB.updateAppointment(appointmentId, title, description, location, type, utcZoneStart,
                     utcZoneEnd, customerId, ContactDB.getContactId(contact));
 
@@ -106,18 +106,25 @@ public class UpdateAppointmentController implements Initializable {
 
     /**
      * Checks that the appointment is within hours of operation (8AM-10PM EST)
-     *
+     * @param zdtStart
+     * @param zdtEnd
+     * @param startDate
+     * @param endDate
      */
     public static boolean withinBusinessHours(ZonedDateTime zdtStart, ZonedDateTime zdtEnd, LocalDate startDate,
                                               LocalDate endDate) {
 
+        // Get the proposed appointment times in the user's Time Zone
         ZonedDateTime startZDT = ZonedDateTime.of(LocalDateTime.from(zdtStart), UserDB.getUserTimeZone());
         ZonedDateTime endZDT = ZonedDateTime.of(LocalDateTime.from(zdtEnd), UserDB.getUserTimeZone());
+
+        // Set a range for the hours of operation
         ZonedDateTime startBusinessHours = ZonedDateTime.of(startDate, LocalTime.of(8, 0),
                 ZoneId.of("America/Detroit"));
         ZonedDateTime endBusinessHours = ZonedDateTime.of(endDate, LocalTime.of(22, 0),
                 ZoneId.of("America/Detroit"));
 
+        // Compare proposed appointment times versus business hours in EST
         if (startZDT.isBefore(startBusinessHours) || endZDT.isAfter(endBusinessHours) ||
                 endZDT.isBefore(startZDT)) {
             return false;
@@ -128,7 +135,7 @@ public class UpdateAppointmentController implements Initializable {
     }
 
     /**
-     * Navigates back to the main Appointments table without saving changes
+     * Navigates back to the main Appointments table without saving changes.
      * @param event
      */@FXML
     public void cancelButtonHandler(ActionEvent event) throws IOException {
@@ -176,7 +183,6 @@ public class UpdateAppointmentController implements Initializable {
         startDatePicker.setValue((appointmentToUpdate.getStart().toLocalDateTime().toLocalDate()));
         endDatePicker.setValue((appointmentToUpdate.getStart().toLocalDateTime().toLocalDate()));
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

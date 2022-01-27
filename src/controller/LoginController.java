@@ -14,8 +14,6 @@ import model.Appointment;
 import model.UserLogin;
 import utility.AppointmentDB;
 import utility.UserDB;
-
-import java.beans.beancontext.BeanContext;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -41,15 +39,19 @@ public class LoginController implements Initializable {
 
     /**
      * Checks the login credentials and launches the appointment screen
-     * if the credential check passes, otherwise, throws an error.
+     * if the credential check passes, otherwise, throws an error. Writes
+     * date, username, and success/fail of login to a .txt file.
      * @param event
      * @throws IOException
+     * @throws SQLException
      */
     @FXML
     public void loginButtonHandler(ActionEvent event) throws IOException, SQLException {
-       
+
+        // Get the user input
         String loginUsername = usernameTextField.getText();
         String loginPassword = passwordTextField.getText();
+
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         // Validates credentials and sets the stage for the main appointment screen
@@ -62,6 +64,7 @@ public class LoginController implements Initializable {
             stage.setScene(scene);
             stage.show();
 
+            // Writes login info to .txt file
             UserLogin.logUserActivity(loginUsername, Boolean.TRUE);
 
             // Checks if any appointments are scheduled within the next 15 minutes and displays accordingly
@@ -98,6 +101,7 @@ public class LoginController implements Initializable {
             usernameTextField.clear();
             passwordTextField.clear();
 
+            // Writes login info to .txt file
             UserLogin.logUserActivity(loginUsername, Boolean.FALSE);
         }
     }
@@ -113,7 +117,7 @@ public class LoginController implements Initializable {
         alert.setTitle("Alert");
         alert.setContentText("Are you sure you want to exit the program?");
 
-        // Lambda expression used to handle the alert response for exiting the program
+        // Lambda expression used to simplify the alert response for exiting the program
         alert.showAndWait().ifPresent((result) -> {
             if (result == ButtonType.OK) {
                 System.exit(0);
@@ -136,5 +140,4 @@ public class LoginController implements Initializable {
         loginErrorMessage = rb.getString("loginErrorMessage");
         zoneIdLabel.setText(Calendar.getInstance().getTimeZone().getID());
     }
-
 }

@@ -11,10 +11,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Customer;
+import utility.AppointmentDB;
 import utility.CountryDB;
 import utility.CustomerDB;
 import utility.DivisionDB;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -47,16 +47,17 @@ public class CustomerController implements Initializable {
     }
 
     /**
-     * Saves the customer data entered in the editable fields when
-     * the Save button is clicked.
+     * Gets the selected customer from the tableview and sends the data to
+     * the editable fields on the screen for updating.
      * @param event
-     * @throws IOException
      */
     @FXML
-    public void updateCustomerButtonHandler(ActionEvent event) throws IOException {
+    public void updateCustomerButtonHandler(ActionEvent event) {
 
+        // Get selected customer
         customerToUpdate = customerTableView.getSelectionModel().getSelectedItem();
 
+        // Displays an error message if no customer is selected
         if (customerToUpdate == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
@@ -64,6 +65,7 @@ public class CustomerController implements Initializable {
             alert.showAndWait();
         }
 
+        // Sets the editable fields with the appropriate customer data
         else {
             customerIdTextField.setText(String.valueOf(customerToUpdate().getCustomerId()));
             customerNameTextField.setText(String.valueOf(customerToUpdate().getCustomerName()));
@@ -83,6 +85,7 @@ public class CustomerController implements Initializable {
     @FXML
     public void saveButtonHandler(ActionEvent event) throws SQLException {
 
+        // Get the user input
         String customerName = customerNameTextField.getText();
         String address = addressTextField.getText();
         String postalCode = postalCodeTextField.getText();
@@ -90,8 +93,10 @@ public class CustomerController implements Initializable {
         String division = divisionComboBox.getValue();
         int customerId = Integer.parseInt(customerIdTextField.getText());
 
+        // Update the customer info in the DB
         CustomerDB.updateCustomer(customerName, address, postalCode, phone, division, customerId);
 
+        // Update the tableview
         customerTableView.setItems(CustomerDB.getAllCustomers());
     }
 
@@ -100,7 +105,7 @@ public class CustomerController implements Initializable {
      * @param event
      */
     @FXML
-    public void clearButtonHandler(ActionEvent event) throws SQLException {
+    public void clearButtonHandler(ActionEvent event) {
         customerIdTextField.clear();
         customerNameTextField.clear();
         addressTextField.clear();
@@ -113,7 +118,7 @@ public class CustomerController implements Initializable {
     }
 
     /**
-     * Navigates back to the main Appointments table without saving chaanges
+     * Navigates back to the main Appointments screen without saving changes.
      * @param event
      */@FXML
     public void backToAppointmentsHandler(ActionEvent event) throws IOException {
@@ -144,7 +149,7 @@ public class CustomerController implements Initializable {
     }
 
     /**
-     * Navigates to the Add Customer form when the Add New Customer
+     * Navigates to the Add Customer form when the "Add New Customer"
      * button is clicked.
      * @param event
      * @throws IOException
@@ -162,13 +167,16 @@ public class CustomerController implements Initializable {
 
     /**
      * Deletes a customer from the the DB/Customer List.
-     * @param
+     * @param event
+     * @throws SQLException
      */
     @FXML
     public void deleteCustomerButtonHandler(ActionEvent event) throws SQLException {
 
+        // Get the selected customer
         customerToDelete = customerTableView.getSelectionModel().getSelectedItem();
 
+        // Displays an error message if no customer is selected
         if (customerToDelete == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
@@ -176,6 +184,7 @@ public class CustomerController implements Initializable {
             alert.showAndWait();
         }
 
+        // Customer confirmation alert indicating appointments will be deleted as well
         else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Alert");
@@ -183,10 +192,13 @@ public class CustomerController implements Initializable {
                                 "? All associated appointments will be deleted as well.");
             Optional<ButtonType> result = alert.showAndWait();
 
+            // Deletes appointments first, then customer from the DB
             if (result.get() == ButtonType.OK) {
-                CustomerDB.deleteAssociatedAppointments(customerToDelete.getCustomerId());
+                AppointmentDB.deleteAssociatedAppointments(customerToDelete.getCustomerId());
                 CustomerDB.deleteCustomer(customerToDelete.getCustomerId());
             }
+
+            // Updates the tableview
             customerTableView.setItems(CustomerDB.getAllCustomers());
         }
     }
@@ -206,6 +218,12 @@ public class CustomerController implements Initializable {
             System.exit(0);
         }
     }
+
+    /**
+     * Determines which division list to populate based on which country is selected.
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     public void countrySelected(ActionEvent event) throws SQLException {
 
@@ -220,9 +238,10 @@ public class CustomerController implements Initializable {
         }
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        // Set the customer tableview
         customerTableView.setItems(CustomerDB.getAllCustomers());
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -232,6 +251,7 @@ public class CustomerController implements Initializable {
         countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
+        // Set all countries in the ComboBox
         try {
             countryComboBox.setItems(CountryDB.getAllCountries());
 

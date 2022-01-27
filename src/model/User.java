@@ -7,11 +7,13 @@ public class User {
     private int userId;
     private String username;
 
+    //User class constructor
     public User(int userId, String username) {
         this.userId = userId;
         this.username = username;
     }
 
+    // ********** Setters and Getters **********//
     public int getUserId() {
         return userId;
     }

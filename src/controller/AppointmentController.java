@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,9 +44,9 @@ public class AppointmentController implements Initializable {
     }
 
     /**
-     * Switches to the customer list screen when "view customer list"
-     * is clicked.
+     * Switches to the Customer screen when "view customer list" button is clicked.
      * @param event
+     * @throws IOException
      */
     @FXML
     void viewCustomerListHandler(ActionEvent event) throws IOException {
@@ -102,8 +101,10 @@ public class AppointmentController implements Initializable {
         loader.setLocation(getClass().getResource("../view/UpdateAppointment.fxml"));
         loader.load();
 
+        // Get the selected appointment
         appointmentToUpdate = appointmentTableView.getSelectionModel().getSelectedItem();
 
+        // Display an error if no selection is made
         if (appointmentToUpdate == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
@@ -111,6 +112,7 @@ public class AppointmentController implements Initializable {
             alert.showAndWait();
         }
 
+        // Take selected appointment and pass data to Update Appointment form
         else {
             UpdateAppointmentController uac = loader.getController();
             uac.sendAppointment(appointmentToUpdate);
@@ -125,13 +127,15 @@ public class AppointmentController implements Initializable {
     /**
      * Deletes the selected appointment from the appointment table.
      * @param event
-     * @throws IOException
+     * @throws SQLException
      */
     @FXML
-    public void deleteAppointmentButtonHandler(ActionEvent event) throws IOException, SQLException {
+    public void deleteAppointmentButtonHandler(ActionEvent event) throws SQLException {
 
+        // Get the selected appointment
         appointmentToDelete = appointmentTableView.getSelectionModel().getSelectedItem();
 
+        // Displays error message if no selection is made
         if (appointmentToDelete == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
@@ -139,6 +143,7 @@ public class AppointmentController implements Initializable {
             alert.showAndWait();
         }
 
+        // Custom confirmation alert indicating what appointment will be deleted
         else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Alert");
@@ -147,13 +152,13 @@ public class AppointmentController implements Initializable {
 
             Optional<ButtonType> result = alert.showAndWait();
 
+            // Deletes appointment from DB and updates the tableview
             if (result.get() == ButtonType.OK) {
                 AppointmentDB.deleteAppointment(appointmentToDelete.getAppointmentId());
             }
             appointmentTableView.setItems(AppointmentDB.getAllAppointments());
         }
     }
-
 
     /**
      * Exits the program when the Exit button is clicked.
@@ -166,7 +171,7 @@ public class AppointmentController implements Initializable {
         alert.setTitle("Alert");
         alert.setContentText("Are you sure you want to exit the program? Any unsaved changes will be lost.");
 
-        // Lambda expression used to handle the alert response for exiting the program
+        // Lambda expression used to simplify the alert response for exiting the program
         alert.showAndWait().ifPresent((result) -> {
             if (result == ButtonType.OK) {
                 System.exit(0);
@@ -174,6 +179,12 @@ public class AppointmentController implements Initializable {
         });
     }
 
+    /**
+     * Updates the tableview to display appointments for the month
+     * if the "current month" radio button is selected.
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     public void monthRadioButtonHandler(ActionEvent event) throws SQLException {
 
@@ -185,6 +196,12 @@ public class AppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Updates the tableview to display appointments for the week
+     * if the "current week" radio button is selected.
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     public void weekRadioButtonHandler(ActionEvent event) throws SQLException {
 
@@ -196,14 +213,23 @@ public class AppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Updates the tableview to display all appointments if the "all appointments"
+     * radio button is selected.
+     * @param event
+     */
     @FXML
-    public void allAppointmentsRadioButtonHandler(ActionEvent event) throws SQLException {
+    public void allAppointmentsRadioButtonHandler(ActionEvent event) {
 
             if(allRadioButton.isSelected()) {
                 appointmentTableView.setItems(AppointmentDB.getAllAppointments());
             }
     }
 
+    /**
+     * Logs the user out of the application and send them back to the Login Form.
+     * @param event
+     */
     @FXML
     public void logoutButtonHandler(ActionEvent event) {
 
@@ -211,7 +237,7 @@ public class AppointmentController implements Initializable {
         alert.setTitle("Alert");
         alert.setContentText("Are you sure you want to logout?");
 
-        // Lambda expression used to handle  the alert response to logging out of the program
+        // Lambda expression used to simplify the alert response to logging out of the program
         alert.showAndWait().ifPresent((result) -> {
             if (result == ButtonType.OK) {
                 Parent main = null;
@@ -228,9 +254,10 @@ public class AppointmentController implements Initializable {
         });
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        // Set the appointments tableview
         appointmentTableView.setItems(AppointmentDB.getAllAppointments());
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));

@@ -6,13 +6,14 @@ public class Division {
     private String division;
     private int countryId;
 
+    // Division class constructor
     public Division(int divisionId,String division, int countryId) {
         this.divisionId = divisionId;
         this.division = division;
         this.countryId = countryId;
     }
 
-
+    // ********** Setters and Getters **********//
     public int getDivisionId() {
         return divisionId;
     }

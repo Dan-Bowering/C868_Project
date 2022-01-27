@@ -5,11 +5,13 @@ public class Country {
     private int countryId;
     private String country;
 
+    // Country class constructor
     public Country(int countryId,String country) {
         this.countryId = countryId;
         this.country = country;
     }
 
+    // ********** Setters and Getters **********//
     public int getCountryId() {
         return countryId;
     }

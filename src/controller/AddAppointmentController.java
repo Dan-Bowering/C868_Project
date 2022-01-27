@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -35,8 +34,7 @@ public class AddAppointmentController implements Initializable {
     @FXML DatePicker endDatePicker;
 
     /**
-     * Saves the new appointment information entered into the
-     * add appointment form.
+     * Saves the new appointment information entered into the Add Appointment form.
      * @param event
      * @throws IOException
      * @throws SQLException
@@ -44,6 +42,7 @@ public class AddAppointmentController implements Initializable {
     @FXML
     public void saveAddAppointmentButtonHandler(ActionEvent event) throws IOException, SQLException {
 
+        // Get user input
         String title = titleTextField.getText();
         String description = descriptionTextField.getText();
         String location = locationTextField.getText();
@@ -72,7 +71,7 @@ public class AddAppointmentController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
         }
 
-        // Sends an error message if updated date/time overlaps an existing appointment date/time
+        // Sends a warning message if updated date/time overlaps an existing appointment date/time
         else if (!AppointmentDB.overlappingAppointments(customerId, startLocalDateTime, endLocalDateTime)) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
@@ -82,7 +81,7 @@ public class AddAppointmentController implements Initializable {
         }
 
         else {
-            // Add appointment to DB
+            // No overlapping appointments - add appointment to DB
             AppointmentDB.addAppointment(title, description, location, type, utcZoneStart,
                     utcZoneEnd, customerId, ContactDB.getContactId(contact));
 
@@ -97,9 +96,10 @@ public class AddAppointmentController implements Initializable {
     }
 
     /**
-     * Navigates back to the main Appointments table without saving changes
+     * Navigates back to the main Appointments table without saving changes.
      * @param event
-     */@FXML
+     */
+    @FXML
     public void cancelButtonHandler(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Alert");
@@ -128,19 +128,25 @@ public class AddAppointmentController implements Initializable {
     }
 
     /**
-     * Checks that the appointment is within hours of operation (8AM-10PM EST)
-     *
+     * Checks that the appointment is within hours of operation (8AM-10PM EST).
+     * @param zdtStart
+     * @param zdtEnd
+     * @param startDate
+     * @param endDate
      */
     public static boolean withinBusinessHours(ZonedDateTime zdtStart, ZonedDateTime zdtEnd, LocalDate startDate,
                                               LocalDate endDate) {
-
+        // Get the proposed appointment times in the user's Time Zone
         ZonedDateTime startZDT = ZonedDateTime.of(LocalDateTime.from(zdtStart), UserDB.getUserTimeZone());
         ZonedDateTime endZDT = ZonedDateTime.of(LocalDateTime.from(zdtEnd), UserDB.getUserTimeZone());
+
+        // Set a range for the hours of operation
         ZonedDateTime startBusinessHours = ZonedDateTime.of(startDate, LocalTime.of(8, 0),
                 ZoneId.of("America/Detroit"));
         ZonedDateTime endBusinessHours = ZonedDateTime.of(endDate, LocalTime.of(22, 0),
                 ZoneId.of("America/Detroit"));
 
+        // Compare proposed appointment times versus business hours in EST
         if (startZDT.isBefore(startBusinessHours) || endZDT.isAfter(endBusinessHours) ||
                 endZDT.isBefore(startZDT)) {
             return false;
@@ -149,7 +155,6 @@ public class AddAppointmentController implements Initializable {
             return true;
         }
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

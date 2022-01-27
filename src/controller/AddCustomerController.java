@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import utility.CountryDB;
 import utility.CustomerDB;
 import utility.DivisionDB;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -33,12 +32,15 @@ public class AddCustomerController implements Initializable {
     @FXML TextField phoneTextField;
 
     /**
-     * Saves the added customer information and updates the table view.
+     * Saves the newly added customer information and updates the table view.
      * @param event
+     * @throws SQLException
+     * @throws IOException
      */
     @FXML
     public void saveAddCustomerHandler(ActionEvent event) throws SQLException, IOException {
 
+        // Get the input
         String customerName = customerNameTextField.getText();
         String address = addressTextField.getText();
         String postalCode = postalCodeTextField.getText();
@@ -46,8 +48,10 @@ public class AddCustomerController implements Initializable {
         String country = countryComboBox.getValue();
         String division = divisionComboBox.getValue();
 
+        // Add to the DB
         CustomerDB.addCustomer(customerName, address, postalCode, phone, country, DivisionDB.getDivisionId(division));
 
+        // Set the stage to refresh the tableview
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerScreen.fxml"));
         Scene scene = new Scene(root, 1000, 520);
@@ -56,6 +60,11 @@ public class AddCustomerController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Determines which division list to populate based on which country is selected.
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     public void countrySelected(ActionEvent event) throws SQLException {
 
@@ -71,9 +80,11 @@ public class AddCustomerController implements Initializable {
     }
 
     /**
-     * Navigates back to the main Appointments table without saving chaanges
+     * Navigates back to the main Appointments table without saving changes.
      * @param event
-     */@FXML
+     * @throws IOException
+     */
+    @FXML
     public void cancelButtonHandler(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Alert");
@@ -86,7 +97,7 @@ public class AddCustomerController implements Initializable {
     }
 
     /**
-     * Returns to the customer list screen.
+     * Returns to the Customer screen.
      * @param event
      * @throws IOException
      */
@@ -104,6 +115,7 @@ public class AddCustomerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // Set all countries in the ComboBox
         try {
             countryComboBox.setItems(CountryDB.getAllCountries());
         } catch (SQLException throwables) {

@@ -13,7 +13,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import utility.AppointmentDB;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -24,15 +23,25 @@ public class ReportsController implements Initializable {
 
     @FXML TextArea reportTextArea;
 
+    /**
+     * Displays a report showing the total number of customer
+     * appointments by type and month.
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     public void totalAppointmentsByType(ActionEvent event) throws SQLException {
 
         ObservableList<String> reportResults = AppointmentDB.appointmentsByTypeAndMonth();
 
         reportTextArea.setText(String.valueOf(reportResults));
-
     }
 
+    /**
+     * Displays a report showing appointments for each contact in the organization.
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     public void totalAppointmentsByContact(ActionEvent event) throws SQLException {
 
@@ -41,6 +50,11 @@ public class ReportsController implements Initializable {
         reportTextArea.setText(String.valueOf(reportResults));
     }
 
+    /**
+     * Displays a report that shows any customers who have no appointments scheduled.
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     public void customersNeedFollowUpHandler(ActionEvent event) throws SQLException {
 
@@ -50,7 +64,7 @@ public class ReportsController implements Initializable {
     }
 
     /**
-     * Navigates back to the main Appointments table
+     * Navigates back to the main Appointments screen.
      * @param event
      */@FXML
     public void backToAppointmentsHandler(ActionEvent event) throws IOException {
