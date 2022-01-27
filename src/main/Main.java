@@ -7,6 +7,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * @author Dan Bowering
+ * C195 - Software II
+ * WGU Student ID#: 000811635
+ * JavaDocs folder is located in "C195 Project/src/JavaDoc
+ *
+ *
+ * The main class of the program.
+ */
 public class Main extends Application {
 
     @Override
@@ -18,7 +27,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * The main method of the program.
+     * @param args
+     */
     public static void main(String[] args) {
 
         JDBC.makeConnection();

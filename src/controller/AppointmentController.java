@@ -161,7 +161,9 @@ public class AppointmentController implements Initializable {
     }
 
     /**
-     * Exits the program when the Exit button is clicked.
+     * Exits the program when the Exit button is clicked.  I used Lambda
+     * expression to simplify the code required to handle the alert displayed
+     * when exiting the program.
      * @param event
      */
     @FXML
@@ -227,7 +229,8 @@ public class AppointmentController implements Initializable {
     }
 
     /**
-     * Logs the user out of the application and send them back to the Login Form.
+     * Logs the user out of the application and send them back to the Login Form. I used Lambda
+     * expression to simplify the code required to handle the alert displayed when logging out.
      * @param event
      */
     @FXML
