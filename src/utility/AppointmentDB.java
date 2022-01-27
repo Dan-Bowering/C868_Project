@@ -323,4 +323,21 @@ public class AppointmentDB {
         return appointmentByContactList;
     }
 
+    public static ObservableList<String> customersNeedFollowUp() throws SQLException {
+
+        ObservableList<String> followupList = FXCollections.observableArrayList();
+
+        String sql = "SELECT customers.Customer_ID, customers.Customer_Name, Phone FROM customers LEFT JOIN appointments " +
+                "ON customers.Customer_ID = appointments.Customer_ID WHERE appointments.Customer_ID IS NULL";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()) {
+            followupList.add("Customer ID: " + rs.getString("Customer_ID") + "  |  Customer Name: " +
+                    rs.getString("Customer_Name") + "  |  Phone: " + rs.getString("Phone") +
+                    "\n");
+        }
+        return followupList;
+    }
+
 }

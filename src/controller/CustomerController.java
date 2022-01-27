@@ -128,7 +128,7 @@ public class CustomerController implements Initializable {
     }
 
     /**
-     * Returns to the main screen.
+     * Loads to the main appointment screen.
      * @param event
      * @throws IOException
      */
