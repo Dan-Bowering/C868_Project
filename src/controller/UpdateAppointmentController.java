@@ -30,6 +30,7 @@ public class UpdateAppointmentController implements Initializable {
     @FXML TextField startTimeTextField;
     @FXML TextField endTimeTextField;
     @FXML TextField customerIdTextField;
+    @FXML TextField userIdTextField;
     @FXML ComboBox<String> contactComboBox;
     @FXML DatePicker startDatePicker;
     @FXML DatePicker endDatePicker;
@@ -62,6 +63,7 @@ public class UpdateAppointmentController implements Initializable {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
         String contact = contactComboBox.getValue();
+        int userId = Integer.parseInt(userIdTextField.getText());
 
         // Convert date and time into LocalDateTime objects, ZoneDateTime objects, then to UTC
         LocalDateTime startLocalDateTime = LocalDateTime.of(startDate, LocalTime.parse(startTime));
@@ -92,7 +94,7 @@ public class UpdateAppointmentController implements Initializable {
         else {
             // Add appointment to the DB
             AppointmentDB.updateAppointment(appointmentId, title, description, location, type, utcZoneStart,
-                    utcZoneEnd, customerId, ContactDB.getContactId(contact));
+                    utcZoneEnd, customerId, ContactDB.getContactId(contact), userId);
 
             // Set the stage - Appointment Screen
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -180,6 +182,7 @@ public class UpdateAppointmentController implements Initializable {
         endTimeTextField.setText(String.valueOf(appointmentToUpdate.getEnd().toLocalDateTime().toLocalTime()));
         customerIdTextField.setText(String.valueOf(appointmentToUpdate.getCustomerId()));
         contactComboBox.setValue(String.valueOf(appointmentToUpdate.getContactName()));
+        userIdTextField.setText(String.valueOf(appointmentToUpdate.getUserId()));
         startDatePicker.setValue((appointmentToUpdate.getStart().toLocalDateTime().toLocalDate()));
         endDatePicker.setValue((appointmentToUpdate.getStart().toLocalDateTime().toLocalDate()));
     }

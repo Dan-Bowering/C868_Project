@@ -29,6 +29,7 @@ public class AddAppointmentController implements Initializable {
     @FXML TextField startTimeTextField;
     @FXML TextField endTimeTextField;
     @FXML TextField customerIdTextField;
+    @FXML TextField userIdTextField;
     @FXML ComboBox<String> contactComboBox;
     @FXML DatePicker startDatePicker;
     @FXML DatePicker endDatePicker;
@@ -53,6 +54,7 @@ public class AddAppointmentController implements Initializable {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
         String contact = contactComboBox.getValue();
+        int userId = Integer.parseInt(userIdTextField.getText());
 
         // Convert date and time into LocalDateTime objects, ZoneDateTime objects, then to UTC
         LocalDateTime startLocalDateTime = LocalDateTime.of(startDate, LocalTime.parse(startTime));
@@ -83,7 +85,7 @@ public class AddAppointmentController implements Initializable {
         else {
             // No overlapping appointments - add appointment to DB
             AppointmentDB.addAppointment(title, description, location, type, utcZoneStart,
-                    utcZoneEnd, customerId, ContactDB.getContactId(contact));
+                    utcZoneEnd, customerId, ContactDB.getContactId(contact), userId);
 
             // Set the stage - Appointment Screen
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

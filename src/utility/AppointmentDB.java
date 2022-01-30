@@ -177,7 +177,7 @@ public class AppointmentDB {
      */
     public static void addAppointment(String title, String description, String location, String type,
                                       ZonedDateTime utcZoneStart, ZonedDateTime utcZoneEnd, int customerId,
-                                      int contactId) throws SQLException {
+                                      int contactId, int userId) throws SQLException {
 
         // SQL query, format time for input to match DB, and execute
         try {
@@ -196,7 +196,7 @@ public class AppointmentDB {
             ps.setString(9, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
             ps.setString(10, UserDB.getCurrentUser().getUsername());
             ps.setInt(11, customerId);
-            ps.setInt(12, UserDB.getCurrentUser().getUserId());
+            ps.setInt(12, userId);
             ps.setInt(13, contactId);
 
             ps.execute();
@@ -221,7 +221,7 @@ public class AppointmentDB {
      */
     public static void updateAppointment(int appointmentId, String title, String description, String location, String type,
                                          ZonedDateTime utcZoneStart, ZonedDateTime utcZoneEnd, int customerId,
-                                         int contactId) throws SQLException {
+                                         int contactId, int userId) throws SQLException {
 
         // SQL query, format time for input to match DB, and execute
         try {
@@ -240,7 +240,7 @@ public class AppointmentDB {
             ps.setString(7, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
             ps.setString(8, UserDB.getCurrentUser().getUsername());
             ps.setInt(9, customerId);
-            ps.setInt(10, UserDB.getCurrentUser().getUserId());
+            ps.setInt(10, userId);
             ps.setInt(11, contactId);
             ps.setInt(12, appointmentId);
 
