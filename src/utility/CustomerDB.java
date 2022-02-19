@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class CustomerDB {
 
     /**
-     * Gets a list of all all customers from the DB.
+     * Gets a list of all customers from the DB.
      * @return allCustomers
      */
     public static ObservableList<Customer> getAllCustomers() {

@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +36,7 @@ public class AppointmentController implements Initializable {
     @FXML RadioButton monthRadioButton;
     @FXML RadioButton weekRadioButton;
     @FXML RadioButton allRadioButton;
+    @FXML TextField searchTextField;
 
 
     public static Appointment appointmentToUpdate = null;
@@ -41,6 +44,84 @@ public class AppointmentController implements Initializable {
 
     public static Appointment getAppointmentToUpdate() {
         return appointmentToUpdate;
+    }
+
+    /**
+     * Performs the appointment search when the search button is clicked.
+     * @param actionEvent
+     */
+    @FXML
+    public void searchButtonHandler (ActionEvent actionEvent) {
+
+        String appointmentTitleSearched = searchTextField.getText();
+        ObservableList<Appointment> appointmentSearched = lookupAppointmentTitle(appointmentTitleSearched);
+
+        try {
+
+            if (appointmentSearched.size() == 0) {
+                int appointmentId = Integer.parseInt(appointmentTitleSearched);
+                Appointment appointment = lookupAppointmentId(appointmentId);
+                if (appointment != null)
+                    appointmentSearched.add(appointment);
+                else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("INFORMATION");
+                    alert.setContentText("Your search criteria did not match an existing appointments. Please try again.");
+                    Optional<ButtonType> result = alert.showAndWait();
+
+                    if (result.get() == ButtonType.OK) {
+                        searchTextField.setText("");
+                    }
+                }
+            }
+            appointmentTableView.setItems(appointmentSearched);
+            searchTextField.setText("");
+        }
+        catch(NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("INFORMATION");
+            alert.setContentText("Your search criteria did not match an existing appointments. Please try again.");
+            alert.showAndWait();
+            searchTextField.setText("");
+        }
+    }
+
+    /**
+     * Loops through the Appointments list to perform a text-based search for a matching
+     * appointment title.
+     * @param appointmentTitleSearched
+     * @return appointmentFound
+     */
+    private ObservableList<Appointment> lookupAppointmentTitle (String appointmentTitleSearched) {
+
+        ObservableList<Appointment> appointmentFound = FXCollections.observableArrayList();
+        ObservableList<Appointment> allAppointments = AppointmentDB.getAllAppointments();
+
+        for (Appointment appointment : allAppointments) {
+            if (appointment.getTitle().contains(appointmentTitleSearched)) {
+                appointmentFound.add(appointment);
+            }
+        }
+        return appointmentFound;
+    }
+
+    /**
+     * Loops through the Appointments list to perform an integer-based search for matching
+     * appointment ID.
+     * @param appointmentId
+     * @return part
+     * @return null
+     */
+    private Appointment lookupAppointmentId (int appointmentId) {
+
+        ObservableList<Appointment> allAppointments = AppointmentDB.getAllAppointments();
+
+        for (Appointment appointment : allAppointments) {
+            if (appointment.getAppointmentId() == appointmentId) {
+                return appointment;
+            }
+        }
+        return null;
     }
 
     /**
