@@ -3,6 +3,8 @@ package utility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
+import model.ReportOne;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -392,9 +394,9 @@ public class AppointmentDB {
      * @return appointmentList
      * @throws SQLException
      */
-    public static ObservableList<String> appointmentsByTypeAndMonth() throws SQLException {
+    public static ObservableList<ReportOne> appointmentsByTypeAndMonth() throws SQLException {
 
-        ObservableList<String> appointmentList = FXCollections.observableArrayList();
+        ObservableList<ReportOne> reportList = FXCollections.observableArrayList();
 
         // SQL query and execute to a result set
         String sql = "SELECT Type, monthname(Start) as 'Month', count(Type) as 'Type Total' " +
@@ -404,12 +406,19 @@ public class AppointmentDB {
 
         // Add query results to list in a string for report display
         while(rs.next()) {
-            appointmentList.add("Type: " + rs.getString("Type") + "  |  Month: " +
-                    rs.getString("Month") + "  |  Type Total: " + rs.getString("Type Total") +
-                    "\n");
+            String type = rs.getString("Type");
+            String month = rs.getString("Month");
+            int total = rs.getInt("Type Total");
+
+            // Add new Appointment object with data from query
+            ReportOne r = new ReportOne(type, month, total);
+
+            reportList.add(r);
         }
-        return appointmentList;
+
+        return reportList;
     }
+
 
     /**
      * Query to return all appointments by contact ID.

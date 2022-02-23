@@ -99,7 +99,7 @@ public class UpdateAppointmentController implements Initializable {
             // Set the stage - Appointment Screen
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentScreen.fxml"));
-            Scene scene = new Scene(root, 1000, 520);
+            Scene scene = new Scene(root, 1000, 600);
             stage.setTitle("Main Screen");
             stage.setScene(scene);
             stage.show();

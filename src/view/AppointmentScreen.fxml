@@ -43,12 +43,11 @@
       <Button layoutX="549.0" layoutY="499.0" mnemonicParsing="false" onAction="#deleteAppointmentButtonHandler" text="Delete Appointment" />
       <Button layoutX="854.0" layoutY="499.0" mnemonicParsing="false" onAction="#reportsButtonHandler" prefHeight="25.0" prefWidth="82.0" text="Reports" />
       <Button layoutX="802.0" layoutY="553.0" mnemonicParsing="false" onAction="#logoutButtonHandler" prefHeight="25.0" prefWidth="71.0" text="Logout" />
-      <TextField fx:id="searchTextField" layoutX="133.0" layoutY="60.0" prefHeight="25.0" prefWidth="180.0" promptText="Enter appointment ID/Title...">
+      <TextField fx:id="searchTextField" layoutX="11.0" layoutY="60.0" prefHeight="25.0" prefWidth="180.0" promptText="Enter appointment ID/Title...">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </TextField>
-      <Label layoutX="14.0" layoutY="64.0" text="Search Appointments:" />
-      <Button layoutX="320.0" layoutY="60.0" mnemonicParsing="false" onAction="#searchButtonHandler" text="Search" />
+      <Button layoutX="202.0" layoutY="60.0" mnemonicParsing="false" onAction="#searchButtonHandler" text="Search" />
    </children>
 </AnchorPane>

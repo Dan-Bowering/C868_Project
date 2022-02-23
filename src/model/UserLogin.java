@@ -7,10 +7,14 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class UserLogin {
+public class UserLogin extends User {
 
     // Create the .txt file to write to
     public static String filename = "login_activity.txt";
+
+    public UserLogin(int userId, String username) {
+        super(userId, username);
+    }
 
     /**
      * Writes the date, username, and login success/fail status to the .txt file.

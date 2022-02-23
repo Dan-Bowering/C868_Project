@@ -8,20 +8,28 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Appointment;
+import model.ReportOne;
 import utility.AppointmentDB;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ReportsController implements Initializable {
 
-    @FXML TextArea reportTextArea;
+    @FXML TableView reportsTableView;
+    @FXML TableColumn reportColumnOne;
+    @FXML TableColumn reportColumnTwo;
+    @FXML TableColumn reportColumnThree;
+    @FXML TableColumn reportColumnFour;
+    @FXML TableColumn reportColumnFive;
+    @FXML Label reportTitleLabel;
 
     /**
      * Displays a report showing the total number of customer
@@ -32,9 +40,17 @@ public class ReportsController implements Initializable {
     @FXML
     public void totalAppointmentsByType(ActionEvent event) throws SQLException {
 
-        ObservableList<String> reportResults = AppointmentDB.appointmentsByTypeAndMonth();
+        // Set the report title and column headers
+        reportTitleLabel.setText("Appointments by Type and Month");
+        reportColumnOne.setText("Type");
+        reportColumnTwo.setText("Month");
+        reportColumnThree.setText("Total");
 
-        reportTextArea.setText(String.valueOf(reportResults));
+        // Populate the report information
+        reportColumnOne.setCellValueFactory(new PropertyValueFactory<>("type"));
+        reportColumnTwo.setCellValueFactory(new PropertyValueFactory<>("month"));
+        reportColumnThree.setCellValueFactory(new PropertyValueFactory<>("total"));
+        reportsTableView.setItems(AppointmentDB.appointmentsByTypeAndMonth());
     }
 
     /**
@@ -47,7 +63,7 @@ public class ReportsController implements Initializable {
 
         ObservableList<String> reportResults = AppointmentDB.appointmentsByContactId();
 
-        reportTextArea.setText(String.valueOf(reportResults));
+       // reportTextArea.setText(String.valueOf(reportResults));
     }
 
     /**
@@ -60,7 +76,7 @@ public class ReportsController implements Initializable {
 
         ObservableList<String> reportResults = AppointmentDB.customersNeedFollowUp();
 
-        reportTextArea.setText(String.valueOf(reportResults));
+      //  reportTextArea.setText(String.valueOf(reportResults));
     }
 
     /**

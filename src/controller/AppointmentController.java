@@ -109,7 +109,7 @@ public class AppointmentController implements Initializable {
      * Loops through the Appointments list to perform an integer-based search for matching
      * appointment ID.
      * @param appointmentId
-     * @return part
+     * @return appointment
      * @return null
      */
     private Appointment lookupAppointmentId (int appointmentId) {
