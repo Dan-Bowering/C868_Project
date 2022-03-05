@@ -40,6 +40,11 @@ public class ReportsController implements Initializable {
     @FXML
     public void totalAppointmentsByType(ActionEvent event) throws SQLException {
 
+        // Reset TableView and hide/show proper amount of columns
+        reportsTableView.refresh();
+        reportColumnFour.setVisible(false);
+        reportColumnFive.setVisible(false);
+
         // Set the report title and column headers
         reportTitleLabel.setText("Appointments by Type and Month");
         reportColumnOne.setText("Type");
@@ -61,22 +66,53 @@ public class ReportsController implements Initializable {
     @FXML
     public void totalAppointmentsByContact(ActionEvent event) throws SQLException {
 
-        ObservableList<String> reportResults = AppointmentDB.appointmentsByContactId();
+        // Reset TableView and hide/show proper amount of columns
+        reportsTableView.refresh();
+        reportColumnFour.setVisible(true);
+        reportColumnFive.setVisible(true);
 
-       // reportTextArea.setText(String.valueOf(reportResults));
+        // Set the report title and column headers
+        reportTitleLabel.setText("Appointments by Contact");
+        reportColumnOne.setText("Appointment ID");
+        reportColumnTwo.setText("Type");
+        reportColumnThree.setText("Start Date");
+        reportColumnFour.setText("End Date");
+        reportColumnFive.setText("Contact ID");
+
+
+        // Populate the report information
+        reportColumnOne.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        reportColumnTwo.setCellValueFactory(new PropertyValueFactory<>("type"));
+        reportColumnThree.setCellValueFactory(new PropertyValueFactory<>("start"));
+        reportColumnFour.setCellValueFactory(new PropertyValueFactory<>("end"));
+        reportColumnFive.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+        reportsTableView.setItems(AppointmentDB.appointmentsByContactId());
     }
 
     /**
-     * Displays a report that shows any customers who have no appointments scheduled.
+     * Displays a report that shows any students who have no appointments scheduled.
      * @param event
      * @throws SQLException
      */
     @FXML
-    public void customersNeedFollowUpHandler(ActionEvent event) throws SQLException {
+    public void studentsNeedFollowUpHandler(ActionEvent event) throws SQLException {
 
-        ObservableList<String> reportResults = AppointmentDB.customersNeedFollowUp();
+        // Reset TableView and hide/show proper amount of columns
+        reportsTableView.refresh();
+        reportColumnFour.setVisible(false);
+        reportColumnFive.setVisible(false);
 
-      //  reportTextArea.setText(String.valueOf(reportResults));
+        // Set the report title and column headers
+        reportTitleLabel.setText("Students Need Follow-up");
+        reportColumnOne.setText("Student ID");
+        reportColumnTwo.setText("Name");
+        reportColumnThree.setText("Phone");
+
+        // Populate the report information
+        reportColumnOne.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        reportColumnTwo.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        reportColumnThree.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        reportsTableView.setItems(AppointmentDB.studentsNeedFollowUp());
     }
 
     /**

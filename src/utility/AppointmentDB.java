@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
 import model.ReportOne;
+import model.ReportThree;
+import model.ReportTwo;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -425,9 +427,9 @@ public class AppointmentDB {
      * @return
      * @throws SQLException
      */
-    public static ObservableList<String> appointmentsByContactId() throws SQLException {
+    public static ObservableList<ReportTwo> appointmentsByContactId() throws SQLException {
 
-        ObservableList<String> appointmentByContactList = FXCollections.observableArrayList();
+        ObservableList<ReportTwo> reportList = FXCollections.observableArrayList();
 
         // SQL query and execute to a result set
         String sql = "SELECT Appointment_ID, Title, Type, Description, Start, End, Customer_ID, Contact_ID " +
@@ -437,16 +439,19 @@ public class AppointmentDB {
 
         // Add query results to list in a string for report display
         while(rs.next()) {
-            appointmentByContactList.add("Appointment ID: " + rs.getString("Appointment_ID") +
-                                        " | Title: " + rs.getString("Title") +
-                                        " | Type: " + rs.getString("Type") +
-                                        " | Description: " + rs.getString("Description") +
-                                        " | Start: " + rs.getString("Start") +
-                                        " | End: " + rs.getString("End") +
-                                        " | Customer ID: " + rs.getString("Customer_ID") +
-                                        " | Contact ID: " + rs.getString("Contact_ID") + "\n");
+            int appointmentId = rs.getInt("Appointment_ID");
+            String type = rs.getString("Type");
+            Timestamp start = rs.getTimestamp("Start");
+            Timestamp end = rs.getTimestamp("End");
+            int contactId = rs.getInt("Contact_ID");
+
+            // Add new Appointment object with data from query
+            ReportTwo r = new ReportTwo(appointmentId, type, start, end, contactId);
+
+            reportList.add(r);
+
         }
-        return appointmentByContactList;
+        return reportList;
     }
 
     /**
@@ -455,9 +460,9 @@ public class AppointmentDB {
      * @return followupList
      * @throws SQLException
      */
-    public static ObservableList<String> customersNeedFollowUp() throws SQLException {
+    public static ObservableList<ReportThree> studentsNeedFollowUp() throws SQLException {
 
-        ObservableList<String> followupList = FXCollections.observableArrayList();
+        ObservableList<ReportThree> reportList = FXCollections.observableArrayList();
 
         // SQL query and execute to a result set
         String sql = "SELECT customers.Customer_ID, customers.Customer_Name, Phone FROM customers LEFT JOIN appointments " +
@@ -467,11 +472,16 @@ public class AppointmentDB {
 
         // Add query results to list in a string for report display
         while(rs.next()) {
-            followupList.add("Customer ID: " + rs.getString("Customer_ID") + "  |  Customer Name: " +
-                    rs.getString("Customer_Name") + "  |  Phone: " + rs.getString("Phone") +
-                    "\n");
+            int customerId = rs.getInt("Customer_ID");
+            String name = rs.getString("Customer_Name");
+            String phone = rs.getString("Phone");
+
+            // Add new Appointment object with data from query
+            ReportThree r = new ReportThree(customerId, name, phone);
+
+            reportList.add(r);
         }
-        return followupList;
+        return reportList;
     }
 
 }

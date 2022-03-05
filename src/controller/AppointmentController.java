@@ -163,7 +163,7 @@ public class AppointmentController implements Initializable {
     public void reportsButtonHandler(ActionEvent event) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsScreen.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 700, 475);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Reports");
         stage.setScene(scene);
