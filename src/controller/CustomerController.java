@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Customer;
+import model.Student;
 import utility.AppointmentDB;
 import utility.CountryDB;
 import utility.CustomerDB;
@@ -31,6 +32,8 @@ public class CustomerController implements Initializable {
     @FXML TableColumn<Customer, String> stateProvinceColumn;
     @FXML TableColumn<Customer, String> countryColumn;
     @FXML TableColumn<Customer, String> phoneColumn;
+    @FXML TableColumn<Customer, Integer> studentIdColumn;
+    @FXML TableColumn<Customer, Integer> instructorIdColumn;
     @FXML TextField customerIdTextField;
     @FXML TextField customerNameTextField;
     @FXML TextField addressTextField;
@@ -65,7 +68,7 @@ public class CustomerController implements Initializable {
             alert.showAndWait();
         }
 
-        // Sets the editable fields with the appropriate customer data
+        // Sets the editable fields with the appropriate student data
         else {
             customerIdTextField.setText(String.valueOf(customerToUpdate().getCustomerId()));
             customerNameTextField.setText(String.valueOf(customerToUpdate().getCustomerName()));
@@ -250,6 +253,8 @@ public class CustomerController implements Initializable {
         stateProvinceColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
         countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("studentId"));
+        instructorIdColumn.setCellValueFactory(new PropertyValueFactory<>("instructorId"));
 
         // Set all countries in the ComboBox
         try {

@@ -2,14 +2,11 @@ package model;
 
 public class Student extends Customer{
 
-    private int studentId;
-    private String name;
+    private static int studentId = 1000;
 
-    public Student(int customerId, String customerName, String address, String postalCode, String phone,
-                   String division, String country, int studentId, String name) {
-        super(customerId, customerName, address, postalCode, phone, division, country);
-        this.studentId = studentId;
-        this.name = name;
+    public Student(int customerId, String customerName, String address, String postalCode, String phone, int studentId,
+                   int instructorId, String division, String country) {
+        super(customerId, customerName, address, postalCode, phone, studentId, instructorId, division, country);
     }
 
     public int getStudentId() {
@@ -20,11 +17,7 @@ public class Student extends Customer{
         this.studentId = studentId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public static int getNewStudentId() {
+        return ++studentId;
     }
 }

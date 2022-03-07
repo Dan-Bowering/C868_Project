@@ -10,18 +10,22 @@ public class Customer {
     private String address;
     private String postalCode;
     private String phone;
+    private int studentId;
+    private int instructorId;
     private String division;
     private String country;
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
     // Customer class constructor
     public Customer(int customerId, String customerName, String address, String postalCode, String phone,
-                    String division, String country) {
+                    int studentId, int instructorId, String division, String country) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
         this.postalCode = postalCode;
         this.phone = phone;
+        this.studentId = studentId;
+        this.instructorId = instructorId;
         this.division = division;
         this.country = country;
     }
@@ -85,5 +89,21 @@ public class Customer {
 
     public static void addCustomer(Customer newCustomer) {
         allCustomers.add(newCustomer);
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public int getInstructorId() {
+        return instructorId;
+    }
+
+    public void setInstructorId(int instructorId) {
+        this.instructorId = instructorId;
     }
 }
