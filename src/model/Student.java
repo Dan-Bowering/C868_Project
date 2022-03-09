@@ -1,5 +1,9 @@
 package model;
 
+import utility.CustomerDB;
+
+import java.sql.SQLException;
+
 public class Student extends Customer{
 
     private static int studentId = 1000;
@@ -17,7 +21,8 @@ public class Student extends Customer{
         this.studentId = studentId;
     }
 
-    public static int getNewStudentId() {
-        return ++studentId;
+    public static int getNewStudentId() throws SQLException {
+        CustomerDB.getStudentId();
+        return studentId++;
     }
 }

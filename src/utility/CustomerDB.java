@@ -15,6 +15,7 @@ public class CustomerDB {
 
     /**
      * Gets a list of all customers from the DB.
+     *
      * @return allCustomers
      */
     public static ObservableList<Customer> getAllCustomers() {
@@ -31,7 +32,7 @@ public class CustomerDB {
             ResultSet rs = ps.executeQuery();
 
             // Get data to use in constructor
-            while(rs.next()){
+            while (rs.next()) {
                 int customerId = rs.getInt("Customer_ID");
                 String customerName = rs.getString("Customer_Name");
                 String address = rs.getString("Address");
@@ -47,8 +48,7 @@ public class CustomerDB {
                         instructorId, division, country);
                 allCustomers.add(c);
             }
-        }
-        catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return allCustomers;
@@ -56,6 +56,7 @@ public class CustomerDB {
 
     /**
      * Inserts a student into the DB.
+     *
      * @param customerName
      * @param address
      * @param postalCode
@@ -65,7 +66,7 @@ public class CustomerDB {
      * @throws SQLException
      */
     public static void addStudent(String customerName, String address, String postalCode, String phone,
-                                   String country, int divisionId, int studentId) throws SQLException {
+                                  String country, int divisionId, int studentId) throws SQLException {
 
         // SQL query, format time for input to match DB, and execute
         try {
@@ -87,13 +88,14 @@ public class CustomerDB {
 
             ps.execute();
 
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
     /**
      * Inserts an instructor into the DB.
+     *
      * @param customerName
      * @param address
      * @param postalCode
@@ -104,7 +106,7 @@ public class CustomerDB {
      * @throws SQLException
      */
     public static void addInstructor(String customerName, String address, String postalCode, String phone,
-                                  String country, int divisionId, int instructorId) throws SQLException {
+                                     String country, int divisionId, int instructorId) throws SQLException {
 
         // SQL query, format time for input to match DB, and execute
         try {
@@ -126,13 +128,14 @@ public class CustomerDB {
 
             ps.execute();
 
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
     /**
      * Updates a customer in the DB.
+     *
      * @param customerName
      * @param address
      * @param postalCode
@@ -170,6 +173,7 @@ public class CustomerDB {
 
     /**
      * Deletes a customer from the DB.
+     *
      * @param customerId
      * @return
      * @throws SQLException
@@ -188,5 +192,19 @@ public class CustomerDB {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static int getStudentId() throws SQLException {
+
+        int maxStudentId = 0;
+
+        String sql = "SELECT max(Student_ID) FROM customers";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            maxStudentId = rs.getInt("Student_ID");
+        }
+            return maxStudentId;
+
     }
 }

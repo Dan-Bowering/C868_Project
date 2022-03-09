@@ -2,7 +2,7 @@ package model;
 
 public class CourseInstructor extends Customer{
 
-    private static int instructorId = 100;
+    private static int instructorId;
 
     public CourseInstructor(int customerId, String customerName, String address, String postalCode, String phone,
                             int studentId, int instructorId, String division, String country) {
@@ -18,6 +18,6 @@ public class CourseInstructor extends Customer{
     }
 
     public static int getNewInstructorId() {
-        return ++instructorId;
+        return instructorId++;
     }
 }

@@ -46,32 +46,41 @@ public class AddCustomerController implements Initializable {
     @FXML
     public void saveAddCustomerHandler(ActionEvent event) throws SQLException, IOException {
 
-        // Get the input
-        String customerName = customerNameTextField.getText();
-        String address = addressTextField.getText();
-        String postalCode = postalCodeTextField.getText();
-        String phone = phoneTextField.getText();
-        String country = countryComboBox.getValue();
-        String division = divisionComboBox.getValue();
+        try {
+            // Get the input
+            String customerName = customerNameTextField.getText();
+            String address = addressTextField.getText();
+            String postalCode = postalCodeTextField.getText();
+            String phone = phoneTextField.getText();
+            String country = countryComboBox.getValue();
+            String division = divisionComboBox.getValue();
 
-        // Add to the DB if a student is being added
-        if (studentRadioButton.isSelected()) {
-            CustomerDB.addStudent(customerName, address, postalCode, phone, country,
-                    DivisionDB.getDivisionId(division), Student.getNewStudentId());
+            // Add to the DB if a student is being added
+            if (studentRadioButton.isSelected()) {
+                CustomerDB.addStudent(customerName, address, postalCode, phone, country,
+                        DivisionDB.getDivisionId(division), Student.getNewStudentId());
 
-        // Add to the DB if an instructor is being added
-        } else if (instructorRadioButton.isSelected()) {
-            CustomerDB.addInstructor(customerName, address, postalCode, phone, country,
-                    DivisionDB.getDivisionId(division), CourseInstructor.getNewInstructorId());
+                // Add to the DB if an instructor is being added
+            } else if (instructorRadioButton.isSelected()) {
+                CustomerDB.addInstructor(customerName, address, postalCode, phone, country,
+                        DivisionDB.getDivisionId(division), CourseInstructor.getNewInstructorId());
+            }
+
+            // Set the stage to refresh the tableview
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerScreen.fxml"));
+            Scene scene = new Scene(root, 1000, 520);
+            stage.setTitle("Main Screen");
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("Please enter valid values in each field.");
+            alert.showAndWait();
+
         }
-
-        // Set the stage to refresh the tableview
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerScreen.fxml"));
-        Scene scene = new Scene(root, 1000, 520);
-        stage.setTitle("Main Screen");
-        stage.setScene(scene);
-        stage.show();
     }
 
     /**
