@@ -38,9 +38,11 @@ public class CustomerController implements Initializable {
     @FXML TextField customerNameTextField;
     @FXML TextField addressTextField;
     @FXML TextField postalCodeTextField;
+    @FXML TextField studentInstructorIdTextField;
+    @FXML TextField phoneTextField;
+    @FXML Label studentInstructorLabel;
     @FXML ComboBox<String> countryComboBox;
     @FXML ComboBox<String> divisionComboBox;
-    @FXML TextField phoneTextField;
 
     private static Customer customerToUpdate = null;
     private static Customer customerToDelete = null;
@@ -69,14 +71,32 @@ public class CustomerController implements Initializable {
         }
 
         // Sets the editable fields with the appropriate student data
-        else {
+        else if (customerToUpdate().getStudentId() != 0){
             customerIdTextField.setText(String.valueOf(customerToUpdate().getCustomerId()));
+            studentInstructorIdTextField.setText(String.valueOf(customerToUpdate().getStudentId()));
             customerNameTextField.setText(String.valueOf(customerToUpdate().getCustomerName()));
             addressTextField.setText(String.valueOf(customerToUpdate().getAddress()));
             postalCodeTextField.setText(String.valueOf(customerToUpdate().getPostalCode()));
             countryComboBox.setValue(String.valueOf(customerToUpdate().getCountry()));
             divisionComboBox.setValue(String.valueOf(customerToUpdate().getDivision()));
             phoneTextField.setText(String.valueOf(customerToUpdate().getPhone()));
+
+            // Sets the Student ID/Instructor ID label appropriately
+            studentInstructorLabel.setText("Student ID");
+        }
+
+        else {
+            customerIdTextField.setText(String.valueOf(customerToUpdate().getCustomerId()));
+            studentInstructorIdTextField.setText(String.valueOf(customerToUpdate().getInstructorId()));
+            customerNameTextField.setText(String.valueOf(customerToUpdate().getCustomerName()));
+            addressTextField.setText(String.valueOf(customerToUpdate().getAddress()));
+            postalCodeTextField.setText(String.valueOf(customerToUpdate().getPostalCode()));
+            countryComboBox.setValue(String.valueOf(customerToUpdate().getCountry()));
+            divisionComboBox.setValue(String.valueOf(customerToUpdate().getDivision()));
+            phoneTextField.setText(String.valueOf(customerToUpdate().getPhone()));
+
+            // Sets the Student ID/Instructor ID label appropriately
+            studentInstructorLabel.setText("Instructor ID");
         }
     }
 
@@ -110,6 +130,7 @@ public class CustomerController implements Initializable {
     @FXML
     public void clearButtonHandler(ActionEvent event) {
         customerIdTextField.clear();
+        studentInstructorIdTextField.clear();
         customerNameTextField.clear();
         addressTextField.clear();
         postalCodeTextField.clear();
@@ -240,6 +261,7 @@ public class CustomerController implements Initializable {
             divisionComboBox.setItems(DivisionDB.getAllCanadaDivisions());
         }
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

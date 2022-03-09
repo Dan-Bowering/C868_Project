@@ -133,7 +133,7 @@ public class AppointmentController implements Initializable {
     void viewCustomerListHandler(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerScreen.fxml"));
-        Scene scene = new Scene(root, 1000, 520);
+        Scene scene = new Scene(root, 1200, 520);
         stage.setTitle("Main Screen");
         stage.setScene(scene);
         stage.show();
