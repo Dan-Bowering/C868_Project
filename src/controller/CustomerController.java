@@ -130,15 +130,12 @@ public class CustomerController implements Initializable {
     @FXML
     public void clearButtonHandler(ActionEvent event) {
         customerIdTextField.clear();
-        studentInstructorComboBox.getSelectionModel().clearSelection();
-        studentInstructorComboBox.getPromptText();
+        studentInstructorComboBox.setValue(studentInstructorComboBox.getPromptText());
         customerNameTextField.clear();
         addressTextField.clear();
         postalCodeTextField.clear();
-        countryComboBox.getSelectionModel().clearSelection();
-        countryComboBox.getPromptText();
-        divisionComboBox.getSelectionModel().clearSelection();
-        divisionComboBox.getPromptText();
+        countryComboBox.setValue(countryComboBox.getPromptText());
+        divisionComboBox.setValue(divisionComboBox.getPromptText());
         phoneTextField.clear();
     }
 
