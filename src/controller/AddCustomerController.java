@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 public class AddCustomerController implements Initializable {
 
     @FXML TextField customerIdTextField;
-    @FXML TextField studentInstructorIdTextField;
+    @FXML ComboBox<String> studentInstructorComboBox;
     @FXML TextField customerNameTextField;
     @FXML TextField addressTextField;
     @FXML TextField postalCodeTextField;
@@ -48,6 +48,7 @@ public class AddCustomerController implements Initializable {
 
         try {
             // Get the input
+            String studentInstructorId = studentInstructorComboBox.getValue();
             String customerName = customerNameTextField.getText();
             String address = addressTextField.getText();
             String postalCode = postalCodeTextField.getText();
@@ -55,15 +56,27 @@ public class AddCustomerController implements Initializable {
             String country = countryComboBox.getValue();
             String division = divisionComboBox.getValue();
 
+            // Validate no fields are empty
+            if (customerNameTextField.getText().isEmpty() || addressTextField.getText().isEmpty() ||
+                    postalCodeTextField.getText().isEmpty() || phoneTextField.getText().isEmpty() ||
+                    countryComboBox.getValue().isEmpty() || divisionComboBox.getValue().isEmpty()) {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setContentText("Please enter valid values in each field.");
+                alert.showAndWait();
+                addNewCustomerButtonHandler(event);
+            }
+
             // Add to the DB if a student is being added
-            if (studentRadioButton.isSelected()) {
+            else if (studentRadioButton.isSelected()) {
                 CustomerDB.addStudent(customerName, address, postalCode, phone, country,
-                        DivisionDB.getDivisionId(division), Student.getNewStudentId());
+                        DivisionDB.getDivisionId(division), CustomerDB.getStudentId(studentInstructorId));
 
                 // Add to the DB if an instructor is being added
             } else if (instructorRadioButton.isSelected()) {
                 CustomerDB.addInstructor(customerName, address, postalCode, phone, country,
-                        DivisionDB.getDivisionId(division), CourseInstructor.getNewInstructorId());
+                        DivisionDB.getDivisionId(division), CustomerDB.getInstructorId(studentInstructorId));
             }
 
             // Set the stage to refresh the tableview
@@ -79,7 +92,7 @@ public class AddCustomerController implements Initializable {
             alert.setTitle("ERROR");
             alert.setContentText("Please enter valid values in each field.");
             alert.showAndWait();
-
+            addNewCustomerButtonHandler(event);
         }
     }
 
@@ -88,10 +101,11 @@ public class AddCustomerController implements Initializable {
      * @param event
      * @throws IOException
      */
-    public void instructorIsSelected(ActionEvent event) throws IOException {
+    public void instructorIsSelected(ActionEvent event) throws IOException, SQLException {
 
         isStudent = false;
-        studentInstructorLabel.setText("Instructor ID");
+        studentInstructorLabel.setText("Instructor Program");
+        studentInstructorComboBox.setItems(CustomerDB.getAllInstructors());
     }
 
     /**
@@ -99,10 +113,11 @@ public class AddCustomerController implements Initializable {
      * @param event
      * @throws IOException
      */
-    public void studentIsSelected(ActionEvent event) throws IOException {
+    public void studentIsSelected(ActionEvent event) throws IOException, SQLException {
 
         isStudent = true;
-        studentInstructorLabel.setText("Student ID");
+        studentInstructorLabel.setText("Student Program");
+        studentInstructorComboBox.setItems(CustomerDB.getAllStudents());
     }
 
     /**
@@ -153,6 +168,23 @@ public class AddCustomerController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Customer List");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
+     * Navigates to the Add Customer form when the "Add New Customer"
+     * button is clicked.
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    public void addNewCustomerButtonHandler(ActionEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomerForm.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Add Customer");
         stage.setScene(scene);
         stage.show();
     }

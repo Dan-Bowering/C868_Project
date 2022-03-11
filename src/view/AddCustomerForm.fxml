@@ -16,18 +16,17 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="studentInstructorLabel" layoutX="110.0" layoutY="152.0" text="Student ID" />
-      <TextField fx:id="studentInstructorIdTextField" disable="true" editable="false" layoutX="201.0" layoutY="147.0" promptText="auto-generated..." />
-      <Label layoutX="110.0" layoutY="189.0" text="Customer Name" />
+      <Label fx:id="studentInstructorLabel" layoutX="95.0" layoutY="152.0" text="Student Program" />
+      <Label layoutX="95.0" layoutY="189.0" text="Customer Name" />
       <TextField fx:id="customerNameTextField" layoutX="201.0" layoutY="184.0" />
-      <Label layoutX="110.0" layoutY="229.0" text="Address" />
+      <Label layoutX="95.0" layoutY="229.0" text="Address" />
       <TextField fx:id="addressTextField" layoutX="201.0" layoutY="224.0" />
-      <Label layoutX="110.0" layoutY="269.0" text="Postal Code" />
+      <Label layoutX="95.0" layoutY="269.0" text="Postal Code" />
       <TextField fx:id="postalCodeTextField" layoutX="201.0" layoutY="264.0" />
-      <Label layoutX="110.0" layoutY="389.0" text="Phone" />
+      <Label layoutX="95.0" layoutY="389.0" text="Phone" />
       <TextField fx:id="phoneTextField" layoutX="201.0" layoutY="384.0" />
-      <Label layoutX="110.0" layoutY="309.0" text="Country" />
-      <Label layoutX="110.0" layoutY="349.0" text="Division" />
+      <Label layoutX="95.0" layoutY="309.0" text="Country" />
+      <Label layoutX="95.0" layoutY="349.0" text="Division" />
       <ComboBox fx:id="countryComboBox" layoutX="201.0" layoutY="304.0" onAction="#countrySelected" prefWidth="150.0" promptText="Please select..." />
       <ComboBox fx:id="divisionComboBox" layoutX="201.0" layoutY="344.0" prefWidth="150.0" promptText="Please select..." />
       <Button layoutX="197.0" layoutY="440.0" mnemonicParsing="false" onAction="#saveAddCustomerHandler" prefHeight="25.0" prefWidth="67.0" text="Save" />
@@ -38,7 +37,8 @@
          </toggleGroup>
       </RadioButton>
       <RadioButton fx:id="studentRadioButton" layoutX="330.0" layoutY="49.0" mnemonicParsing="false" onAction="#studentIsSelected" selected="true" text="Student" toggleGroup="$addCustomerToggleGroup" />
-      <Label layoutX="111.0" layoutY="115.0" text="Customer ID" />
+      <Label layoutX="96.0" layoutY="115.0" text="Customer ID" />
       <TextField fx:id="customerIdTextField" disable="true" editable="false" layoutX="202.0" layoutY="110.0" promptText="auto-generated..." />
+      <ComboBox fx:id="studentInstructorComboBox" layoutX="202.0" layoutY="148.0" prefWidth="150.0" promptText="Please select..." />
    </children>
 </AnchorPane>

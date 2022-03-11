@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class Student extends Customer{
 
-    private static int studentId = 1000;
+    private static int studentId;
 
     public Student(int customerId, String customerName, String address, String postalCode, String phone, int studentId,
                    int instructorId, String division, String country) {
@@ -21,8 +21,6 @@ public class Student extends Customer{
         this.studentId = studentId;
     }
 
-    public static int getNewStudentId() throws SQLException {
-        CustomerDB.getStudentId();
-        return studentId++;
-    }
+
+
 }

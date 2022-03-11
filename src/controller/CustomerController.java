@@ -38,7 +38,7 @@ public class CustomerController implements Initializable {
     @FXML TextField customerNameTextField;
     @FXML TextField addressTextField;
     @FXML TextField postalCodeTextField;
-    @FXML TextField studentInstructorIdTextField;
+    @FXML ComboBox<String> studentInstructorComboBox;
     @FXML TextField phoneTextField;
     @FXML Label studentInstructorLabel;
     @FXML ComboBox<String> countryComboBox;
@@ -73,7 +73,7 @@ public class CustomerController implements Initializable {
         // Sets the editable fields with the appropriate student data
         else if (customerToUpdate().getStudentId() != 0){
             customerIdTextField.setText(String.valueOf(customerToUpdate().getCustomerId()));
-            studentInstructorIdTextField.setText(String.valueOf(customerToUpdate().getStudentId()));
+            studentInstructorComboBox.setValue(String.valueOf(customerToUpdate().getStudentId()));
             customerNameTextField.setText(String.valueOf(customerToUpdate().getCustomerName()));
             addressTextField.setText(String.valueOf(customerToUpdate().getAddress()));
             postalCodeTextField.setText(String.valueOf(customerToUpdate().getPostalCode()));
@@ -82,12 +82,12 @@ public class CustomerController implements Initializable {
             phoneTextField.setText(String.valueOf(customerToUpdate().getPhone()));
 
             // Sets the Student ID/Instructor ID label appropriately
-            studentInstructorLabel.setText("Student ID");
+            studentInstructorLabel.setText("Student Program");
         }
 
         else {
             customerIdTextField.setText(String.valueOf(customerToUpdate().getCustomerId()));
-            studentInstructorIdTextField.setText(String.valueOf(customerToUpdate().getInstructorId()));
+            studentInstructorComboBox.setValue(String.valueOf(customerToUpdate().getInstructorId()));
             customerNameTextField.setText(String.valueOf(customerToUpdate().getCustomerName()));
             addressTextField.setText(String.valueOf(customerToUpdate().getAddress()));
             postalCodeTextField.setText(String.valueOf(customerToUpdate().getPostalCode()));
@@ -96,7 +96,7 @@ public class CustomerController implements Initializable {
             phoneTextField.setText(String.valueOf(customerToUpdate().getPhone()));
 
             // Sets the Student ID/Instructor ID label appropriately
-            studentInstructorLabel.setText("Instructor ID");
+            studentInstructorLabel.setText("Instructor Program");
         }
     }
 
@@ -130,7 +130,8 @@ public class CustomerController implements Initializable {
     @FXML
     public void clearButtonHandler(ActionEvent event) {
         customerIdTextField.clear();
-        studentInstructorIdTextField.clear();
+        studentInstructorComboBox.getSelectionModel().clearSelection();
+        studentInstructorComboBox.getPromptText();
         customerNameTextField.clear();
         addressTextField.clear();
         postalCodeTextField.clear();

@@ -38,8 +38,8 @@ public class CustomerDB {
                 String address = rs.getString("Address");
                 String postalCode = rs.getString("Postal_Code");
                 String phone = rs.getString("Phone");
-                Integer studentId = rs.getInt("Student_ID");
-                Integer instructorId = rs.getInt("Instructor_ID");
+                int studentId = rs.getInt("Student_ID");
+                int instructorId = rs.getInt("Instructor_ID");
                 String division = rs.getString("Division");
                 String country = rs.getString("Country");
 
@@ -194,17 +194,81 @@ public class CustomerDB {
         }
     }
 
-    public static int getStudentId() throws SQLException {
+    public static ObservableList<String> getAllStudents() throws SQLException {
 
-        int maxStudentId = 0;
+        ObservableList<String> allStudents = FXCollections.observableArrayList();
 
-        String sql = "SELECT max(Student_ID) FROM customers";
+        // SQL query and execute to a result set
+        String sql = "SELECT DISTINCT Program FROM students";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            maxStudentId = rs.getInt("Student_ID");
-        }
-            return maxStudentId;
 
+        // Add result set to the list
+        while (rs.next()) {
+            allStudents.add(rs.getString("Program"));
+        }
+        return allStudents;
+    }
+
+    /**
+     * Query to return the student ID associated with the program.
+     * @param studentInstructorId
+     * @return studentId
+     * @throws SQLException
+     */
+    public static int getStudentId(String studentInstructorId) throws SQLException {
+
+        int studentId = 0;
+
+        // SQL query and execute to a result set
+        String sql = "SELECT Program, Student_ID FROM students WHERE Program = ?";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ps.setString(1, studentInstructorId);
+        ResultSet rs = ps.executeQuery();
+
+        // Add to the variable and return value
+        while (rs.next()) {
+            studentId = rs.getInt("Student_ID");
+        }
+        return studentId;
+    }
+
+    public static ObservableList<String> getAllInstructors() throws SQLException {
+
+        ObservableList<String> allInstructors = FXCollections.observableArrayList();
+
+        // SQL query and execute to a result set
+        String sql = "SELECT DISTINCT Program FROM instructors";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        // Add result set to the list
+        while (rs.next()) {
+            allInstructors.add(rs.getString("Program"));
+        }
+        return allInstructors;
+    }
+
+    /**
+     * Query to return the student ID associated with the program.
+     * @param studentInstructorId
+     * @return studentId
+     * @throws SQLException
+     */
+    public static int getInstructorId(String studentInstructorId) throws SQLException {
+
+        int instructorId = 0;
+
+        // SQL query and execute to a result set
+        String sql = "SELECT Program, Instructor_ID FROM instructors WHERE Program = ?";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ps.setString(1, studentInstructorId);
+        ResultSet rs = ps.executeQuery();
+
+        // Add to the variable and return value
+        while (rs.next()) {
+            instructorId = rs.getInt("Instructor_ID");
+        }
+        return instructorId;
     }
 }
