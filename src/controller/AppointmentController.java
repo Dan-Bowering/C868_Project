@@ -134,7 +134,7 @@ public class AppointmentController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerScreen.fxml"));
         Scene scene = new Scene(root, 1200, 520);
-        stage.setTitle("Main Screen");
+        stage.setTitle("Customer List");
         stage.setScene(scene);
         stage.show();
     }

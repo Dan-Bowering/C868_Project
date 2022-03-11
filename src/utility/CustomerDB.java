@@ -134,7 +134,7 @@ public class CustomerDB {
     }
 
     /**
-     * Updates a customer in the DB.
+     * Updates a student in the DB.
      *
      * @param customerName
      * @param address
@@ -144,13 +144,13 @@ public class CustomerDB {
      * @param customerId
      * @throws SQLException
      */
-    public static void updateCustomer(String customerName, String address, String postalCode, String phone,
-                                      String division, int customerId) throws SQLException {
+    public static void updateStudent(String customerName, String address, String postalCode, String phone,
+                                      String division, String studentInstructorProgram, int customerId) throws SQLException {
 
         // SQL query, format time for input to match DB, and execute
         try {
             String sql = "UPDATE customers SET Customer_Name=?, Address=?, Postal_Code=?, Phone=?, Last_Update=?," +
-                    " Last_Updated_By=?, Division_ID=? WHERE Customer_ID=?";
+                    " Last_Updated_By=?, Division_ID=?, Student_ID=? WHERE Customer_ID=?";
 
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -162,7 +162,47 @@ public class CustomerDB {
             ps.setString(5, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
             ps.setString(6, UserDB.getCurrentUser().getUsername());
             ps.setInt(7, DivisionDB.getDivisionId(division));
-            ps.setInt(8, customerId);
+            ps.setInt(8, getStudentId(studentInstructorProgram));
+            ps.setInt(9, customerId);
+
+            ps.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    /**
+     * Updates a student in the DB.
+     *
+     * @param customerName
+     * @param address
+     * @param postalCode
+     * @param phone
+     * @param division
+     * @param customerId
+     * @throws SQLException
+     */
+    public static void updateInstructor(String customerName, String address, String postalCode, String phone,
+                                     String division, String studentInstructorProgram, int customerId) throws SQLException {
+
+        // SQL query, format time for input to match DB, and execute
+        try {
+            String sql = "UPDATE customers SET Customer_Name=?, Address=?, Postal_Code=?, Phone=?, Last_Update=?," +
+                    " Last_Updated_By=?, Division_ID=?, Instructor_ID=? WHERE Customer_ID=?";
+
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            ps.setString(1, customerName);
+            ps.setString(2, address);
+            ps.setString(3, postalCode);
+            ps.setString(4, phone);
+            ps.setString(5, ZonedDateTime.now(ZoneOffset.UTC).format(timeFormat));
+            ps.setString(6, UserDB.getCurrentUser().getUsername());
+            ps.setInt(7, DivisionDB.getDivisionId(division));
+            ps.setInt(8, getInstructorId(studentInstructorProgram));
+            ps.setInt(9, customerId);
 
             ps.execute();
 
@@ -233,6 +273,23 @@ public class CustomerDB {
         return studentId;
     }
 
+    public static String getStudentProgram(int studentId) throws SQLException {
+
+        String studentProgram = null;
+
+        // SQL query and execute to a result set
+        String sql = "SELECT Program, Student_ID FROM students WHERE Student_ID = ?";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ps.setInt(1, studentId);
+        ResultSet rs = ps.executeQuery();
+
+        // Add to the variable and return value
+        while (rs.next()) {
+            studentProgram = rs.getString("Program");
+        }
+        return studentProgram;
+    }
+
     public static ObservableList<String> getAllInstructors() throws SQLException {
 
         ObservableList<String> allInstructors = FXCollections.observableArrayList();
@@ -270,5 +327,22 @@ public class CustomerDB {
             instructorId = rs.getInt("Instructor_ID");
         }
         return instructorId;
+    }
+
+    public static String getInstructorProgram(int instructorId) throws SQLException {
+
+        String instructorProgram = null;
+
+        // SQL query and execute to a result set
+        String sql = "SELECT Program, Instructor_ID FROM instructors WHERE Instructor_ID = ?";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+        ps.setInt(1, instructorId);
+        ResultSet rs = ps.executeQuery();
+
+        // Add to the variable and return value
+        while (rs.next()) {
+            instructorProgram = rs.getString("Program");
+        }
+        return instructorProgram;
     }
 }

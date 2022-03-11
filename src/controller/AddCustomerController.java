@@ -103,9 +103,10 @@ public class AddCustomerController implements Initializable {
      */
     public void instructorIsSelected(ActionEvent event) throws IOException, SQLException {
 
-        isStudent = false;
-        studentInstructorLabel.setText("Instructor Program");
-        studentInstructorComboBox.setItems(CustomerDB.getAllInstructors());
+        if (instructorRadioButton.isSelected()) {
+            studentInstructorLabel.setText("Instructor Program");
+            studentInstructorComboBox.setItems(CustomerDB.getAllInstructors());
+        }
     }
 
     /**
@@ -115,9 +116,10 @@ public class AddCustomerController implements Initializable {
      */
     public void studentIsSelected(ActionEvent event) throws IOException, SQLException {
 
-        isStudent = true;
-        studentInstructorLabel.setText("Student Program");
-        studentInstructorComboBox.setItems(CustomerDB.getAllStudents());
+        if (studentRadioButton.isSelected()) {
+            studentInstructorLabel.setText("Student Program");
+            studentInstructorComboBox.setItems(CustomerDB.getAllStudents());
+        }
     }
 
     /**
@@ -165,7 +167,7 @@ public class AddCustomerController implements Initializable {
     public void toCustomerScreen(ActionEvent event) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerScreen.fxml"));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1200, 520);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Customer List");
         stage.setScene(scene);
@@ -195,6 +197,7 @@ public class AddCustomerController implements Initializable {
         // Set all countries in the ComboBox
         try {
             countryComboBox.setItems(CountryDB.getAllCountries());
+            studentInstructorComboBox.setItems(CustomerDB.getAllStudents());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

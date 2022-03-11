@@ -57,7 +57,7 @@ public class CustomerController implements Initializable {
      * @param event
      */
     @FXML
-    public void updateCustomerButtonHandler(ActionEvent event) {
+    public void updateCustomerButtonHandler(ActionEvent event) throws SQLException {
 
         // Get selected customer
         customerToUpdate = customerTableView.getSelectionModel().getSelectedItem();
@@ -73,7 +73,7 @@ public class CustomerController implements Initializable {
         // Sets the editable fields with the appropriate student data
         else if (customerToUpdate().getStudentId() != 0){
             customerIdTextField.setText(String.valueOf(customerToUpdate().getCustomerId()));
-            studentInstructorComboBox.setValue(String.valueOf(customerToUpdate().getStudentId()));
+            studentInstructorComboBox.setValue(String.valueOf(CustomerDB.getStudentProgram(customerToUpdate().getStudentId())));
             customerNameTextField.setText(String.valueOf(customerToUpdate().getCustomerName()));
             addressTextField.setText(String.valueOf(customerToUpdate().getAddress()));
             postalCodeTextField.setText(String.valueOf(customerToUpdate().getPostalCode()));
@@ -81,13 +81,15 @@ public class CustomerController implements Initializable {
             divisionComboBox.setValue(String.valueOf(customerToUpdate().getDivision()));
             phoneTextField.setText(String.valueOf(customerToUpdate().getPhone()));
 
-            // Sets the Student ID/Instructor ID label appropriately
+            // Sets the Student ID/Instructor ID label and ComboBox appropriately
             studentInstructorLabel.setText("Student Program");
+            studentInstructorComboBox.setItems(CustomerDB.getAllStudents());
         }
 
+        // Sets the editable fields with the appropriate instructor data
         else {
             customerIdTextField.setText(String.valueOf(customerToUpdate().getCustomerId()));
-            studentInstructorComboBox.setValue(String.valueOf(customerToUpdate().getInstructorId()));
+            studentInstructorComboBox.setValue(String.valueOf(CustomerDB.getInstructorProgram(customerToUpdate().getInstructorId())));
             customerNameTextField.setText(String.valueOf(customerToUpdate().getCustomerName()));
             addressTextField.setText(String.valueOf(customerToUpdate().getAddress()));
             postalCodeTextField.setText(String.valueOf(customerToUpdate().getPostalCode()));
@@ -95,8 +97,9 @@ public class CustomerController implements Initializable {
             divisionComboBox.setValue(String.valueOf(customerToUpdate().getDivision()));
             phoneTextField.setText(String.valueOf(customerToUpdate().getPhone()));
 
-            // Sets the Student ID/Instructor ID label appropriately
+            // Sets the Student ID/Instructor ID label and ComboBox appropriately
             studentInstructorLabel.setText("Instructor Program");
+            studentInstructorComboBox.setItems(CustomerDB.getAllInstructors());
         }
     }
 
@@ -109,6 +112,7 @@ public class CustomerController implements Initializable {
     public void saveButtonHandler(ActionEvent event) throws SQLException {
 
         // Get the user input
+        String studentInstructorProgram = studentInstructorComboBox.getValue();
         String customerName = customerNameTextField.getText();
         String address = addressTextField.getText();
         String postalCode = postalCodeTextField.getText();
@@ -116,9 +120,15 @@ public class CustomerController implements Initializable {
         String division = divisionComboBox.getValue();
         int customerId = Integer.parseInt(customerIdTextField.getText());
 
-        // Update the customer info in the DB
-        CustomerDB.updateCustomer(customerName, address, postalCode, phone, division, customerId);
+        // Update the student info in the DB
+        if (customerToUpdate().getStudentId() != 0) {
+            CustomerDB.updateStudent(customerName, address, postalCode, phone, division, studentInstructorProgram, customerId);
+        }
 
+        // Update the instructor info in the DB
+        else {
+            CustomerDB.updateInstructor(customerName, address, postalCode, phone, division, studentInstructorProgram, customerId);
+        }
         // Update the tableview
         customerTableView.setItems(CustomerDB.getAllCustomers());
     }
