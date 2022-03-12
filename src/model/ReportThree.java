@@ -2,22 +2,22 @@ package model;
 
 public class ReportThree {
 
-    private int customerId;
+    private int studentId;
     private String customerName;
     private String phoneNumber;
 
-    public ReportThree(int customerId, String customerName, String phoneNumber) {
-        this.customerId = customerId;
+    public ReportThree(int studentId, String customerName, String phoneNumber) {
+        this.studentId = studentId;
         this.customerName = customerName;
         this.phoneNumber = phoneNumber;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getStudentId() {
+        return studentId;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
     }
 
     public String getCustomerName() {

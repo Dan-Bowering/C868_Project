@@ -109,7 +109,7 @@ public class ReportsController implements Initializable {
         reportColumnThree.setText("Phone");
 
         // Populate the report information
-        reportColumnOne.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        reportColumnOne.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         reportColumnTwo.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         reportColumnThree.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         reportsTableView.setItems(AppointmentDB.studentsNeedFollowUp());

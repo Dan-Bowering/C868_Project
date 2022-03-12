@@ -13,7 +13,7 @@
       <TextArea editable="false" layoutX="14.0" layoutY="67.0" prefHeight="63.0" prefWidth="147.0" text="Please select a report &#10;to be generated from &#10;the list below." />
       <Button layoutX="14.0" layoutY="174.0" mnemonicParsing="false" onAction="#totalAppointmentsByType" prefHeight="54.0" prefWidth="147.0" text="Total Appointments By Type and Month" textAlignment="CENTER" wrapText="true" />
       <Button layoutX="14.0" layoutY="233.0" mnemonicParsing="false" onAction="#totalAppointmentsByContact" prefHeight="54.0" prefWidth="147.0" text="Total Appointments By Contact" textAlignment="CENTER" wrapText="true" />
-      <Button layoutX="15.0" layoutY="293.0" mnemonicParsing="false" onAction="#studentsNeedFollowUpHandler" prefHeight="54.0" prefWidth="147.0" text="Customers Need Follow-Up" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="15.0" layoutY="293.0" mnemonicParsing="false" onAction="#studentsNeedFollowUpHandler" prefHeight="54.0" prefWidth="147.0" text="Students Need Follow-Up" textAlignment="CENTER" wrapText="true" />
       <Button layoutX="626.0" layoutY="411.0" mnemonicParsing="false" onAction="#backToAppointmentsHandler" prefHeight="25.0" prefWidth="52.0" text="Back" />
       <TableView fx:id="reportsTableView" layoutX="168.0" layoutY="67.0" prefHeight="330.0" prefWidth="510.0">
          <columns>

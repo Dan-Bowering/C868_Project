@@ -465,19 +465,20 @@ public class AppointmentDB {
         ObservableList<ReportThree> reportList = FXCollections.observableArrayList();
 
         // SQL query and execute to a result set
-        String sql = "SELECT customers.Customer_ID, customers.Customer_Name, Phone FROM customers LEFT JOIN appointments " +
-                "ON customers.Customer_ID = appointments.Customer_ID WHERE appointments.Customer_ID IS NULL";
+        String sql = "SELECT customers.Customer_ID, customers.Customer_Name, Phone, customers.Student_ID, Instructor_ID " +
+                "FROM customers LEFT JOIN appointments ON customers.Customer_ID = appointments.Customer_ID WHERE " +
+                "appointments.Customer_ID IS NULL AND Instructor_ID IS NULL";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 
         // Add query results to list in a string for report display
         while(rs.next()) {
-            int customerId = rs.getInt("Customer_ID");
+            int studentId = rs.getInt("Student_ID");
             String name = rs.getString("Customer_Name");
             String phone = rs.getString("Phone");
 
             // Add new Appointment object with data from query
-            ReportThree r = new ReportThree(customerId, name, phone);
+            ReportThree r = new ReportThree(studentId, name, phone);
 
             reportList.add(r);
         }
