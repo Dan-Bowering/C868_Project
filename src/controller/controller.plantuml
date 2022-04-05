@@ -1,0 +1,210 @@
+@startuml
+
+title __CONTROLLER's Class Diagram__\n
+
+  namespace controller {
+    class controller.AddAppointmentController {
+        ~ appointmentIdTextField : TextField
+        ~ contactComboBox : ComboBox<String>
+        ~ customerIdTextField : TextField
+        ~ descriptionTextField : TextField
+        ~ endDatePicker : DatePicker
+        ~ endTimeTextField : TextField
+        ~ locationTextField : TextField
+        ~ startDatePicker : DatePicker
+        ~ startTimeTextField : TextField
+        ~ titleTextField : TextField
+        ~ typeTextField : TextField
+        ~ userIdTextField : TextField
+        + cancelButtonHandler()
+        + initialize()
+        + saveAddAppointmentButtonHandler()
+        + toAppointmentScreen()
+        {static} + withinBusinessHours()
+    }
+  }
+  
+
+  namespace controller {
+    class controller.AddCustomerController {
+        ~ addCustomerToggleGroup : ToggleGroup
+        ~ addressTextField : TextField
+        ~ countryComboBox : ComboBox<String>
+        ~ customerIdTextField : TextField
+        ~ customerNameTextField : TextField
+        ~ divisionComboBox : ComboBox<String>
+        ~ instructorRadioButton : RadioButton
+        ~ phoneTextField : TextField
+        ~ postalCodeTextField : TextField
+        ~ studentInstructorComboBox : ComboBox<String>
+        ~ studentInstructorLabel : Label
+        ~ studentRadioButton : RadioButton
+        - isStudent : boolean
+        + addNewCustomerButtonHandler()
+        + cancelButtonHandler()
+        + countrySelected()
+        + initialize()
+        + instructorIsSelected()
+        + saveAddCustomerHandler()
+        + studentIsSelected()
+        + toCustomerScreen()
+    }
+  }
+  
+
+  namespace controller {
+    class controller.AppointmentController {
+        {static} + appointmentToDelete : Appointment
+        {static} + appointmentToUpdate : Appointment
+        ~ allRadioButton : RadioButton
+        ~ appointmentIdColumn : TableColumn<Appointment, Integer>
+        ~ appointmentTableView : TableView<Appointment>
+        ~ contactIdColumn : TableColumn<Appointment, Integer>
+        ~ customerIdColumn : TableColumn<Appointment, Integer>
+        ~ descriptionColumn : TableColumn<Appointment, String>
+        ~ endDateTimeColumn : TableColumn<Appointment, ZonedDateTime>
+        ~ locationColumn : TableColumn<Appointment, String>
+        ~ monthRadioButton : RadioButton
+        ~ searchTextField : TextField
+        ~ startDateTimeColumn : TableColumn<Appointment, ZonedDateTime>
+        ~ titleColumn : TableColumn<Appointment, String>
+        ~ typeColumn : TableColumn<Appointment, String>
+        ~ weekRadioButton : RadioButton
+        + addAppointmentHandler()
+        + allAppointmentsRadioButtonHandler()
+        + deleteAppointmentButtonHandler()
+        + exitButtonHandler()
+        {static} + getAppointmentToUpdate()
+        + initialize()
+        + logoutButtonHandler()
+        + monthRadioButtonHandler()
+        + reportsButtonHandler()
+        + searchButtonHandler()
+        + updateAppointmentHandler()
+        + weekRadioButtonHandler()
+        ~ viewCustomerListHandler()
+        - lookupAppointmentId()
+        - lookupAppointmentTitle()
+    }
+  }
+  
+
+  namespace controller {
+    class controller.CustomerController {
+        ~ addressColumn : TableColumn<Customer, String>
+        ~ addressTextField : TextField
+        ~ countryColumn : TableColumn<Customer, String>
+        ~ countryComboBox : ComboBox<String>
+        ~ customerIdColumn : TableColumn<Customer, Integer>
+        ~ customerIdTextField : TextField
+        ~ customerNameColumn : TableColumn<Customer, String>
+        ~ customerNameTextField : TextField
+        ~ customerTableView : TableView<Customer>
+        ~ divisionComboBox : ComboBox<String>
+        ~ instructorIdColumn : TableColumn<Customer, Integer>
+        ~ phoneColumn : TableColumn<Customer, String>
+        ~ phoneTextField : TextField
+        ~ postalCodeColumn : TableColumn<Customer, String>
+        ~ postalCodeTextField : TextField
+        ~ stateProvinceColumn : TableColumn<Customer, String>
+        ~ studentIdColumn : TableColumn<Customer, Integer>
+        ~ studentInstructorComboBox : ComboBox<String>
+        ~ studentInstructorLabel : Label
+        {static} - customerToDelete : Customer
+        {static} - customerToUpdate : Customer
+        + addNewCustomerButtonHandler()
+        + backToAppointmentsHandler()
+        + clearButtonHandler()
+        + countrySelected()
+        {static} + customerToUpdate()
+        + deleteCustomerButtonHandler()
+        + exitButtonHandler()
+        + initialize()
+        + saveButtonHandler()
+        + toAppointmentScreen()
+        + updateCustomerButtonHandler()
+    }
+  }
+  
+
+  namespace controller {
+    class controller.LoginController {
+        - exitButton : Button
+        - loginButton : Button
+        - loginErrorMessage : String
+        - loginErrorTitle : String
+        - passwordLabel : Label
+        - passwordTextField : TextField
+        - titleLabel : Label
+        - usernameLabel : Label
+        - usernameTextField : TextField
+        - zoneIdLabel : Label
+        + exitButtonHandler()
+        + initialize()
+        + loginButtonHandler()
+    }
+  }
+  
+
+  namespace controller {
+    class controller.ReportsController {
+        ~ reportColumnFive : TableColumn
+        ~ reportColumnFour : TableColumn
+        ~ reportColumnOne : TableColumn
+        ~ reportColumnThree : TableColumn
+        ~ reportColumnTwo : TableColumn
+        ~ reportTitleLabel : Label
+        ~ reportsTableView : TableView
+        + backToAppointmentsHandler()
+        + initialize()
+        + studentsNeedFollowUpHandler()
+        + toAppointmentScreen()
+        + totalAppointmentsByContact()
+        + totalAppointmentsByType()
+    }
+  }
+  
+
+  namespace controller {
+    class controller.UpdateAppointmentController {
+        {static} + appointmentToUpdate : Appointment
+        ~ appointmentIdTextField : TextField
+        ~ contactComboBox : ComboBox<String>
+        ~ customerIdTextField : TextField
+        ~ descriptionTextField : TextField
+        ~ endDatePicker : DatePicker
+        ~ endTimeTextField : TextField
+        ~ locationTextField : TextField
+        ~ startDatePicker : DatePicker
+        ~ startTimeTextField : TextField
+        ~ titleTextField : TextField
+        ~ typeTextField : TextField
+        ~ userIdTextField : TextField
+        + cancelButtonHandler()
+        {static} + getAppointmentToUpdate()
+        + initialize()
+        + saveUpdateAppointmentButtonHandler()
+        + sendAppointment()
+        + toAppointmentScreen()
+        {static} + withinBusinessHours()
+    }
+  }
+  
+
+  controller.AddAppointmentController .up.|> javafx.fxml.Initializable
+  controller.AddCustomerController .up.|> javafx.fxml.Initializable
+  controller.AppointmentController .up.|> javafx.fxml.Initializable
+  controller.CustomerController .up.|> javafx.fxml.Initializable
+  controller.LoginController .up.|> javafx.fxml.Initializable
+  controller.ReportsController .up.|> javafx.fxml.Initializable
+  controller.UpdateAppointmentController .up.|> javafx.fxml.Initializable
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

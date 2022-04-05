@@ -1,0 +1,265 @@
+@startuml
+
+title __MODEL's Class Diagram__\n
+
+  namespace model {
+    class model.Appointment {
+        - UserId : int
+        - appointmentId : int
+        - contactId : int
+        - contactName : String
+        - createBy : String
+        - createDate : Timestamp
+        - customerId : int
+        - description : String
+        - end : Timestamp
+        - lastUpdateBy : String
+        - lastUpdateTime : Timestamp
+        - location : String
+        - start : Timestamp
+        - title : String
+        - type : String
+        + Appointment()
+        + getAppointmentId()
+        + getContactId()
+        + getContactName()
+        + getCreateBy()
+        + getCreateDate()
+        + getCustomerId()
+        + getDescription()
+        + getEnd()
+        + getLastUpdateBy()
+        + getLastUpdateTime()
+        + getLocation()
+        + getStart()
+        + getTitle()
+        + getType()
+        + getUserId()
+        + setAppointmentId()
+        + setContactId()
+        + setContactName()
+        + setCreateBy()
+        + setCreateDate()
+        + setCustomerId()
+        + setDescription()
+        + setEnd()
+        + setLastUpdateBy()
+        + setLastUpdateTime()
+        + setLocation()
+        + setStart()
+        + setTitle()
+        + setType()
+        + setUserId()
+    }
+  }
+  
+
+  namespace model {
+    class model.Contact {
+        - contactId : int
+        - contactName : String
+        + Contact()
+        + getContactId()
+        + getContactName()
+        + setContactId()
+        + setContactName()
+    }
+  }
+  
+
+  namespace model {
+    class model.Country {
+        - country : String
+        - countryId : int
+        + Country()
+        + getCountry()
+        + getCountryId()
+        + setCountry()
+        + setCountryId()
+    }
+  }
+  
+
+  namespace model {
+    class model.CourseInstructor {
+        {static} - instructorId : int
+        {static} - instructorProgram : String
+        + CourseInstructor()
+        + getInstructorId()
+        {static} + getInstructorProgram()
+        + setInstructorId()
+        {static} + setInstructorProgram()
+    }
+  }
+  
+
+  namespace model {
+    class model.Customer {
+        - address : String
+        {static} - allCustomers : ObservableList<Customer>
+        - country : String
+        - customerId : int
+        - customerName : String
+        - division : String
+        - instructorId : int
+        - phone : String
+        - postalCode : String
+        - studentId : int
+        + Customer()
+        {static} + addCustomer()
+        + getAddress()
+        + getCountry()
+        + getCustomerId()
+        + getCustomerName()
+        + getDivision()
+        + getInstructorId()
+        + getPhone()
+        + getPostalCode()
+        + getStudentId()
+        + setAddress()
+        + setCountry()
+        + setCustomerId()
+        + setCustomerName()
+        + setDivision()
+        + setInstructorId()
+        + setPhone()
+        + setPostalCode()
+        + setStudentId()
+    }
+  }
+  
+
+  namespace model {
+    class model.CustomerTest {
+        ~ getAddress()
+        ~ getCountry()
+        ~ getCustomerId()
+        ~ getCustomerName()
+        ~ getDivision()
+        ~ getInstructorId()
+        ~ getPhone()
+        ~ getPostalCode()
+        ~ getStudentId()
+    }
+  }
+  
+
+  namespace model {
+    class model.Division {
+        - countryId : int
+        - division : String
+        - divisionId : int
+        + Division()
+        + getCountryId()
+        + getDivision()
+        + getDivisionId()
+        + setCountryId()
+        + setDivision()
+        + setDivisionId()
+    }
+  }
+  
+
+  namespace model {
+    class model.ReportOne {
+        - month : String
+        - total : int
+        - type : String
+        + ReportOne()
+        + getMonth()
+        + getTotal()
+        + getType()
+        + setMonth()
+        + setTotal()
+        + setType()
+    }
+  }
+  
+
+  namespace model {
+    class model.ReportThree {
+        - customerName : String
+        - phoneNumber : String
+        - studentId : int
+        + ReportThree()
+        + getCustomerName()
+        + getPhoneNumber()
+        + getStudentId()
+        + setCustomerName()
+        + setPhoneNumber()
+        + setStudentId()
+    }
+  }
+  
+
+  namespace model {
+    class model.ReportTwo {
+        - appointmentId : int
+        - contactId : int
+        - end : Timestamp
+        - start : Timestamp
+        - type : String
+        + ReportTwo()
+        + getAppointmentId()
+        + getContactId()
+        + getEnd()
+        + getStart()
+        + getType()
+        + setAppointmentId()
+        + setContactId()
+        + setEnd()
+        + setStart()
+        + setType()
+    }
+  }
+  
+
+  namespace model {
+    class model.Student {
+        {static} - studentId : int
+        {static} - studentProgram : String
+        + Student()
+        + getStudentId()
+        {static} + getStudentProgram()
+        + setStudentId()
+        {static} + setStudentProgram()
+    }
+  }
+  
+
+  namespace model {
+    class model.User {
+        - userId : int
+        - username : String
+        + User()
+        + getUserId()
+        + getUsername()
+        + setUserId()
+        + setUsername()
+    }
+  }
+  
+
+  namespace model {
+    class model.UserLogin {
+        {static} + filename : String
+        + UserLogin()
+        {static} + logUserActivity()
+    }
+  }
+  
+
+  model.CourseInstructor -up-|> model.Customer
+  model.CustomerTest o-- model.Customer : customer
+  model.Student -up-|> model.Customer
+  model.UserLogin -up-|> model.User
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

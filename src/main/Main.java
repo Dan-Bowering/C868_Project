@@ -9,9 +9,8 @@ import javafx.stage.Stage;
 
 /**
  * @author Dan Bowering
- * C195 - Software II
+ * C868 - Software Development Capstone
  * WGU Student ID#: 000811635
- * JavaDocs folder is located in "C195 Project/src/JavaDoc
  *
  *
  * The main class of the program.
@@ -22,7 +21,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/LoginForm.fxml"));
-        primaryStage.setTitle("ESU Student View Login");
+        primaryStage.setTitle("ESU Mentor View Login");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
